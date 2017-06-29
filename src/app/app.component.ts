@@ -25,7 +25,7 @@ export class MyApp {
     if (localStorage.getItem("role") == "scrutateur") {
       this.pages = [
         { title: 'Réglages', component: SettingsPage },
-        { title: 'Feuille de scrutation', component: ScrutationPage }
+        { title: 'Scrutation', component: ScrutationPage }
       ];
     } else if (localStorage.getItem("role") == "juge") {
       this.pages = [

@@ -11,6 +11,8 @@ import { ScrutationPage } from "../pages/scrutation/scrutation.page";
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
+import { DbService } from "../services/db.service";
+
 @NgModule({
   declarations: [
     MyApp,
@@ -34,6 +36,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
   providers: [
     StatusBar,
     SplashScreen,
+    DbService,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

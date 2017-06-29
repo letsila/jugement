@@ -1,5 +1,9 @@
 page-sheet {
 
+  .capitalize {
+    text-transform: capitalize;
+  }
+
   ion-icon[name=alert] {
     font-size: 32px;
     vertical-align: middle;

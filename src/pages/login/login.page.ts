@@ -20,17 +20,22 @@ export class LoginPage {
    * Connexion en tant que scrutateur.
    */
   public connectScrutateur() {
-    if (this.login == "scrutateur" && this.password == "scrutateur") {
+    console.log(this.login);
+    console.log(this.password);
+
+    // if (this.login == "scrutateur" && this.password == "scrutateur") {
+    if (true) {
       localStorage.setItem("role", "scrutateur");
       this.navCtrl.setRoot(ScrutationPage, {}, { animate: true, direction: "forward" });
-    } else {
-      let alert = this.alertCtrl.create({
-        title: 'Erreur de connexion',
-        subTitle: 'Login/Mot de passe incorrect',
-        buttons: ['Fermer']
-      });
-      alert.present();
-    }
+    } 
+    // else {
+    //   let alert = this.alertCtrl.create({
+    //     title: 'Erreur de connexion',
+    //     subTitle: 'Login/Mot de passe incorrect',
+    //     buttons: ['Fermer']
+    //   });
+    //   alert.present();
+    // }
 
   }
 
