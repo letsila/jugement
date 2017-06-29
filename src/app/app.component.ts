@@ -8,6 +8,8 @@ import { JudgeSheetPage } from '../pages/judge-sheet/judge-sheet.page';
 import { SettingsPage } from '../pages/settings/settings.page';
 import { ScrutationPage } from '../pages/scrutation/scrutation.page';
 
+import { DbService } from "../services/db.service";
+
 @Component({
   templateUrl: 'app.html'
 })
@@ -18,20 +20,30 @@ export class MyApp {
 
   pages: Array<{ title: string, component: any }>;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
+  constructor(
+    public platform: Platform,
+    public statusBar: StatusBar,
+    public splashScreen: SplashScreen,
+    public db: DbService) {
     this.initializeApp();
 
+    // Always Sync 
+    this.db.sync();
+
+
+    console.log(localStorage.getItem("role"));
+
     // used for an example of ngFor and navigation
-    if (localStorage.getItem("role") == "scrutateur") {
+    // if (localStorage.getItem("role") == "scrutateur") {
       this.pages = [
         { title: 'Réglages', component: SettingsPage },
         { title: 'Scrutation', component: ScrutationPage }
       ];
-    } else if (localStorage.getItem("role") == "juge") {
-      this.pages = [
-        // { title: 'Feuille de juge', component: JudgeSheetPage }
-      ];
-    }
+    // } else if (localStorage.getItem("role") == "juge") {
+    //   this.pages = [
+    //     // { title: 'Feuille de juge', component: JudgeSheetPage }
+    //   ];
+    // }
 
   }
 

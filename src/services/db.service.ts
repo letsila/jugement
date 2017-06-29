@@ -10,23 +10,53 @@ declare let emit: any;
 @Injectable()
 export class DbService {
   public db: any;
+  public remote: any;
+  public couchdbUrl: string = "http://letsila:123456@192.168.1.100:5984/judgement-db";
+
   constructor() {
     this.db = new PouchDB("jugement", {
       adapter: "websql",
       iosDatabaseLocation: "default",
       auto_compaction: true
     });
+
+    this.remote = new PouchDB(this.couchdbUrl, {
+      skipSetup: true,
+      ajax: {
+        timeout: 60000
+      },
+      retry: true
+    });
   }
 
   /**
- * Mapping du get de notre pouchDb pour la rendre accessible depuis
- * le provider.
- *
- * @param id
- * @returns {any}
- */
+   * Sync
+   */
+  public sync() {
+    this.db.sync(this.remote, {
+      live: true,
+      retry: true
+    }).on('change', function (change) {
+      console.log('changing ...');
+    })
+      .on('error', function (err) {
+        console.log(err);
+      });;
+  }
+
+  /**
+   * Mapping du get de notre pouchDb pour la rendre accessible depuis
+   * le provider.
+   *
+   * @param id
+   * @returns {any}
+   */
   public get(id) {
     return this.db.get(id);
+  }
+
+  public allDocs() {
+    return this.db.allDocs({ include_docs: true });
   }
 
   /**

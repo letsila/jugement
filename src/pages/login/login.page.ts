@@ -26,6 +26,7 @@ export class LoginPage {
     // if (this.login == "scrutateur" && this.password == "scrutateur") {
     if (true) {
       localStorage.setItem("role", "scrutateur");
+      console.log(localStorage.getItem("role"));
       this.navCtrl.setRoot(ScrutationPage, {}, { animate: true, direction: "forward" });
     } 
     // else {
