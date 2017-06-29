@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title text-center>
+      JUDGING SYSTEM 2.0
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content style="background-color: #f5f5f5">
+  <ion-grid>
+    <ion-card class="login-card">
+      <ion-card-content>
+        <ion-item>
+          <ion-label fixed>Login</ion-label>
+          <ion-input type="text" [(ngModel)]="login"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label fixed>Password</ion-label>
+          <ion-input type="password" [(ngModel)]="password"></ion-input>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+    <button ion-button (click)="connectScrutateur()" class="connexion" icon-end>
+      CONNEXION SCRUTATEUR <ion-icon name="arrow-forward"></ion-icon>
+    </button>
+  </ion-grid>
+  <ion-grid>
+    <button ion-button (click)="connectJuge()" icon-end color="secondary" class="connexion judge-btn">
+      JE SUIS JUGE <ion-icon name="arrow-forward"></ion-icon>
+   </button>
+  </ion-grid>
+</ion-content>

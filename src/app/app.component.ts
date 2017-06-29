@@ -3,8 +3,9 @@ import { Nav, Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
-import { SheetPage } from '../pages/sheet/sheet';
-import { SettingsPage } from '../pages/settings/settings';
+import { LoginPage } from "../pages/login/login.page";
+import { JudgeSheetPage } from '../pages/judge-sheet/judge-sheet.page';
+import { SettingsPage } from '../pages/settings/settings.page';
 
 @Component({
   templateUrl: 'app.html'
@@ -12,7 +13,7 @@ import { SettingsPage } from '../pages/settings/settings';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = SheetPage;
+  rootPage: any = LoginPage;
 
   pages: Array<{title: string, component: any}>;
 
@@ -21,7 +22,7 @@ export class MyApp {
 
     // used for an example of ngFor and navigation
     this.pages = [
-      { title: 'Feuille de juge', component: SheetPage },
+      { title: 'Feuille de juge', component: JudgeSheetPage },
       { title: 'Réglages', component: SettingsPage }
     ];
 
