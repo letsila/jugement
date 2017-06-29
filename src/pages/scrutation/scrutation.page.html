@@ -13,7 +13,7 @@
 
   <ion-segment [(ngModel)]="danseFilter" color="secondary">
     <ion-segment-button *ngFor="let danse of danses" value="{{ danse }}">
-      {{ danse }}
+      <span class="capitalize">{{ danse }}</span>
     </ion-segment-button>
   </ion-segment>
 </ion-header>
@@ -21,7 +21,7 @@
 <ion-content padding>
   <div *ngFor="let judgesheet of judgeSheets">
     <div *ngIf="!danseFilter || danseFilter == judgesheet.danse && judgesheet.judgeId">
-      <h1>JUGE {{ judgesheet.judgeId }}</h1>
+      <h1>Juge <span class="capitalize">{{ judgesheet.judgeId }}</span></h1>
       <ion-grid>
         <ion-row>
           <ion-col col-2></ion-col>
