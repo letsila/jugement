@@ -21,6 +21,7 @@ export class LoginPage {
    */
   public connectScrutateur() {
     if (this.login == "scrutateur" && this.password == "scrutateur") {
+      localStorage.setItem("role", "scrutateur");
       this.navCtrl.setRoot(ScrutationPage, {}, { animate: true, direction: "forward" });
     } else {
       let alert = this.alertCtrl.create({
@@ -30,12 +31,14 @@ export class LoginPage {
       });
       alert.present();
     }
+
   }
 
   /**
    * Connexion en tant que juge
    */
   public connectJuge() {
+    localStorage.setItem("role", "juge");
     this.navCtrl.setRoot(JudgeSheetPage)
   }
 }

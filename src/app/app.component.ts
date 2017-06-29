@@ -6,6 +6,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { LoginPage } from "../pages/login/login.page";
 import { JudgeSheetPage } from '../pages/judge-sheet/judge-sheet.page';
 import { SettingsPage } from '../pages/settings/settings.page';
+import { ScrutationPage } from '../pages/scrutation/scrutation.page';
 
 @Component({
   templateUrl: 'app.html'
@@ -15,16 +16,22 @@ export class MyApp {
 
   rootPage: any = LoginPage;
 
-  pages: Array<{title: string, component: any}>;
+  pages: Array<{ title: string, component: any }>;
 
   constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
     this.initializeApp();
 
     // used for an example of ngFor and navigation
-    this.pages = [
-      { title: 'Feuille de juge', component: JudgeSheetPage },
-      { title: 'Réglages', component: SettingsPage }
-    ];
+    if (localStorage.getItem("role") == "scrutateur") {
+      this.pages = [
+        { title: 'Réglages', component: SettingsPage },
+        { title: 'Feuille de scrutation', component: ScrutationPage }
+      ];
+    } else if (localStorage.getItem("role") == "juge") {
+      this.pages = [
+        // { title: 'Feuille de juge', component: JudgeSheetPage }
+      ];
+    }
 
   }
 

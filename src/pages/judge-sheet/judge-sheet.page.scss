@@ -1,5 +1,14 @@
 page-sheet {
 
+  ion-icon[name=alert] {
+    font-size: 32px;
+    vertical-align: middle;
+  }
+
+  .config-error-msg {
+    color: red;
+  }
+
   font-size: 16px;
 
   .grid:nth-child(2) {

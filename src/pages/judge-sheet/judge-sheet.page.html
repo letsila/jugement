@@ -1,12 +1,20 @@
 <ion-header>
-  <ion-navbar hideBackButton>
-    <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </button>
-    <ion-title>Feuille de juge</ion-title>
-    <button >
-
-    </button>
+  <ion-navbar>
+    <ion-buttons start>
+      <button ion-button icon-only (click)="logout()">
+        <ion-icon name="arrow-back"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title *ngIf="!judgeId" class="config-error-msg">
+      <ion-icon name="alert" color="danger"></ion-icon>&nbsp;
+      Votre feuille n'a pas été configurée correctement, veuillez vous réferer au scrutateur.
+    </ion-title>
+    <ion-title *ngIf="judgeId">Feuille de juge {{ judgeId }}</ion-title>
+    <ion-buttons end *ngIf="judgeId">
+      <button ion-button icon-only>
+        <ion-icon name="lock"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
@@ -22,35 +30,75 @@
     </ion-row>
     <ion-row>
       <ion-col col-2>TQ</ion-col>
-      <ion-col col-2 class="rate"><ion-input type="text" placeholder="note"></ion-input></ion-col>
-      <ion-col col-2 class="rate"><ion-input type="text" placeholder="note"></ion-input></ion-col>
-      <ion-col col-2 class="rate"><ion-input type="text" placeholder="note"></ion-input></ion-col>
-      <ion-col col-2 class="rate"><ion-input type="text" placeholder="note"></ion-input></ion-col>
-      <ion-col col-2 class="rate"><ion-input type="text" placeholder="note"></ion-input></ion-col>
+      <ion-col col-2 class="rate">
+        <ion-input type="text" placeholder="note"></ion-input>
+      </ion-col>
+      <ion-col col-2 class="rate">
+        <ion-input type="text" placeholder="note"></ion-input>
+      </ion-col>
+      <ion-col col-2 class="rate">
+        <ion-input type="text" placeholder="note"></ion-input>
+      </ion-col>
+      <ion-col col-2 class="rate">
+        <ion-input type="text" placeholder="note"></ion-input>
+      </ion-col>
+      <ion-col col-2 class="rate">
+        <ion-input type="text" placeholder="note"></ion-input>
+      </ion-col>
     </ion-row>
     <ion-row>
       <ion-col col-2>MM</ion-col>
-      <ion-col col-2 class="rate"><ion-input type="text" placeholder="note"></ion-input></ion-col>
-      <ion-col col-2 class="rate"><ion-input type="text" placeholder="note"></ion-input></ion-col>
-      <ion-col col-2 class="rate"><ion-input type="text" placeholder="note"></ion-input></ion-col>
-      <ion-col col-2 class="rate"><ion-input type="text" placeholder="note"></ion-input></ion-col>
-      <ion-col col-2 class="rate"><ion-input type="text" placeholder="note"></ion-input></ion-col>
+      <ion-col col-2 class="rate">
+        <ion-input type="text" placeholder="note"></ion-input>
+      </ion-col>
+      <ion-col col-2 class="rate">
+        <ion-input type="text" placeholder="note"></ion-input>
+      </ion-col>
+      <ion-col col-2 class="rate">
+        <ion-input type="text" placeholder="note"></ion-input>
+      </ion-col>
+      <ion-col col-2 class="rate">
+        <ion-input type="text" placeholder="note"></ion-input>
+      </ion-col>
+      <ion-col col-2 class="rate">
+        <ion-input type="text" placeholder="note"></ion-input>
+      </ion-col>
     </ion-row>
     <ion-row>
       <ion-col col-2>PS</ion-col>
-      <ion-col col-2 class="rate"><ion-input type="text" placeholder="note"></ion-input></ion-col>
-      <ion-col col-2 class="rate"><ion-input type="text" placeholder="note"></ion-input></ion-col>
-      <ion-col col-2 class="rate"><ion-input type="text" placeholder="note"></ion-input></ion-col>
-      <ion-col col-2 class="rate"><ion-input type="text" placeholder="note"></ion-input></ion-col>
-      <ion-col col-2 class="rate"><ion-input type="text" placeholder="note"></ion-input></ion-col>
+      <ion-col col-2 class="rate">
+        <ion-input type="text" placeholder="note"></ion-input>
+      </ion-col>
+      <ion-col col-2 class="rate">
+        <ion-input type="text" placeholder="note"></ion-input>
+      </ion-col>
+      <ion-col col-2 class="rate">
+        <ion-input type="text" placeholder="note"></ion-input>
+      </ion-col>
+      <ion-col col-2 class="rate">
+        <ion-input type="text" placeholder="note"></ion-input>
+      </ion-col>
+      <ion-col col-2 class="rate">
+        <ion-input type="text" placeholder="note"></ion-input>
+      </ion-col>
     </ion-row>
     <ion-row>
       <ion-col col-2>CP</ion-col>
-      <ion-col col-2 class="rate"><ion-input type="text" placeholder="note"></ion-input></ion-col>
-      <ion-col col-2 class="rate"><ion-input type="text" placeholder="note"></ion-input></ion-col>
-      <ion-col col-2 class="rate"><ion-input type="text" placeholder="note"></ion-input></ion-col>
-      <ion-col col-2 class="rate"><ion-input type="text" placeholder="note"></ion-input></ion-col>
-      <ion-col col-2 class="rate"><ion-input type="text" placeholder="note"></ion-input></ion-col>
+      <ion-col col-2 class="rate">
+        <ion-input type="text" placeholder="note"></ion-input>
+      </ion-col>
+      <ion-col col-2 class="rate">
+        <ion-input type="text" placeholder="note"></ion-input>
+      </ion-col>
+      <ion-col col-2 class="rate">
+        <ion-input type="text" placeholder="note"></ion-input>
+      </ion-col>
+      <ion-col col-2 class="rate">
+        <ion-input type="text" placeholder="note"></ion-input>
+      </ion-col>
+      <ion-col col-2 class="rate">
+        <ion-input type="text" placeholder="note"></ion-input>
+      </ion-col>
     </ion-row>
   </ion-grid>
   <ion-grid>
@@ -64,35 +112,75 @@
     </ion-row>
     <ion-row>
       <ion-col col-2>TQ</ion-col>
-      <ion-col col-2 class="rate"><ion-input type="text" placeholder="note"></ion-input></ion-col>
-      <ion-col col-2 class="rate"><ion-input type="text" placeholder="note"></ion-input></ion-col>
-      <ion-col col-2 class="rate"><ion-input type="text" placeholder="note"></ion-input></ion-col>
-      <ion-col col-2 class="rate"><ion-input type="text" placeholder="note"></ion-input></ion-col>
-      <ion-col col-2 class="rate"><ion-input type="text" placeholder="note"></ion-input></ion-col>
+      <ion-col col-2 class="rate">
+        <ion-input type="text" placeholder="note"></ion-input>
+      </ion-col>
+      <ion-col col-2 class="rate">
+        <ion-input type="text" placeholder="note"></ion-input>
+      </ion-col>
+      <ion-col col-2 class="rate">
+        <ion-input type="text" placeholder="note"></ion-input>
+      </ion-col>
+      <ion-col col-2 class="rate">
+        <ion-input type="text" placeholder="note"></ion-input>
+      </ion-col>
+      <ion-col col-2 class="rate">
+        <ion-input type="text" placeholder="note"></ion-input>
+      </ion-col>
     </ion-row>
     <ion-row>
       <ion-col col-2>MM</ion-col>
-      <ion-col col-2 class="rate"><ion-input type="text" placeholder="note"></ion-input></ion-col>
-      <ion-col col-2 class="rate"><ion-input type="text" placeholder="note"></ion-input></ion-col>
-      <ion-col col-2 class="rate"><ion-input type="text" placeholder="note"></ion-input></ion-col>
-      <ion-col col-2 class="rate"><ion-input type="text" placeholder="note"></ion-input></ion-col>
-      <ion-col col-2 class="rate"><ion-input type="text" placeholder="note"></ion-input></ion-col>
+      <ion-col col-2 class="rate">
+        <ion-input type="text" placeholder="note"></ion-input>
+      </ion-col>
+      <ion-col col-2 class="rate">
+        <ion-input type="text" placeholder="note"></ion-input>
+      </ion-col>
+      <ion-col col-2 class="rate">
+        <ion-input type="text" placeholder="note"></ion-input>
+      </ion-col>
+      <ion-col col-2 class="rate">
+        <ion-input type="text" placeholder="note"></ion-input>
+      </ion-col>
+      <ion-col col-2 class="rate">
+        <ion-input type="text" placeholder="note"></ion-input>
+      </ion-col>
     </ion-row>
     <ion-row>
       <ion-col col-2>PS</ion-col>
-      <ion-col col-2 class="rate"><ion-input type="text" placeholder="note"></ion-input></ion-col>
-      <ion-col col-2 class="rate"><ion-input type="text" placeholder="note"></ion-input></ion-col>
-      <ion-col col-2 class="rate"><ion-input type="text" placeholder="note"></ion-input></ion-col>
-      <ion-col col-2 class="rate"><ion-input type="text" placeholder="note"></ion-input></ion-col>
-      <ion-col col-2 class="rate"><ion-input type="text" placeholder="note"></ion-input></ion-col>
+      <ion-col col-2 class="rate">
+        <ion-input type="text" placeholder="note"></ion-input>
+      </ion-col>
+      <ion-col col-2 class="rate">
+        <ion-input type="text" placeholder="note"></ion-input>
+      </ion-col>
+      <ion-col col-2 class="rate">
+        <ion-input type="text" placeholder="note"></ion-input>
+      </ion-col>
+      <ion-col col-2 class="rate">
+        <ion-input type="text" placeholder="note"></ion-input>
+      </ion-col>
+      <ion-col col-2 class="rate">
+        <ion-input type="text" placeholder="note"></ion-input>
+      </ion-col>
     </ion-row>
     <ion-row>
       <ion-col col-2>CP</ion-col>
-      <ion-col col-2 class="rate"><ion-input type="text" placeholder="note"></ion-input></ion-col>
-      <ion-col col-2 class="rate"><ion-input type="text" placeholder="note"></ion-input></ion-col>
-      <ion-col col-2 class="rate"><ion-input type="text" placeholder="note"></ion-input></ion-col>
-      <ion-col col-2 class="rate"><ion-input type="text" placeholder="note"></ion-input></ion-col>
-      <ion-col col-2 class="rate"><ion-input type="text" placeholder="note"></ion-input></ion-col>
+      <ion-col col-2 class="rate">
+        <ion-input type="text" placeholder="note"></ion-input>
+      </ion-col>
+      <ion-col col-2 class="rate">
+        <ion-input type="text" placeholder="note"></ion-input>
+      </ion-col>
+      <ion-col col-2 class="rate">
+        <ion-input type="text" placeholder="note"></ion-input>
+      </ion-col>
+      <ion-col col-2 class="rate">
+        <ion-input type="text" placeholder="note"></ion-input>
+      </ion-col>
+      <ion-col col-2 class="rate">
+        <ion-input type="text" placeholder="note"></ion-input>
+      </ion-col>
     </ion-row>
   </ion-grid>
 

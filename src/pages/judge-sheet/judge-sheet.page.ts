@@ -7,11 +7,15 @@ import { LoginPage } from "../login/login.page";
   templateUrl: 'judge-sheet.page.html'
 })
 export class JudgeSheetPage {
+  public judgeId: string = localStorage.getItem("judgeId");
 
   constructor(public navCtrl: NavController) {
 
   }
 
-
+  public logout() {
+    this.navCtrl.push(LoginPage, {}, { animate: true, direction: "back" });
+    localStorage.setItem("role", "");
+  }
 
 }
