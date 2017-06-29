@@ -11,177 +11,160 @@
     </ion-buttons>
   </ion-navbar>
 
-  <ion-segment value="judgeIdFilter" color="secondary">
-    <ion-segment-button *ngFor="let judgeSheet of judgeSheets" value="{{ judgeSheet.judgeId">
-      {{ judgeSheet.judgeId }}
+  <ion-segment [(ngModel)]="danseFilter" color="secondary">
+    <ion-segment-button *ngFor="let danse of danses" value="{{ danse }}">
+      {{ danse }}
     </ion-segment-button>
   </ion-segment>
 </ion-header>
 
 <ion-content padding>
-  <div *ngFor="let judgesheet of judgeSheets" style="padding-top: 32px;">
-    <div *ngIf="!judgeIdFilter || judgeIdFilter == judgesheet.judgeId && judgesheet.judgeId">
+  <div *ngFor="let judgesheet of judgeSheets">
+    <div *ngIf="!danseFilter || danseFilter == judgesheet.danse && judgesheet.judgeId">
       <h1>JUGE {{ judgesheet.judgeId }}</h1>
       <ion-grid>
         <ion-row>
           <ion-col col-2></ion-col>
-          <ion-col col-2 class="dossard">Dossard <span class="number">1</span></ion-col>
-          <ion-col col-2 class="dossard">Dossard <span class="number">2</span></ion-col>
-          <ion-col col-2 class="dossard">Dossard <span class="number">3</span></ion-col>
-          <ion-col col-2 class="dossard">Dossard <span class="number">4</span></ion-col>
-          <ion-col col-2 class="dossard">Dossard <span class="number">5</span></ion-col>
+          <ion-col col-1 class="dossard"><span class="number">1</span></ion-col>
+          <ion-col col-1 class="dossard"><span class="number">2</span></ion-col>
+          <ion-col col-1 class="dossard"><span class="number">3</span></ion-col>
+          <ion-col col-1 class="dossard"><span class="number">4</span></ion-col>
+          <ion-col col-1 class="dossard"><span class="number">5</span></ion-col>
+          <ion-col col-1 class="dossard"><span class="number">6</span></ion-col>
+          <ion-col col-1 class="dossard"><span class="number">7</span></ion-col>
+          <ion-col col-1 class="dossard"><span class="number">8</span></ion-col>
+          <ion-col col-1 class="dossard"><span class="number">9</span></ion-col>
+          <ion-col col-1 class="dossard"><span class="number">10</span></ion-col>
         </ion-row>
         <ion-row>
           <ion-col col-2>TQ</ion-col>
-          <ion-col col-2 class="rate">
+          <ion-col col-1 class="rate">
             <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard1TQ }}" disabled></ion-input>
           </ion-col>
-          <ion-col col-2 class="rate">
+          <ion-col col-1 class="rate">
             <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard2TQ }}" disabled></ion-input>
           </ion-col>
-          <ion-col col-2 class="rate">
+          <ion-col col-1 class="rate">
             <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard3TQ }}" disabled></ion-input>
           </ion-col>
-          <ion-col col-2 class="rate">
+          <ion-col col-1 class="rate">
             <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard4TQ }}" disabled></ion-input>
           </ion-col>
-          <ion-col col-2 class="rate">
+          <ion-col col-1 class="rate">
             <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard5TQ }}" disabled></ion-input>
           </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col col-2>MM</ion-col>
-          <ion-col col-2 class="rate">
-            <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard1MM }}" disabled></ion-input>
-          </ion-col>
-          <ion-col col-2 class="rate">
-            <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard2MM }}" disabled></ion-input>
-          </ion-col>
-          <ion-col col-2 class="rate">
-            <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard3MM }}" disabled></ion-input>
-          </ion-col>
-          <ion-col col-2 class="rate">
-            <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard4MM }}" disabled></ion-input>
-          </ion-col>
-          <ion-col col-2 class="rate">
-            <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard5MM }}" disabled></ion-input>
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col col-2>PS</ion-col>
-          <ion-col col-2 class="rate">
-            <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard1PS }}" disabled></ion-input>
-          </ion-col>
-          <ion-col col-2 class="rate">
-            <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard2PS }}" disabled></ion-input>
-          </ion-col>
-          <ion-col col-2 class="rate">
-            <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard3PS }}" disabled></ion-input>
-          </ion-col>
-          <ion-col col-2 class="rate">
-            <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard4PS }}" disabled></ion-input>
-          </ion-col>
-          <ion-col col-2 class="rate">
-            <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard5PS }}" disabled></ion-input>
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col col-2>CP</ion-col>
-          <ion-col col-2 class="rate">
-            <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard1CP }}" disabled></ion-input>
-          </ion-col>
-          <ion-col col-2 class="rate">
-            <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard2CP }}" disabled></ion-input>
-          </ion-col>
-          <ion-col col-2 class="rate">
-            <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard3CP }}" disabled></ion-input>
-          </ion-col>
-          <ion-col col-2 class="rate">
-            <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard4CP }}" disabled></ion-input>
-          </ion-col>
-          <ion-col col-2 class="rate">
-            <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard5CP }}" disabled></ion-input>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-      <ion-grid>
-        <ion-row>
-          <ion-col col-2></ion-col>
-          <ion-col col-2 class="dossard">Dossard <span class="number">6</span></ion-col>
-          <ion-col col-2 class="dossard">Dossard <span class="number">7</span></ion-col>
-          <ion-col col-2 class="dossard">Dossard <span class="number">8</span></ion-col>
-          <ion-col col-2 class="dossard">Dossard <span class="number">9</span></ion-col>
-          <ion-col col-2 class="dossard">Dossard <span class="number">10</span></ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col col-2>TQ</ion-col>
-          <ion-col col-2 class="rate">
+          <ion-col col-1 class="rate">
             <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard6TQ }}" disabled></ion-input>
           </ion-col>
-          <ion-col col-2 class="rate">
+          <ion-col col-1 class="rate">
             <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard7TQ }}" disabled></ion-input>
           </ion-col>
-          <ion-col col-2 class="rate">
+          <ion-col col-1 class="rate">
             <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard8TQ }}" disabled></ion-input>
           </ion-col>
-          <ion-col col-2 class="rate">
+          <ion-col col-1 class="rate">
             <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard9TQ }}" disabled></ion-input>
           </ion-col>
-          <ion-col col-2 class="rate">
+          <ion-col col-1 class="rate">
             <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard10TQ }}" disabled></ion-input>
           </ion-col>
         </ion-row>
         <ion-row>
           <ion-col col-2>MM</ion-col>
-          <ion-col col-2 class="rate">
+          <ion-col col-1 class="rate">
+            <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard1MM }}" disabled></ion-input>
+          </ion-col>
+          <ion-col col-1 class="rate">
+            <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard2MM }}" disabled></ion-input>
+          </ion-col>
+          <ion-col col-1 class="rate">
+            <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard3MM }}" disabled></ion-input>
+          </ion-col>
+          <ion-col col-1 class="rate">
+            <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard4MM }}" disabled></ion-input>
+          </ion-col>
+          <ion-col col-1 class="rate">
+            <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard5MM }}" disabled></ion-input>
+          </ion-col>
+          <ion-col col-1 class="rate">
             <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard6MM }}" disabled></ion-input>
           </ion-col>
-          <ion-col col-2 class="rate">
+          <ion-col col-1 class="rate">
             <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard7MM }}" disabled></ion-input>
           </ion-col>
-          <ion-col col-2 class="rate">
+          <ion-col col-1 class="rate">
             <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard8MM }}" disabled></ion-input>
           </ion-col>
-          <ion-col col-2 class="rate">
+          <ion-col col-1 class="rate">
             <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard9MM }}" disabled></ion-input>
           </ion-col>
-          <ion-col col-2 class="rate">
+          <ion-col col-1 class="rate">
             <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard10MM }}" disabled></ion-input>
           </ion-col>
         </ion-row>
         <ion-row>
           <ion-col col-2>PS</ion-col>
-          <ion-col col-2 class="rate">
+          <ion-col col-1 class="rate">
+            <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard1PS }}" disabled></ion-input>
+          </ion-col>
+          <ion-col col-1 class="rate">
+            <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard2PS }}" disabled></ion-input>
+          </ion-col>
+          <ion-col col-1 class="rate">
+            <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard3PS }}" disabled></ion-input>
+          </ion-col>
+          <ion-col col-1 class="rate">
+            <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard4PS }}" disabled></ion-input>
+          </ion-col>
+          <ion-col col-1 class="rate">
+            <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard5PS }}" disabled></ion-input>
+          </ion-col>
+          <ion-col col-1 class="rate">
             <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard6PS }}" disabled></ion-input>
           </ion-col>
-          <ion-col col-2 class="rate">
+          <ion-col col-1 class="rate">
             <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard7PS }}" disabled></ion-input>
           </ion-col>
-          <ion-col col-2 class="rate">
+          <ion-col col-1 class="rate">
             <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard8PS }}" disabled></ion-input>
           </ion-col>
-          <ion-col col-2 class="rate">
+          <ion-col col-1 class="rate">
             <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard9PS }}" disabled></ion-input>
           </ion-col>
-          <ion-col col-2 class="rate">
+          <ion-col col-1 class="rate">
             <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard10PS }}" disabled></ion-input>
           </ion-col>
         </ion-row>
         <ion-row>
           <ion-col col-2>CP</ion-col>
-          <ion-col col-2 class="rate">
+          <ion-col col-1 class="rate">
+            <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard1CP }}" disabled></ion-input>
+          </ion-col>
+          <ion-col col-1 class="rate">
+            <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard2CP }}" disabled></ion-input>
+          </ion-col>
+          <ion-col col-1 class="rate">
+            <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard3CP }}" disabled></ion-input>
+          </ion-col>
+          <ion-col col-1 class="rate">
+            <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard4CP }}" disabled></ion-input>
+          </ion-col>
+          <ion-col col-1 class="rate">
+            <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard5CP }}" disabled></ion-input>
+          </ion-col>
+          <ion-col col-1 class="rate">
             <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard6CP }}" disabled></ion-input>
           </ion-col>
-          <ion-col col-2 class="rate">
+          <ion-col col-1 class="rate">
             <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard7CP }}" disabled></ion-input>
           </ion-col>
-          <ion-col col-2 class="rate">
+          <ion-col col-1 class="rate">
             <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard8CP }}" disabled></ion-input>
           </ion-col>
-          <ion-col col-2 class="rate">
+          <ion-col col-1 class="rate">
             <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard9CP }}" disabled></ion-input>
           </ion-col>
-          <ion-col col-2 class="rate">
+          <ion-col col-1 class="rate">
             <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard10CP }}" disabled></ion-input>
           </ion-col>
         </ion-row>

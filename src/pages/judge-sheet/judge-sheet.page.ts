@@ -10,6 +10,9 @@ import { DbService } from "../../services/db.service";
 export class JudgeSheetPage {
   public judgeId: string;
   public sheetId: string;
+  public judgeIdFilter: string;
+  public danse: string;
+
   public dossard1TQ: number;
   public dossard1MM: number;
   public dossard1PS: number;
@@ -69,7 +72,8 @@ export class JudgeSheetPage {
     // Always Sync 
 
     this.judgeId = localStorage.getItem("judgeId");
-    this.sheetId = "judge-sheet-" + this.judgeId;
+    this.danse = localStorage.getItem("danse");
+    this.sheetId = "judge-sheet-" + this.judgeId + "-" + this.danse;
     // Création de la feuille au niveau de la base
     // si celle ci n'existe pas encore.
     this.db.get(this.sheetId)
@@ -77,7 +81,8 @@ export class JudgeSheetPage {
         if (e.name == "not_found" && this.judgeId) {
           this.db.put({
             _id: this.sheetId,
-            judgeId: this.judgeId
+            judgeId: this.judgeId,
+            danse: this.danse
           })
         }
       })

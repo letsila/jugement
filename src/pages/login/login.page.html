@@ -33,8 +33,24 @@
     </button>
   </ion-grid>
   <ion-grid>
-    <button ion-button (click)="connectJuge()" icon-end color="secondary" class="connexion judge-btn">
-      OUVRIR LA FEUILLE DE JUGE <ion-icon name="arrow-forward"></ion-icon>
-   </button>
+    <!--<ion-row>-->
+      <!--<ion-col col-10>-->
+        <button ion-button (click)="connectJuge()" icon-end color="secondary" class="connexion judge-btn">
+          OUVRIR LA FEUILLE DE JUGE <ion-icon name="arrow-forward"></ion-icon>
+        </button>
+      <!--</ion-col>-->
+      <!--<ion-col col-2>-->
+        <ion-item style="width: 300px; margin:0 auto;">
+          <ion-label>Danse</ion-label>
+          <ion-select [(ngModel)]="danse">
+            <ion-option value="chacha">Chacha</ion-option>
+            <ion-option value="rumba">Rumba</ion-option>
+            <ion-option value="jive">Jive</ion-option>
+            <ion-option value="passo">Passo</ion-option>
+            <ion-option value="samba">Samba</ion-option>
+          </ion-select>
+        </ion-item>
+      <!--</ion-col>-->
+    <!--</ion-row>-->
   </ion-grid>
 </ion-content>

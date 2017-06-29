@@ -10,6 +10,8 @@ import { DbService } from "../../services/db.service";
 export class ScrutationPage {
   public judgeSheets: any[];
   public judgeId: string;
+  public danseFilter: string = "chacha";
+  public danses = ["chacha", "rumba", "jive", "passo", "samba"];
 
   constructor(
     public navCtrl: NavController,

@@ -10,6 +10,7 @@ import { ScrutationPage } from "../scrutation/scrutation.page";
 export class LoginPage {
   public login: string;
   public password: string;
+  public danse: string = "chacha";
 
   constructor(
     public navCtrl: NavController,
@@ -28,7 +29,7 @@ export class LoginPage {
       localStorage.setItem("role", "scrutateur");
       console.log(localStorage.getItem("role"));
       this.navCtrl.setRoot(ScrutationPage, {}, { animate: true, direction: "forward" });
-    } 
+    }
     // else {
     //   let alert = this.alertCtrl.create({
     //     title: 'Erreur de connexion',
@@ -45,6 +46,7 @@ export class LoginPage {
    */
   public connectJuge() {
     localStorage.setItem("role", "juge");
+    localStorage.setItem("danse", this.danse);
     this.navCtrl.setRoot(JudgeSheetPage)
   }
 }
