@@ -18,15 +18,13 @@
 </ion-header>
 
 <ion-content padding>
+  <ion-card *ngIf="!countJudgeSheetsOfDanse(danseFilter)" class="no-sheets">
+    <ion-card-content text-center>
+      <ion-icon name="information-circle"></ion-icon>
+      Aucune feuille de juge n'est disponible pour cette danse
+    </ion-card-content>
+  </ion-card>
   <div *ngFor="let judgesheet of judgeSheets">
-
-    <ion-card *ngIf="!countJudgeSheetsOfDanse(danseFilter)" class="no-sheets">
-      <ion-card-content text-center>
-        <ion-icon name="information-circle"></ion-icon>
-        Aucune feuille de juge n'est disponible pour cette danse
-      </ion-card-content>
-    </ion-card>
-
     <div *ngIf="!danseFilter || danseFilter == judgesheet.danse && judgesheet.judgeId">
       <h1>Juge <span class="capitalize">{{ judgesheet.judgeId }}</span></h1>
       <ion-grid>
@@ -82,6 +80,64 @@
         </ion-row>
       </ion-grid>
     </div>
+  </div>
+
+  <div>
+    <h1>Recap <span class="capitalize">{{ danseFilter }}</span></h1>
+
+    <ion-grid>
+      <ion-row>
+        <ion-col col-1></ion-col>
+        <ion-col col-1 class="dossard"><span class="number">1</span></ion-col>
+        <ion-col col-1 class="dossard"><span class="number">2</span></ion-col>
+        <ion-col col-1 class="dossard"><span class="number">3</span></ion-col>
+        <ion-col col-1 class="dossard"><span class="number">4</span></ion-col>
+        <ion-col col-1 class="dossard"><span class="number">5</span></ion-col>
+        <ion-col col-1 class="dossard"><span class="number">6</span></ion-col>
+        <ion-col col-1 class="dossard"><span class="number">7</span></ion-col>
+        <ion-col col-1 class="dossard"><span class="number">8</span></ion-col>
+        <ion-col col-1 class="dossard"><span class="number">9</span></ion-col>
+        <ion-col col-1 class="dossard"><span class="number">10</span></ion-col>
+        <ion-col col-1 class="dossard"><span class="number">Rank</span></ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-1 class="rank">TQ</ion-col>
+        <ion-col col-1 class="rate" *ngFor="let dossard of dossards; let i=index">
+          <ion-input type="text" placeholder="note" value="{{ meanCriteriaScoreOfDossardId(i, danseFilter, 'tq') }}" disabled></ion-input>
+        </ion-col>
+        <ion-col col-1 class="rank">
+          #rank
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-1 class="rank">MM</ion-col>
+        <ion-col col-1 class="rate" *ngFor="let dossard of dossards; let i=index">
+          <ion-input type="text" placeholder="note" value="{{ meanCriteriaScoreOfDossardId(i, danseFilter, 'mm') }}" disabled></ion-input>
+        </ion-col>
+        <ion-col col-1 class="rank">
+          #rank
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-1 class="rank">PS</ion-col>
+        <ion-col col-1 class="rate" *ngFor="let dossard of dossards; let i=index">
+          <ion-input type="text" placeholder="note" value="{{ meanCriteriaScoreOfDossardId(i, danseFilter, 'ps') }}" disabled></ion-input>
+        </ion-col>
+        <ion-col col-1 class="rank">
+          #rank
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-1 class="rank">CP</ion-col>
+        <ion-col col-1 class="rate" *ngFor="let dossard of dossards; let i=index">
+          <ion-input type="text" placeholder="note" value="{{ meanCriteriaScoreOfDossardId(i, danseFilter, 'cp') }}" disabled></ion-input>
+        </ion-col>
+        <ion-col col-1 class="rank">
+          #rank
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
   </div>
 
 </ion-content>
