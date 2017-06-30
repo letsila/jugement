@@ -1,5 +1,14 @@
 page-scrutation {
 
+  .no-sheets {
+    ion-icon {
+      font-size: 2.2em;
+      vertical-align: middle;
+      display: inline-block;
+      margin: 0 8px;
+    }
+  }
+
   .capitalize {
     text-transform: capitalize;
   }

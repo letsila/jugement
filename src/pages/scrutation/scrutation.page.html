@@ -10,7 +10,6 @@
       </button>
     </ion-buttons>
   </ion-navbar>
-
   <ion-segment [(ngModel)]="danseFilter" color="secondary">
     <ion-segment-button *ngFor="let danse of danses" value="{{ danse }}">
       <span class="capitalize">{{ danse }}</span>
@@ -20,6 +19,14 @@
 
 <ion-content padding>
   <div *ngFor="let judgesheet of judgeSheets">
+
+    <ion-card *ngIf="!countJudgeSheetsOfDanse(danseFilter)" class="no-sheets">
+      <ion-card-content text-center>
+        <ion-icon name="information-circle"></ion-icon>
+        Aucune feuille de juge n'est disponible pour cette danse
+      </ion-card-content>
+    </ion-card>
+
     <div *ngIf="!danseFilter || danseFilter == judgesheet.danse && judgesheet.judgeId">
       <h1>Juge <span class="capitalize">{{ judgesheet.judgeId }}</span></h1>
       <ion-grid>
@@ -38,134 +45,26 @@
         </ion-row>
         <ion-row>
           <ion-col col-2>TQ</ion-col>
-          <ion-col col-1 class="rate">
-            <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard1TQ }}" disabled></ion-input>
-          </ion-col>
-          <ion-col col-1 class="rate">
-            <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard2TQ }}" disabled></ion-input>
-          </ion-col>
-          <ion-col col-1 class="rate">
-            <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard3TQ }}" disabled></ion-input>
-          </ion-col>
-          <ion-col col-1 class="rate">
-            <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard4TQ }}" disabled></ion-input>
-          </ion-col>
-          <ion-col col-1 class="rate">
-            <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard5TQ }}" disabled></ion-input>
-          </ion-col>
-          <ion-col col-1 class="rate">
-            <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard6TQ }}" disabled></ion-input>
-          </ion-col>
-          <ion-col col-1 class="rate">
-            <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard7TQ }}" disabled></ion-input>
-          </ion-col>
-          <ion-col col-1 class="rate">
-            <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard8TQ }}" disabled></ion-input>
-          </ion-col>
-          <ion-col col-1 class="rate">
-            <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard9TQ }}" disabled></ion-input>
-          </ion-col>
-          <ion-col col-1 class="rate">
-            <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard10TQ }}" disabled></ion-input>
+          <ion-col col-1 class="rate" *ngFor="let dossard of judgesheet.dossards">
+            <ion-input type="text" placeholder="note" value="{{ dossard.tq }}" disabled></ion-input>
           </ion-col>
         </ion-row>
         <ion-row>
           <ion-col col-2>MM</ion-col>
-          <ion-col col-1 class="rate">
-            <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard1MM }}" disabled></ion-input>
-          </ion-col>
-          <ion-col col-1 class="rate">
-            <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard2MM }}" disabled></ion-input>
-          </ion-col>
-          <ion-col col-1 class="rate">
-            <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard3MM }}" disabled></ion-input>
-          </ion-col>
-          <ion-col col-1 class="rate">
-            <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard4MM }}" disabled></ion-input>
-          </ion-col>
-          <ion-col col-1 class="rate">
-            <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard5MM }}" disabled></ion-input>
-          </ion-col>
-          <ion-col col-1 class="rate">
-            <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard6MM }}" disabled></ion-input>
-          </ion-col>
-          <ion-col col-1 class="rate">
-            <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard7MM }}" disabled></ion-input>
-          </ion-col>
-          <ion-col col-1 class="rate">
-            <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard8MM }}" disabled></ion-input>
-          </ion-col>
-          <ion-col col-1 class="rate">
-            <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard9MM }}" disabled></ion-input>
-          </ion-col>
-          <ion-col col-1 class="rate">
-            <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard10MM }}" disabled></ion-input>
+          <ion-col col-1 class="rate" *ngFor="let dossard of judgesheet.dossards">
+            <ion-input type="text" placeholder="note" value="{{ dossard.mm }}" disabled></ion-input>
           </ion-col>
         </ion-row>
         <ion-row>
           <ion-col col-2>PS</ion-col>
-          <ion-col col-1 class="rate">
-            <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard1PS }}" disabled></ion-input>
-          </ion-col>
-          <ion-col col-1 class="rate">
-            <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard2PS }}" disabled></ion-input>
-          </ion-col>
-          <ion-col col-1 class="rate">
-            <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard3PS }}" disabled></ion-input>
-          </ion-col>
-          <ion-col col-1 class="rate">
-            <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard4PS }}" disabled></ion-input>
-          </ion-col>
-          <ion-col col-1 class="rate">
-            <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard5PS }}" disabled></ion-input>
-          </ion-col>
-          <ion-col col-1 class="rate">
-            <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard6PS }}" disabled></ion-input>
-          </ion-col>
-          <ion-col col-1 class="rate">
-            <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard7PS }}" disabled></ion-input>
-          </ion-col>
-          <ion-col col-1 class="rate">
-            <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard8PS }}" disabled></ion-input>
-          </ion-col>
-          <ion-col col-1 class="rate">
-            <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard9PS }}" disabled></ion-input>
-          </ion-col>
-          <ion-col col-1 class="rate">
-            <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard10PS }}" disabled></ion-input>
+          <ion-col col-1 class="rate" *ngFor="let dossard of judgesheet.dossards">
+            <ion-input type="text" placeholder="note" value="{{ dossard.ps }}" disabled></ion-input>
           </ion-col>
         </ion-row>
         <ion-row>
           <ion-col col-2>CP</ion-col>
-          <ion-col col-1 class="rate">
-            <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard1CP }}" disabled></ion-input>
-          </ion-col>
-          <ion-col col-1 class="rate">
-            <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard2CP }}" disabled></ion-input>
-          </ion-col>
-          <ion-col col-1 class="rate">
-            <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard3CP }}" disabled></ion-input>
-          </ion-col>
-          <ion-col col-1 class="rate">
-            <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard4CP }}" disabled></ion-input>
-          </ion-col>
-          <ion-col col-1 class="rate">
-            <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard5CP }}" disabled></ion-input>
-          </ion-col>
-          <ion-col col-1 class="rate">
-            <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard6CP }}" disabled></ion-input>
-          </ion-col>
-          <ion-col col-1 class="rate">
-            <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard7CP }}" disabled></ion-input>
-          </ion-col>
-          <ion-col col-1 class="rate">
-            <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard8CP }}" disabled></ion-input>
-          </ion-col>
-          <ion-col col-1 class="rate">
-            <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard9CP }}" disabled></ion-input>
-          </ion-col>
-          <ion-col col-1 class="rate">
-            <ion-input type="text" placeholder="note" value="{{ judgesheet.dossard10CP }}" disabled></ion-input>
+          <ion-col col-1 class="rate" *ngFor="let dossard of judgesheet.dossards">
+            <ion-input type="text" placeholder="note" value="{{ dossard.cp }}" disabled></ion-input>
           </ion-col>
         </ion-row>
       </ion-grid>

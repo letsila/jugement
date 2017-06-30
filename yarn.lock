@@ -48,9 +48,9 @@
   version "3.10.2"
   resolved "https://registry.yarnpkg.com/@ionic-native/core/-/core-3.10.2.tgz#46fce01cf9863722bc45ca08d856038eda4d7676"
 
-"@ionic-native/splash-screen@3.10.2":
-  version "3.10.2"
-  resolved "https://registry.yarnpkg.com/@ionic-native/splash-screen/-/splash-screen-3.10.2.tgz#f5d0ca7188afa352e654b4b1469e1c35030ced5a"
+"@ionic-native/splash-screen@^3.10.2":
+  version "3.12.1"
+  resolved "https://registry.yarnpkg.com/@ionic-native/splash-screen/-/splash-screen-3.12.1.tgz#1c2e468e225d5b90cad7b48fc05505d4c761ace6"
 
 "@ionic-native/status-bar@3.10.2":
   version "3.10.2"

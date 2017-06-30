@@ -2,6 +2,7 @@ import { Component } from "@angular/core";
 import { NavController } from "ionic-angular";
 import { LoginPage } from "../login/login.page";
 import { DbService } from "../../services/db.service";
+import * as _ from "lodash";
 
 @Component({
   selector: "page-scrutation",
@@ -28,9 +29,23 @@ export class ScrutationPage {
         this.judgeSheets = res.rows.map(sheet => {
           return sheet.doc;
         });
-      }).catch(e => {
+
+      })
+      .catch(e => {
         console.log(e);
       })
+  }
+
+  /**
+   * Nombre de feuille de danse pour la
+   * danse spécifiée.
+   * 
+   * @param danse
+   */
+  public countJudgeSheetsOfDanse(danse: string) {
+    return this.judgeSheets.filter(sheet => {
+      return sheet.danse == danse;
+    }).length;
   }
 
   public logout() {

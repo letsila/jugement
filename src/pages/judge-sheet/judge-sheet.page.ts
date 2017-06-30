@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { LoginPage } from "../login/login.page";
 import { DbService } from "../../services/db.service";
+import * as _ from "lodash";
 
 @Component({
   selector: 'page-sheet',
@@ -82,7 +83,8 @@ export class JudgeSheetPage {
           this.db.put({
             _id: this.sheetId,
             judgeId: this.judgeId,
-            danse: this.danse
+            danse: this.danse,
+            dossards: [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}]
           })
         }
       })
@@ -96,55 +98,55 @@ export class JudgeSheetPage {
   public inputChanged() {
     console.log('changement');
     this.db.get(this.sheetId).then(sheet => {
-      sheet.dossard1TQ = this.dossard1TQ;
-      sheet.dossard1MM = this.dossard1MM;
-      sheet.dossard1PS = this.dossard1PS;
-      sheet.dossard1CP = this.dossard1CP;
+      sheet.dossards[0].tq = this.dossard1TQ;
+      sheet.dossards[0].mm = this.dossard1MM;
+      sheet.dossards[0].ps = this.dossard1PS;
+      sheet.dossards[0].cp = this.dossard1CP;
 
-      sheet.dossard2TQ = this.dossard2TQ;
-      sheet.dossard2MM = this.dossard2MM;
-      sheet.dossard2PS = this.dossard2PS;
-      sheet.dossard2CP = this.dossard2CP;
+      sheet.dossards[1].tq = this.dossard2TQ;
+      sheet.dossards[1].mm = this.dossard2MM;
+      sheet.dossards[1].ps = this.dossard2PS;
+      sheet.dossards[1].cp = this.dossard2CP;
 
-      sheet.dossard3TQ = this.dossard3TQ;
-      sheet.dossard3MM = this.dossard3MM;
-      sheet.dossard3PS = this.dossard3PS;
-      sheet.dossard3CP = this.dossard3CP;
+      sheet.dossards[2].tq = this.dossard3TQ;
+      sheet.dossards[2].mm = this.dossard3MM;
+      sheet.dossards[2].ps = this.dossard3PS;
+      sheet.dossards[2].cp = this.dossard3CP;
 
-      sheet.dossard4TQ = this.dossard4TQ;
-      sheet.dossard4MM = this.dossard4MM;
-      sheet.dossard4PS = this.dossard4PS;
-      sheet.dossard4CP = this.dossard4CP;
+      sheet.dossards[3].tq = this.dossard4TQ;
+      sheet.dossards[3].mm = this.dossard4MM;
+      sheet.dossards[3].ps = this.dossard4PS;
+      sheet.dossards[3].cp = this.dossard4CP;
 
-      sheet.dossard5TQ = this.dossard5TQ;
-      sheet.dossard5MM = this.dossard5MM;
-      sheet.dossard5PS = this.dossard5PS;
-      sheet.dossard5CP = this.dossard5CP;
+      sheet.dossards[4].tq = this.dossard5TQ;
+      sheet.dossards[4].mm = this.dossard5MM;
+      sheet.dossards[4].ps = this.dossard5PS;
+      sheet.dossards[4].cp = this.dossard5CP;
 
-      sheet.dossard6TQ = this.dossard6TQ;
-      sheet.dossard6MM = this.dossard6MM;
-      sheet.dossard6PS = this.dossard6PS;
-      sheet.dossard6CP = this.dossard6CP;
+      sheet.dossards[5].tq = this.dossard6TQ;
+      sheet.dossards[5].mm = this.dossard6MM;
+      sheet.dossards[5].ps = this.dossard6PS;
+      sheet.dossards[5].cp = this.dossard6CP;
 
-      sheet.dossard7TQ = this.dossard7TQ;
-      sheet.dossard7MM = this.dossard7MM;
-      sheet.dossard7PS = this.dossard7PS;
-      sheet.dossard7CP = this.dossard7CP;
+      sheet.dossards[6].tq = this.dossard7TQ;
+      sheet.dossards[6].mm = this.dossard7MM;
+      sheet.dossards[6].ps = this.dossard7PS;
+      sheet.dossards[6].cp = this.dossard7CP;
 
-      sheet.dossard8TQ = this.dossard8TQ;
-      sheet.dossard8MM = this.dossard8MM;
-      sheet.dossard8PS = this.dossard8PS;
-      sheet.dossard8CP = this.dossard8CP;
+      sheet.dossards[7].tq = this.dossard8TQ;
+      sheet.dossards[7].mm = this.dossard8MM;
+      sheet.dossards[7].ps = this.dossard8PS;
+      sheet.dossards[7].cp = this.dossard8CP;
 
-      sheet.dossard9TQ = this.dossard9TQ;
-      sheet.dossard9MM = this.dossard9MM;
-      sheet.dossard9PS = this.dossard9PS;
-      sheet.dossard9CP = this.dossard9CP;
+      sheet.dossards[8].tq = this.dossard9TQ;
+      sheet.dossards[8].mm = this.dossard9MM;
+      sheet.dossards[8].ps = this.dossard9PS;
+      sheet.dossards[8].cp = this.dossard9CP;
 
-      sheet.dossard10TQ = this.dossard10TQ;
-      sheet.dossard10MM = this.dossard10MM;
-      sheet.dossard10PS = this.dossard10PS;
-      sheet.dossard10CP = this.dossard10CP;
+      sheet.dossards[9].tq = this.dossard10TQ;
+      sheet.dossards[9].mm = this.dossard10MM;
+      sheet.dossards[9].ps = this.dossard10PS;
+      sheet.dossards[9].cp = this.dossard10CP;
 
       this.db.put(sheet)
 
