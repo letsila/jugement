@@ -11,23 +11,21 @@
     <ion-title *ngIf="judgeId">Feuille de Juge <span class="capitalize">{{ judgeId }}</span> -
       <span class="capitalize danse-name">{{ danse }}</span>
     </ion-title>
-    <ion-buttons end *ngIf="judgeId">
+    <!--<ion-buttons end *ngIf="judgeId">
       <button ion-button icon-only>
         <ion-icon name="lock"></ion-icon>
       </button>
-    </ion-buttons>
+    </ion-buttons>-->
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
   <ion-grid>
-    <ion-row>
+    <ion-row *ngIf="dossardsAliases1">
       <ion-col col-2></ion-col>
-      <ion-col col-2 class="dossard">Dossard <span class="number">1</span></ion-col>
-      <ion-col col-2 class="dossard">Dossard <span class="number">2</span></ion-col>
-      <ion-col col-2 class="dossard">Dossard <span class="number">3</span></ion-col>
-      <ion-col col-2 class="dossard">Dossard <span class="number">4</span></ion-col>
-      <ion-col col-2 class="dossard">Dossard <span class="number">5</span></ion-col>
+      <ion-col col-2 class="dossard" *ngFor="let dossardAlias of dossardsAliases1">
+        Dossard <span class="number">{{ dossardAlias }}</span>
+      </ion-col>
     </ion-row>
     <ion-row>
       <ion-col col-2>TQ</ion-col>
@@ -103,13 +101,11 @@
     </ion-row>
   </ion-grid>
   <ion-grid>
-    <ion-row>
+    <ion-row class="dossardsAliases2">
       <ion-col col-2></ion-col>
-      <ion-col col-2 class="dossard">Dossard <span class="number">6</span></ion-col>
-      <ion-col col-2 class="dossard">Dossard <span class="number">7</span></ion-col>
-      <ion-col col-2 class="dossard">Dossard <span class="number">8</span></ion-col>
-      <ion-col col-2 class="dossard">Dossard <span class="number">9</span></ion-col>
-      <ion-col col-2 class="dossard">Dossard <span class="number">10</span></ion-col>
+      <ion-col col-2 class="dossard" *ngFor="let dossardAlias of dossardsAliases2">
+        Dossard <span class="number">{{ dossardAlias }}</span>
+      </ion-col>
     </ion-row>
     <ion-row>
       <ion-col col-2>TQ</ion-col>

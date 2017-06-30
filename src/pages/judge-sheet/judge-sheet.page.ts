@@ -9,6 +9,9 @@ import * as _ from "lodash";
   templateUrl: 'judge-sheet.page.html'
 })
 export class JudgeSheetPage {
+  public dossardsAliases: string[] = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
+  public dossardsAliases1: string[];
+  public dossardsAliases2: string[];
   public judgeId: string;
   public sheetId: string;
   public judgeIdFilter: string;
@@ -127,6 +130,14 @@ export class JudgeSheetPage {
       this.dossard10MM = res.dossards[9].mm;
       this.dossard10PS = res.dossards[9].ps;
       this.dossard10CP = res.dossards[9].cp;
+
+
+      // Dossards aliases
+      this.db.get("dossards").then(res => {
+        this.dossardsAliases = res.aliases;
+        this.dossardsAliases1 = this.dossardsAliases.splice(0, 5);
+        this.dossardsAliases2 = this.dossardsAliases.splice(5, 9);
+      })
     })
       .catch(e => {
         if (e.name == "not_found" && this.judgeId) {

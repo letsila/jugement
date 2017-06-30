@@ -30,16 +30,9 @@
       <ion-grid>
         <ion-row>
           <ion-col col-1></ion-col>
-          <ion-col col-1 class="dossard"><span class="number">1</span></ion-col>
-          <ion-col col-1 class="dossard"><span class="number">2</span></ion-col>
-          <ion-col col-1 class="dossard"><span class="number">3</span></ion-col>
-          <ion-col col-1 class="dossard"><span class="number">4</span></ion-col>
-          <ion-col col-1 class="dossard"><span class="number">5</span></ion-col>
-          <ion-col col-1 class="dossard"><span class="number">6</span></ion-col>
-          <ion-col col-1 class="dossard"><span class="number">7</span></ion-col>
-          <ion-col col-1 class="dossard"><span class="number">8</span></ion-col>
-          <ion-col col-1 class="dossard"><span class="number">9</span></ion-col>
-          <ion-col col-1 class="dossard"><span class="number">10</span></ion-col>
+          <ion-col col-1 class="dossard" *ngFor="let dossardAlias of dossardsAliases">
+            <span class="number">{{ dossardAlias }}</span>
+          </ion-col>
           <ion-col col-1 class="dossard"><span class="number">#</span></ion-col>
         </ion-row>
         <ion-row>

@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { NavController, AlertController } from "ionic-angular";
+import { NavController, AlertController, ViewController } from "ionic-angular";
 import { JudgeSheetPage } from "../judge-sheet/judge-sheet.page";
 import { ScrutationPage } from "../scrutation/scrutation.page";
 import { DbService } from "../../services/db.service";
@@ -13,20 +13,41 @@ export class LoginPage {
   public password: string;
   public danseSelected: string = "chacha";
   public danses: any[];
+  public judgeId: string;
 
   constructor(
     public db: DbService,
     public navCtrl: NavController,
+    public viewCtrl: ViewController,
     public alertCtrl: AlertController) {
   }
 
   ngOnInit() {
-    this.db.get("danses")
-    .then(res => {
-      this.danses = res.list;
-      console.log(this.danses);
+    this.viewCtrl.didEnter.subscribe(() => {
+      this.judgeId = localStorage.getItem("judgeId");
     })
-    .catch(e => console.log(e));
+
+    this.db.get("danses")
+      .then(res => {
+        this.danses = res.list;
+        console.log(this.danses);
+      })
+      .catch(e => console.log(e));
+
+      // Insertion des aliases de dossards.
+      this.bootstrapData();
+  }
+
+  public bootstrapData() {
+    this.db.get("dossards")
+      .catch(e => {
+        if (e.name == "not_found") {
+          this.db.put({
+            _id: "dossards",
+            aliases: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
+          })
+        }
+      });
   }
 
   /**

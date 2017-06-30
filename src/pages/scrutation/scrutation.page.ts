@@ -13,14 +13,15 @@ export class ScrutationPage {
   public judgeSheets: any[] = [];
   public judgeId: string;
   public danseFilter: string = "chacha";
-  public danses = ["chacha", "rumba", "jive", "passo", "samba"];
+  public danses = ["chacha", "rumba", "jive", "passo", "samba", "salsa"];
   public criteria = ["tq", "mm", "ps", "cp"];
+  public dossardsAliases: string[];
 
   constructor(
     public navCtrl: NavController,
     public db: DbService
   ) {
-
+    this.db.get("dossards")
   }
 
   ngOnInit() {
@@ -32,10 +33,15 @@ export class ScrutationPage {
           return sheet.doc;
         });
 
+        this.db.get("dossards").then(res => {
+          this.dossardsAliases = res.aliases;
+        })
       })
       .catch(e => {
         console.log(e);
       })
+
+
   }
 
   /**

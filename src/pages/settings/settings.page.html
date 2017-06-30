@@ -10,7 +10,8 @@
 <ion-content>
   <ion-list radio-group [(ngModel)]="judgeId" (ionChange)="saveJudgeId()">
     <ion-list-header>
-      Attribuer cette tablette au
+      <ion-icon name="person" class="title-icon"></ion-icon>
+      &nbsp;&nbsp;Attribuer cette tablette au
     </ion-list-header>
 
     <ion-item>
@@ -41,6 +42,17 @@
     <ion-item>
       <ion-label>JUGE F</ion-label>
       <ion-radio value="f"></ion-radio>
+    </ion-item>
+  </ion-list>
+
+  <ion-list *ngIf="dossardAliases">
+    <ion-list-header>
+       <ion-icon name="bookmark" class="title-icon"></ion-icon>&nbsp;&nbsp;
+      Assignation des dossards
+    </ion-list-header>
+    <ion-item *ngFor="let dossardNumber of dossards; let i=index">
+      <ion-label fixed>Dossard {{ dossardNumber }}</ion-label>
+      <ion-input [(ngModel)]="dossardAliases[i]" type="text" (ionChange)="change()"></ion-input>
     </ion-item>
   </ion-list>
 </ion-content>
