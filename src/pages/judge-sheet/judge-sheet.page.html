@@ -1,22 +1,22 @@
 <ion-header>
-  <ion-navbar>
+  <ion-toolbar hideBackButton>
     <ion-buttons start>
       <button ion-button icon-only (click)="logout()">
         <ion-icon name="arrow-back"></ion-icon>
       </button>
     </ion-buttons>
-    <ion-title *ngIf="!judgeId" class="config-error-msg">
+    <ion-title text-center *ngIf="!judgeId" class="config-error-msg">
       <ion-icon name="alert" color="danger"></ion-icon>&nbsp; Votre feuille n'a pas été configurée correctement, veuillez vous réferer au scrutateur.
     </ion-title>
-    <ion-title *ngIf="judgeId">Feuille de Juge <span class="capitalize">{{ judgeId }}</span> -
+    <ion-title text-center *ngIf="judgeId">Feuille de Juge <span class="capitalize">{{ judgeId }}</span> -
       <span class="capitalize danse-name">{{ danse }}</span>
     </ion-title>
-    <!--<ion-buttons end *ngIf="judgeId">
+    <ion-buttons end>
       <button ion-button icon-only>
-        <ion-icon name="lock"></ion-icon>
+        <!--<ion-icon name="lock"></ion-icon>-->
       </button>
-    </ion-buttons>-->
-  </ion-navbar>
+    </ion-buttons>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content padding>

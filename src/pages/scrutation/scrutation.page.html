@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-navbar hideBackButton>
+  <ion-toolbar>
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
@@ -9,7 +9,7 @@
         <ion-icon name="log-out"></ion-icon>
       </button>
     </ion-buttons>
-  </ion-navbar>
+  </ion-toolbar>
   <ion-segment [(ngModel)]="danseFilter" color="secondary">
     <ion-segment-button *ngFor="let danse of danses" value="{{ danse }}">
       <span class="capitalize">{{ danse }}</span>
@@ -26,7 +26,11 @@
   </ion-card>
   <div *ngFor="let judgesheet of judgeSheets">
     <div *ngIf="!danseFilter || danseFilter == judgesheet.danse && judgesheet.judgeId">
-      <h1>Juge <span class="capitalize">{{ judgesheet.judgeId }}</span></h1>
+      <h1>Juge <span class="capitalize">{{ judgesheet.judgeId }}</span>
+        <button ion-button icon-only (click)="deleteJudgeSheet(judgesheet)" style="vertical-align: middle; font-size: 14px;">
+          <ion-icon name="trash"></ion-icon>
+        </button>
+      </h1>
       <ion-grid>
         <ion-row>
           <ion-col col-1></ion-col>
@@ -69,9 +73,9 @@
     <ion-grid>
       <ion-row>
         <ion-col col-1></ion-col>
-         <ion-col col-1 class="dossard" *ngFor="let dossardAlias of dossardsAliases">
-            <span class="number">{{ dossardAlias }}</span>
-          </ion-col>
+        <ion-col col-1 class="dossard" *ngFor="let dossardAlias of dossardsAliases">
+          <span class="number">{{ dossardAlias }}</span>
+        </ion-col>
         <ion-col col-1 class="dossard"><span class="number">#</span></ion-col>
       </ion-row>
       <ion-row>
@@ -114,17 +118,8 @@
         <ion-col col-1 class="rank">
         </ion-col>
       </ion-row>
-      <ion-row>
-        <ion-col col-1 class="rank">RANK</ion-col>
-        <ion-col col-1 class="rate" *ngFor="let dossard of dossards; let i=index">
-          <ion-input type="text" placeholder="note" value="{{ rankPerDanse(i, danseFilter) }}" disabled></ion-input>
-        </ion-col>
-        <ion-col col-1 class="rank">
-          <!--{{ rankPerDanse(i, danseFilter) }}-->
-        </ion-col>
-      </ion-row>
 
-      <h1>OVERALL</h1>
+      <h1>Overall</h1>
       <ion-row>
         <ion-col col-1 class="rank">SCORE</ion-col>
         <ion-col col-1 class="rate" *ngFor="let dossard of dossards; let i=index">

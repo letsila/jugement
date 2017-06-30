@@ -8,6 +8,8 @@ import { SettingsPage } from '../pages/settings/settings.page';
 import { LoginPage } from "../pages/login/login.page";
 import { ScrutationPage } from "../pages/scrutation/scrutation.page";
 
+import { LoginPopover } from "../popovers/login/login.popover";
+
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
@@ -19,7 +21,8 @@ import { DbService } from "../services/db.service";
     JudgeSheetPage,
     SettingsPage,
     LoginPage,
-    ScrutationPage
+    ScrutationPage,
+    LoginPopover
   ],
   imports: [
     BrowserModule,
@@ -31,13 +34,14 @@ import { DbService } from "../services/db.service";
     JudgeSheetPage,
     SettingsPage,
     LoginPage,
-    ScrutationPage
+    ScrutationPage,
+    LoginPopover
   ],
   providers: [
     StatusBar,
     SplashScreen,
     DbService,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    { provide: ErrorHandler, useClass: IonicErrorHandler }
   ]
 })
-export class AppModule {}
+export class AppModule { }

@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { NavController } from "ionic-angular";
+import { AlertController, NavController } from "ionic-angular";
 import { LoginPage } from "../login/login.page";
 import { DbService } from "../../services/db.service";
 import * as _ from "lodash";
@@ -13,11 +13,12 @@ export class ScrutationPage {
   public judgeSheets: any[] = [];
   public judgeId: string;
   public danseFilter: string = "chacha";
-  public danses = ["chacha", "rumba", "jive", "passo", "samba", "salsa"];
+  public danses = ["chacha", "rumba", "jive", "paso", "samba", "latino"];
   public criteria = ["tq", "mm", "ps", "cp"];
   public dossardsAliases: string[] = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];;
 
   constructor(
+    public alertCtrl: AlertController,
     public navCtrl: NavController,
     public db: DbService
   ) {
@@ -31,6 +32,8 @@ export class ScrutationPage {
 
         this.judgeSheets = res.rows.map(sheet => {
           return sheet.doc;
+        }).filter(sheet => {
+          return sheet.judgeId;
         });
 
         this.db.get("dossards").then(res => {
@@ -67,7 +70,7 @@ export class ScrutationPage {
       score += Number(this.scoresPerDanse(dossardIndex, danse)) || 0;
     });
 
-    return score;
+    return _.round(score, 3);
   }
 
   /**
@@ -87,6 +90,44 @@ export class ScrutationPage {
     // console.log(dossardsRanked_ordered);
 
     return _.findIndex(dossardsRanked_ordered, { id: dossardIndex }) + 1;
+  }
+
+  public deleteJudgeSheet(judgeSheet) {
+    let alert = this.alertCtrl.create({
+      title: "Attention !",
+      message: "Voulez-vous vraiment supprimer cette feuille ?",
+      buttons: [
+        {
+          text: "Oui",
+          role: "confirm",
+          handler: () => {
+            this.appliqueDeleteSheet(judgeSheet);
+          }
+        },
+        {
+          text: "Non",
+          role: "cancel",
+          handler: () => {
+            
+          }
+        }
+      ]
+    })
+
+    alert.present();
+  }
+
+  public appliqueDeleteSheet(judgeSheet) {
+    console.log(judgeSheet);
+    this.db.get(judgeSheet._id).then(sheet => {
+      // sheet._deleted = true;
+      this.db.remove(sheet).then(() => {
+        let index = _.findIndex(this.judgeSheets, {id: judgeSheet.id});
+        this.judgeSheets.splice(index, 1);
+      })
+    }).catch(e => {
+      console.log(e);
+    })
   }
 
   /**
@@ -119,7 +160,7 @@ export class ScrutationPage {
       scoresPerDanse += Number(this.meanCriteriaScoreOfDossardId(dossardIndex, danse, criteria));
     });
 
-    return scoresPerDanse;
+    return _.round(scoresPerDanse, 3);
   }
 
   /**
@@ -146,7 +187,7 @@ export class ScrutationPage {
         }
       }
 
-      return mean;
+      return _.round(mean, 3);
     } catch (e) {
       console.log(e);
     }
@@ -159,10 +200,11 @@ export class ScrutationPage {
     let mean: number = 0;
     // console.log(sortedScores);
     let sortedScores = scoresPerJudge.sort();
+    // console.log(sortedScores);
     if (sortedScores.length) {
       sortedScores = sortedScores.map((val, index) => {
-        if (index == 0 || index == _.lastIndexOf(sortedScores)) {
-          return val * 0.5;
+        if (index == 0 || index == sortedScores.length - 1) {
+          return val/2;
         }
         return val;
       })
@@ -171,7 +213,7 @@ export class ScrutationPage {
       mean = _.sum(sortedScores) / divider;
     }
 
-    return mean;
+    return _.round(mean, 3);
   }
 
   /**

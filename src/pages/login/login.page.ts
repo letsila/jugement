@@ -1,24 +1,27 @@
 import { Component } from "@angular/core";
-import { NavController, AlertController, ViewController } from "ionic-angular";
+import { AlertController, NavController, PopoverController, ViewController } from "ionic-angular";
 import { JudgeSheetPage } from "../judge-sheet/judge-sheet.page";
 import { ScrutationPage } from "../scrutation/scrutation.page";
 import { DbService } from "../../services/db.service";
+import { LoginPopover } from "../../popovers/login/login.popover";
 
 @Component({
   selector: "page-login",
   templateUrl: "login.page.html",
 })
 export class LoginPage {
-  public login: string;
-  public password: string;
+
   public danseSelected: string = "chacha";
   public danses: any[];
   public judgeId: string;
+  public loginCheck: string;
+  public mdpCheck: string;
 
   constructor(
     public db: DbService,
     public navCtrl: NavController,
     public viewCtrl: ViewController,
+    public popoverCtrl: PopoverController,
     public alertCtrl: AlertController) {
   }
 
@@ -34,8 +37,29 @@ export class LoginPage {
       })
       .catch(e => console.log(e));
 
-      // Insertion des aliases de dossards.
-      this.bootstrapData();
+    this.db.get("credentials").then(res => {
+      console.log(res);
+      localStorage.setItem("loginCheck", res.loginCheck);
+      localStorage.setItem("mdpCheck", res.mdpCheck);
+    }).catch(e => {
+    })
+
+    // Insertion des aliases de dossards.
+    this.bootstrapData();
+  }
+
+  /**
+   * Display popover
+   * @param myEvent 
+   */
+  public presentPopover(myEvent) {
+    let popover = this.popoverCtrl.create(LoginPopover, {
+      dataTunnelFunc: () => {
+        console.log("func");
+        this.navCtrl.setRoot(ScrutationPage, {}, { animate: true, direction: "forward" })
+      }
+    });
+    popover.present();
   }
 
   public bootstrapData() {
@@ -48,30 +72,6 @@ export class LoginPage {
           })
         }
       });
-  }
-
-  /**
-   * Connexion en tant que scrutateur.
-   */
-  public connectScrutateur() {
-    console.log(this.login);
-    console.log(this.password);
-
-    // if (this.login == "scrutateur" && this.password == "scrutateur") {
-    if (true) {
-      localStorage.setItem("role", "scrutateur");
-      console.log(localStorage.getItem("role"));
-      this.navCtrl.setRoot(ScrutationPage, {}, { animate: true, direction: "forward" });
-    }
-    // else {
-    //   let alert = this.alertCtrl.create({
-    //     title: 'Erreur de connexion',
-    //     subTitle: 'Login/Mot de passe incorrect',
-    //     buttons: ['Fermer']
-    //   });
-    //   alert.present();
-    // }
-
   }
 
   /**
