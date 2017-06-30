@@ -50,6 +50,39 @@ export class ScrutationPage {
   }
 
   /**
+   * Score global
+   * 
+   * @param dossardIndex
+   */
+  public overallScore(dossardIndex) {
+    let score = 0;
+    ["chacha", "rumba", "jive", "passo", "samba"].forEach(danse => {
+      score += this.scoresPerDanse(dossardIndex, danse);
+    });
+
+    return score;
+  }
+
+  /**
+   * Rank overall
+   * @param dossardIndex
+   */
+  public rankOverall(dossardIndex) {
+
+    let dossardsRanked = this.dossards.map((dossard, index) => {
+      let dossardObj: any = {};
+      dossardObj.score = this.overallScore(index);
+      dossardObj.id = index;
+      return dossardObj;
+    });
+
+    let dossardsRanked_ordered = _.orderBy(dossardsRanked, "score", "desc");
+    console.log(dossardsRanked_ordered);
+
+    return _.findIndex(dossardsRanked_ordered, { id: dossardIndex }) + 1;
+  }
+
+  /**
    * Rank per danse of the dossard.
    */
   public rankPerDanse(dossardIndex, danse) {
