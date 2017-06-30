@@ -14,6 +14,7 @@ export class ScrutationPage {
   public judgeId: string;
   public danseFilter: string = "chacha";
   public danses = ["chacha", "rumba", "jive", "passo", "samba"];
+  public criteria = ["tq", "mm", "ps", "cp"];
 
   constructor(
     public navCtrl: NavController,
@@ -55,11 +56,11 @@ export class ScrutationPage {
    * @param dossardIndex
    */
   public overallScore(dossardIndex) {
-    let score = 0;
-    ["chacha", "rumba", "jive", "passo", "samba"].forEach(danse => {
-      score += this.scoresPerDanse(dossardIndex, danse);
+    let score: number = 0;
+    this.danses.forEach(danse => {
+      score += Number(this.scoresPerDanse(dossardIndex, danse)) || 0;
     });
-
+    
     return score;
   }
 
@@ -77,7 +78,7 @@ export class ScrutationPage {
     });
 
     let dossardsRanked_ordered = _.orderBy(dossardsRanked, "score", "desc");
-    console.log(dossardsRanked_ordered);
+    // console.log(dossardsRanked_ordered);
 
     return _.findIndex(dossardsRanked_ordered, { id: dossardIndex }) + 1;
   }
@@ -95,7 +96,7 @@ export class ScrutationPage {
     });
 
     let dossardsRanked_ordered = _.orderBy(dossardsRanked, "score", "desc");
-    console.log(dossardsRanked_ordered);
+    // console.log(dossardsRanked_ordered);
 
     return _.findIndex(dossardsRanked_ordered, { id: dossardIndex }) + 1;
   }
@@ -107,9 +108,9 @@ export class ScrutationPage {
    * @param danse 
    */
   public scoresPerDanse(dossardIndex, danse) {
-    let scoresPerDanse = 0;
-    ["tq", "mm", "ps", "cp"].forEach(criteria => {
-      scoresPerDanse += this.meanCriteriaScoreOfDossardId(dossardIndex, danse, criteria);
+    let scoresPerDanse: number = 0;
+    this.criteria.forEach(criteria => {
+      scoresPerDanse += Number(this.meanCriteriaScoreOfDossardId(dossardIndex, danse, criteria));
     });
 
     return scoresPerDanse;
@@ -121,20 +122,19 @@ export class ScrutationPage {
   public meanCriteriaScoreOfDossardId(dossardIndex: number, danse: string, criteria: string) {
     try {
 
-      let mean = 0;
+      let mean: number = 0;
 
       if (this.judgeSheets.length) {
         // Les feuilles de juges pour la danse en cours.
         let sheetsOfTheDanse: any = this.judgeSheets.filter(sheet => {
           return sheet.danse == danse;
         });
-
-
         // Récupération des scores du dossard pour la danse en cours.
         if (sheetsOfTheDanse.length) {
           let scoresOfTheCriteria = [];
           sheetsOfTheDanse.forEach(sheet => {
-            scoresOfTheCriteria.push(sheet.dossards[dossardIndex][criteria] || 0);
+            scoresOfTheCriteria.push(sheet.dossards[Number(dossardIndex)][criteria] || 0);
+            scoresOfTheCriteria = scoresOfTheCriteria.map(el => Number(el));
           })
           mean = this.mean(scoresOfTheCriteria);
         }
@@ -150,15 +150,16 @@ export class ScrutationPage {
    * Moyenne
    */
   public mean(scoresPerJudge: number[]) {
-    let mean = 0;
+    let mean: number = 0;
+    // console.log(sortedScores);
     let sortedScores = scoresPerJudge.sort();
-    if (sortedScores.length >= 2) {
-      sortedScores[0] *= 0.5;
-      sortedScores[1] *= 0.5;
-      mean = _.sum(sortedScores) / (sortedScores.length - 1);
-    } else if (sortedScores.length == 1) {
-      mean = _.mean(sortedScores);
-    }
+    sortedScores = sortedScores.map((val, index) => {
+      if (index == 0 || index == _.lastIndexOf(sortedScores)) {
+        return val * 0.5;
+      }
+      return val;
+    })
+    mean = _.sum(sortedScores) / (sortedScores.length - 1);
 
     return mean;
   }

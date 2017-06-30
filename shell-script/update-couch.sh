@@ -1,3 +1,6 @@
 #!/usr/bin/env bash
-http DELETE http://letsila:123456@192.168.1.100:5984/judgement-db
-http PUT http://letsila:123456@192.168.1.100:5984/judgement-db
+# http DELETE http://letsila:123456@192.168.1.101:5984/judgement-db
+# http PUT http://letsila:123456@192.168.1.101:5984/judgement-db
+
+http DELETE http://http://50.116.7.99:5984/judgement-db
+http PUT http://http://50.116.7.99:5984/judgement-db

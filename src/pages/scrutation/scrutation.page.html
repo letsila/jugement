@@ -142,7 +142,7 @@
       <ion-row>
         <ion-col col-1 class="rank">SCORE</ion-col>
         <ion-col col-1 class="rate" *ngFor="let dossard of dossards; let i=index">
-          <ion-input type="text" placeholder="note" value="{{ overallScore(i, danseFilter) }}" disabled></ion-input>
+          <ion-input type="text" placeholder="note" value="{{ overallScore(i) }}" disabled></ion-input>
         </ion-col>
         <ion-col col-1 class="rank">
           <!--{{ rankPerDanse(i, danseFilter) }}-->

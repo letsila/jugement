@@ -77,7 +77,57 @@ export class JudgeSheetPage {
     this.sheetId = "judge-sheet-" + this.judgeId + "-" + this.danse;
     // Création de la feuille au niveau de la base
     // si celle ci n'existe pas encore.
-    this.db.get(this.sheetId)
+    this.db.get(this.sheetId).then(res => {
+      this.dossard1TQ = res.dossards[0].tq;
+      this.dossard1MM = res.dossards[0].mm;
+      this.dossard1PS = res.dossards[0].ps;
+      this.dossard1CP = res.dossards[0].cp;
+
+      this.dossard2TQ = res.dossards[1].tq;
+      this.dossard2MM = res.dossards[1].mm;
+      this.dossard2PS = res.dossards[1].ps;
+      this.dossard2CP = res.dossards[1].cp;
+
+      this.dossard3TQ = res.dossards[2].tq;
+      this.dossard3MM = res.dossards[2].mm;
+      this.dossard3PS = res.dossards[2].ps;
+      this.dossard3CP = res.dossards[2].cp;
+
+      this.dossard4TQ = res.dossards[3].tq;
+      this.dossard4MM = res.dossards[3].mm;
+      this.dossard4PS = res.dossards[3].ps;
+      this.dossard4CP = res.dossards[3].cp;
+
+      this.dossard5TQ = res.dossards[4].tq;
+      this.dossard5MM = res.dossards[4].mm;
+      this.dossard5PS = res.dossards[4].ps;
+      this.dossard5CP = res.dossards[4].cp;
+
+      this.dossard6TQ = res.dossards[5].tq;
+      this.dossard6MM = res.dossards[5].mm;
+      this.dossard6PS = res.dossards[5].ps;
+      this.dossard6CP = res.dossards[5].cp;
+
+      this.dossard7TQ = res.dossards[6].tq;
+      this.dossard7MM = res.dossards[6].mm;
+      this.dossard7PS = res.dossards[6].ps;
+      this.dossard7CP = res.dossards[6].cp;
+
+      this.dossard8TQ = res.dossards[7].tq;
+      this.dossard8MM = res.dossards[7].mm;
+      this.dossard8PS = res.dossards[7].ps;
+      this.dossard8CP = res.dossards[7].cp;
+
+      this.dossard9TQ = res.dossards[8].tq;
+      this.dossard9MM = res.dossards[8].mm;
+      this.dossard9PS = res.dossards[8].ps;
+      this.dossard9CP = res.dossards[8].cp;
+
+      this.dossard10TQ = res.dossards[9].tq;
+      this.dossard10MM = res.dossards[9].mm;
+      this.dossard10PS = res.dossards[9].ps;
+      this.dossard10CP = res.dossards[9].cp;
+    })
       .catch(e => {
         if (e.name == "not_found" && this.judgeId) {
           this.db.put({
