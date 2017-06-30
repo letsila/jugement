@@ -2,6 +2,7 @@ import { Component } from "@angular/core";
 import { NavController, AlertController } from "ionic-angular";
 import { JudgeSheetPage } from "../judge-sheet/judge-sheet.page";
 import { ScrutationPage } from "../scrutation/scrutation.page";
+import { DbService } from "../../services/db.service";
 
 @Component({
   selector: "page-login",
@@ -10,11 +11,22 @@ import { ScrutationPage } from "../scrutation/scrutation.page";
 export class LoginPage {
   public login: string;
   public password: string;
-  public danse: string = "chacha";
+  public danseSelected: string = "chacha";
+  public danses: any[];
 
   constructor(
+    public db: DbService,
     public navCtrl: NavController,
     public alertCtrl: AlertController) {
+  }
+
+  ngOnInit() {
+    this.db.get("danses")
+    .then(res => {
+      this.danses = res.list;
+      console.log(this.danses);
+    })
+    .catch(e => console.log(e));
   }
 
   /**
@@ -46,7 +58,7 @@ export class LoginPage {
    */
   public connectJuge() {
     localStorage.setItem("role", "juge");
-    localStorage.setItem("danse", this.danse);
+    localStorage.setItem("danse", this.danseSelected);
     this.navCtrl.setRoot(JudgeSheetPage)
   }
 }

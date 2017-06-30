@@ -42,12 +42,8 @@
       <!--<ion-col col-2>-->
         <ion-item style="width: 270px; margin:0 auto;">
           <ion-label>Danse</ion-label>
-          <ion-select [(ngModel)]="danse">
-            <ion-option value="chacha">Chacha</ion-option>
-            <ion-option value="rumba">Rumba</ion-option>
-            <ion-option value="jive">Jive</ion-option>
-            <ion-option value="passo">Passo</ion-option>
-            <ion-option value="samba">Samba</ion-option>
+          <ion-select [(ngModel)]="danseSelected">
+            <ion-option value="{{ danse.identifier }}" *ngFor="let danse of danses">{{ danse.name }}</ion-option>
           </ion-select>
         </ion-item>
       <!--</ion-col>-->

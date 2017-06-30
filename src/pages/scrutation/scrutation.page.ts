@@ -60,7 +60,7 @@ export class ScrutationPage {
     this.danses.forEach(danse => {
       score += Number(this.scoresPerDanse(dossardIndex, danse)) || 0;
     });
-    
+
     return score;
   }
 
@@ -153,13 +153,17 @@ export class ScrutationPage {
     let mean: number = 0;
     // console.log(sortedScores);
     let sortedScores = scoresPerJudge.sort();
-    sortedScores = sortedScores.map((val, index) => {
-      if (index == 0 || index == _.lastIndexOf(sortedScores)) {
-        return val * 0.5;
-      }
-      return val;
-    })
-    mean = _.sum(sortedScores) / (sortedScores.length - 1);
+    if (sortedScores.length) {
+      sortedScores = sortedScores.map((val, index) => {
+        if (index == 0 || index == _.lastIndexOf(sortedScores)) {
+          return val * 0.5;
+        }
+        return val;
+      })
+
+      let divider = sortedScores.length > 1 ? sortedScores.length - 1 : 1;
+      mean = _.sum(sortedScores) / divider;
+    }
 
     return mean;
   }
