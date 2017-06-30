@@ -10,9 +10,7 @@ export class SettingsPage {
 
   public judgeId: string = localStorage.getItem("judgeId");
   public dossards: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-  public dossardAliases: string[];
-  public dossardAliases1: string[];
-  public dossardAliases2: string[];
+  public dossardAliases: string[] = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
 
   constructor(
     public navCtrl: NavController,
@@ -24,8 +22,6 @@ export class SettingsPage {
     this.db.get("dossards")
       .then(res => {
         this.dossardAliases = res.aliases;
-        this.dossardAliases1 = this.dossardAliases.splice(0, 5);
-        this.dossardAliases2 = this.dossardAliases.splice(5, 9);
       })
       .catch(e => {
         console.log(e);

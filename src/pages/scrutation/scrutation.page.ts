@@ -15,7 +15,7 @@ export class ScrutationPage {
   public danseFilter: string = "chacha";
   public danses = ["chacha", "rumba", "jive", "passo", "samba", "salsa"];
   public criteria = ["tq", "mm", "ps", "cp"];
-  public dossardsAliases: string[];
+  public dossardsAliases: string[] = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];;
 
   constructor(
     public navCtrl: NavController,
