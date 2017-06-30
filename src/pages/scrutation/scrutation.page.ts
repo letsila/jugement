@@ -50,6 +50,39 @@ export class ScrutationPage {
   }
 
   /**
+   * Rank per danse of the dossard.
+   */
+  public rankPerDanse(dossardIndex, danse) {
+    let dossardsRanked = this.dossards.map((dossard, index) => {
+      let dossardObj: any = {};
+      dossardObj.score = this.scoresPerDanse(index, danse);
+      dossardObj.danse = danse;
+      dossardObj.id = index;
+      return dossardObj;
+    });
+
+    let dossardsRanked_ordered = _.orderBy(dossardsRanked, "score", "desc");
+    console.log(dossardsRanked_ordered);
+
+    return _.findIndex(dossardsRanked_ordered, { id: dossardIndex }) + 1;
+  }
+
+  /**
+   * Score total par danse pour un dossard
+   * 
+   * @param dossardIndex 
+   * @param danse 
+   */
+  public scoresPerDanse(dossardIndex, danse) {
+    let scoresPerDanse = 0;
+    ["tq", "mm", "ps", "cp"].forEach(criteria => {
+      scoresPerDanse += this.meanCriteriaScoreOfDossardId(dossardIndex, danse, criteria);
+    });
+
+    return scoresPerDanse;
+  }
+
+  /**
    * Moyenne d'une critere pour un dossard pour une danse.
    */
   public meanCriteriaScoreOfDossardId(dossardIndex: number, danse: string, criteria: string) {
