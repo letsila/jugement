@@ -8,8 +8,8 @@
     <ion-title *ngIf="!judgeId" class="config-error-msg">
       <ion-icon name="alert" color="danger"></ion-icon>&nbsp; Votre feuille n'a pas été configurée correctement, veuillez vous réferer au scrutateur.
     </ion-title>
-    <ion-title *ngIf="judgeId">Feuille de juge <span class="capitalize">{{ judgeId }}</span> -
-      <span class="capitalize" style="color: #488aff; font-size: 20px;">{{ danse }}</span>
+    <ion-title *ngIf="judgeId">Feuille de Juge <span class="capitalize">{{ judgeId }}</span> -
+      <span class="capitalize danse-name">{{ danse }}</span>
     </ion-title>
     <ion-buttons end *ngIf="judgeId">
       <button ion-button icon-only>

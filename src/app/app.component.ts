@@ -36,8 +36,8 @@ export class MyApp {
     // used for an example of ngFor and navigation
     // if (localStorage.getItem("role") == "scrutateur") {
       this.pages = [
-        { title: 'Réglages', component: SettingsPage },
-        { title: 'Scrutation', component: ScrutationPage }
+        { title: 'Scrutation', component: ScrutationPage },
+        { title: 'Réglages', component: SettingsPage }
       ];
     // } else if (localStorage.getItem("role") == "juge") {
     //   this.pages = [

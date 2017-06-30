@@ -31,7 +31,7 @@
       <h1>Juge <span class="capitalize">{{ judgesheet.judgeId }}</span></h1>
       <ion-grid>
         <ion-row>
-          <ion-col col-2></ion-col>
+          <ion-col col-1></ion-col>
           <ion-col col-1 class="dossard"><span class="number">1</span></ion-col>
           <ion-col col-1 class="dossard"><span class="number">2</span></ion-col>
           <ion-col col-1 class="dossard"><span class="number">3</span></ion-col>
@@ -42,29 +42,42 @@
           <ion-col col-1 class="dossard"><span class="number">8</span></ion-col>
           <ion-col col-1 class="dossard"><span class="number">9</span></ion-col>
           <ion-col col-1 class="dossard"><span class="number">10</span></ion-col>
+          <ion-col col-1 class="dossard"><span class="number">Rank</span></ion-col>
         </ion-row>
         <ion-row>
-          <ion-col col-2>TQ</ion-col>
+          <ion-col col-1 class="rank">TQ</ion-col>
           <ion-col col-1 class="rate" *ngFor="let dossard of judgesheet.dossards">
             <ion-input type="text" placeholder="note" value="{{ dossard.tq }}" disabled></ion-input>
           </ion-col>
+          <ion-col col-1 class="rank">
+            #rank
+          </ion-col>
         </ion-row>
         <ion-row>
-          <ion-col col-2>MM</ion-col>
+          <ion-col col-1 class="rank">MM</ion-col>
           <ion-col col-1 class="rate" *ngFor="let dossard of judgesheet.dossards">
             <ion-input type="text" placeholder="note" value="{{ dossard.mm }}" disabled></ion-input>
           </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col col-2>PS</ion-col>
-          <ion-col col-1 class="rate" *ngFor="let dossard of judgesheet.dossards">
-            <ion-input type="text" placeholder="note" value="{{ dossard.ps }}" disabled></ion-input>
+          <ion-col col-1 class="rank">
+            #rank
           </ion-col>
         </ion-row>
         <ion-row>
-          <ion-col col-2>CP</ion-col>
+          <ion-col col-1 class="rank">PS</ion-col>
+          <ion-col col-1 class="rate" *ngFor="let dossard of judgesheet.dossards">
+            <ion-input type="text" placeholder="note" value="{{ dossard.ps }}" disabled></ion-input>
+          </ion-col>
+          <ion-col col-1 class="rank">
+            #rank
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col col-1 class="rank">CP</ion-col>
           <ion-col col-1 class="rate" *ngFor="let dossard of judgesheet.dossards">
             <ion-input type="text" placeholder="note" value="{{ dossard.cp }}" disabled></ion-input>
+          </ion-col>
+          <ion-col col-1 class="rank">
+            #rank
           </ion-col>
         </ion-row>
       </ion-grid>
