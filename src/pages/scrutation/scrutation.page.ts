@@ -28,8 +28,6 @@ export class ScrutationPage {
   ngOnInit() {
     this.db.allDocs()
       .then(res => {
-        console.log(res);
-
         this.judgeSheets = res.rows.map(sheet => {
           return sheet.doc;
         }).filter(sheet => {
@@ -43,8 +41,28 @@ export class ScrutationPage {
       .catch(e => {
         console.log(e);
       })
+  }
 
 
+  doRefresh(refresher) {
+    this.db.allDocs()
+      .then(res => {
+        this.judgeSheets = res.rows.map(sheet => {
+          return sheet.doc;
+        }).filter(sheet => {
+          return sheet.judgeId;
+        });
+
+        this.db.get("dossards").then(res => {
+          this.dossardsAliases = res.aliases;
+        })
+        
+        refresher.complete();
+
+      })
+      .catch(e => {
+        console.log(e);
+      })
   }
 
   /**
@@ -108,7 +126,7 @@ export class ScrutationPage {
           text: "Non",
           role: "cancel",
           handler: () => {
-            
+
           }
         }
       ]
@@ -122,7 +140,7 @@ export class ScrutationPage {
     this.db.get(judgeSheet._id).then(sheet => {
       // sheet._deleted = true;
       this.db.remove(sheet).then(() => {
-        let index = _.findIndex(this.judgeSheets, {id: judgeSheet.id});
+        let index = _.findIndex(this.judgeSheets, { id: judgeSheet.id });
         this.judgeSheets.splice(index, 1);
       })
     }).catch(e => {
@@ -204,7 +222,7 @@ export class ScrutationPage {
     if (sortedScores.length) {
       sortedScores = sortedScores.map((val, index) => {
         if (index == 0 || index == sortedScores.length - 1) {
-          return val/2;
+          return val / 2;
         }
         return val;
       })
