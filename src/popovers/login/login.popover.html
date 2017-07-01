@@ -1,0 +1,23 @@
+<ion-list>
+  <ion-list-header text-center>
+    SCRUTATEUR
+  </ion-list-header>
+  <ion-item>
+    <ion-label>
+      <ion-icon name="person"></ion-icon>
+    </ion-label>
+    <ion-input type="text" [(ngModel)]="login" placeholder="Login"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>
+      <ion-icon name="key"></ion-icon>
+    </ion-label>
+    <ion-input type="password" [(ngModel)]="password" placeholder="Password"></ion-input>
+  </ion-item>
+  <ion-item text-center>
+    <button ion-button (click)="connectScrutateur()" class="connexion" icon-end>
+      CONNEXION <ion-icon name="arrow-forward"></ion-icon>
+    </button>
+  </ion-item>
+</ion-list>
