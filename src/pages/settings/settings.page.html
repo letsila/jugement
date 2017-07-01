@@ -15,6 +15,11 @@
     </ion-list-header>
 
     <ion-item>
+      <ion-label>AUCUN JUGE</ion-label>
+      <ion-radio value="null"></ion-radio>
+    </ion-item>
+
+    <ion-item>
       <ion-label>JUGE A</ion-label>
       <ion-radio value="a"></ion-radio>
     </ion-item>
@@ -43,12 +48,16 @@
       <ion-label>JUGE F</ion-label>
       <ion-radio value="f"></ion-radio>
     </ion-item>
+
+    <ion-item>
+      <ion-label>JUGE G</ion-label>
+      <ion-radio value="g"></ion-radio>
+    </ion-item>
   </ion-list>
 
   <ion-list *ngIf="dossardAliases">
     <ion-list-header>
-       <ion-icon name="bookmark" class="title-icon"></ion-icon>&nbsp;&nbsp;
-      Assignation des dossards
+      <ion-icon name="bookmark" class="title-icon"></ion-icon>&nbsp;&nbsp; Assignation des dossards
     </ion-list-header>
     <ion-item *ngFor="let dossardNumber of dossards; let i=index">
       <ion-label fixed>Dossard {{ dossardNumber }}</ion-label>

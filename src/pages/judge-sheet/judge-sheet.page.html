@@ -5,7 +5,7 @@
         <ion-icon name="arrow-back"></ion-icon>
       </button>
     </ion-buttons>
-    <ion-title text-center *ngIf="!judgeId" class="config-error-msg">
+    <ion-title text-center *ngIf="!judgeId || judgeId == 'null'" class="config-error-msg">
       <ion-icon name="alert" color="danger"></ion-icon>&nbsp; Votre feuille n'a pas été configurée correctement, veuillez vous réferer au scrutateur.
     </ion-title>
     <ion-title text-center *ngIf="judgeId">Feuille de Juge <span class="capitalize">{{ judgeId }}</span> -
