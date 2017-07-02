@@ -15,10 +15,16 @@
 
 <ion-content>
   <ion-row>
-    <button class="add-competition-btn" ion-button icon-left (click)="openAddCompetitionPopover()" tappable>
+    <button class="add-competition-btn" color="secondary" ion-button icon-left (click)="openAddCompetitionPopover()" tappable>
       <ion-icon name="add"></ion-icon>
       <span class="uppercase">Nouvelle compétition</span>
     </button>
+  </ion-row>
+
+  <ion-row>
+    <ion-col text-center>
+      <ion-icon name="information-circle" color="primary"></ion-icon> Selectionnez une compétition pour l'activer.
+    </ion-col>
   </ion-row>
   <ion-list radio-group [(ngModel)]="currentCompetitionId">
     <ion-list-header>
@@ -35,7 +41,7 @@
         <ion-radio value="{{ competition.id }}">{{ competition.id }}</ion-radio>
       </ion-item>
 
-      <ion-item-options>
+      <ion-item-options style="background-color: #f53d3d;">
         <button ion-button icon-only (click)="deleteCompetition(competition, i)">
           <ion-icon name="trash"></ion-icon>
         </button>

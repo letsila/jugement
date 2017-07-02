@@ -9,11 +9,11 @@
     <ion-item>
       <ion-input name="titre" #titre="ngModel" type="text" placeholder="Titre" [(ngModel)]="competitionTitre" required></ion-input>
     </ion-item>
-    <ion-item *ngIf="titre.errors && (titre.dirty || titre.touched || submitAttempted)" class="alert alert-danger">
-      <div [hidden]="!titre.errors.required" style="text-align: center; color: red;">
+    <div *ngIf="titre.errors && (titre.dirty || titre.touched || submitAttempted)" class="alert alert-danger">
+      <div [hidden]="!titre.errors.required" style="margin-top: 8px; text-align: center; color: red; font-size: 12px;">
         Le titre est requis
       </div>
-    </ion-item>
+    </div>
     <ion-list radio-group class="danses-list" [(ngModel)]="competitionTypeId" name="danseType">
       <ion-item *ngFor="let type of competitionsType">
         <ion-label>{{ type.name }}</ion-label>
