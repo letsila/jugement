@@ -3,8 +3,8 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title text-center>Feuille de scrutation&nbsp;&nbsp;
-
+    <ion-title text-center>
+      <ion-icon name="stats"></ion-icon>&nbsp;&nbsp;Scrutation
     </ion-title>
     <ion-buttons end>
       <button ion-button end (click)="logout()" style="font-size: 18px">
@@ -24,7 +24,7 @@
   <ion-refresher (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-  
+
   <ion-card *ngIf="!countJudgeSheetsOfDanse(danseFilter)" class="no-sheets">
     <ion-card-content text-center>
       <ion-icon name="information-circle"></ion-icon>

@@ -4,6 +4,7 @@ import { JudgeSheetPage } from "../judge-sheet/judge-sheet.page";
 import { ScrutationPage } from "../scrutation/scrutation.page";
 import { DbService } from "../../services/db.service";
 import { LoginPopover } from "../../popovers/login/login.popover";
+import * as _ from "lodash";
 
 @Component({
   selector: "page-login",
@@ -16,6 +17,7 @@ export class LoginPage {
   public judgeId: string;
   public loginCheck: string;
   public mdpCheck: string;
+  currentCompetition: any;
 
   constructor(
     public db: DbService,
@@ -28,17 +30,45 @@ export class LoginPage {
   ngOnInit() {
     this.viewCtrl.didEnter.subscribe(() => {
       this.judgeId = localStorage.getItem("judgeId");
+
+      // récupération de la compétition en cours
+      this.db.get("competitions")
+        .then(res => {
+          console.log(res);
+          if (localStorage.getItem("currentCompetitionId") == "") {
+            let openCompetitions = res.list.filter(res => {
+              return !res.closed;
+            })
+
+            if (openCompetitions.length) {
+              localStorage.setItem("currentCompetitionId", openCompetitions[0].id)
+            }
+          }
+
+          let competitionId = localStorage.getItem("currentCompetitionId");
+
+          // Récupération des informations sur la compétition en cours
+          console.log(res);
+          this.currentCompetition = _.find(res.list, { id: competitionId });
+        })
+        .catch(e => {
+          console.log(e);
+        })
+
+      this.db.get("danses")
+        .then(res => {
+          this.danses = res.list.filter(danse => {
+            if (this.currentCompetition) {
+              return danse.competitions.indexOf(this.currentCompetition.type.id) != -1;
+            }
+          });
+          console.log(this.danses);
+        })
+        .catch(e => console.log(e));
+
+      // Insertion des aliases de dossards.
+      this.bootstrapData();
     })
-
-    this.db.get("danses")
-      .then(res => {
-        this.danses = res.list;
-        console.log(this.danses);
-      })
-      .catch(e => console.log(e));
-
-    // Insertion des aliases de dossards.
-    this.bootstrapData();
   }
 
   /**

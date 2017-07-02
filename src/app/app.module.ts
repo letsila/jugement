@@ -7,8 +7,12 @@ import { JudgeSheetPage } from '../pages/judge-sheet/judge-sheet.page';
 import { SettingsPage } from '../pages/settings/settings.page';
 import { LoginPage } from "../pages/login/login.page";
 import { ScrutationPage } from "../pages/scrutation/scrutation.page";
+import { CompetitionsPage } from "../pages/competitions/competitions.page";
 
 import { LoginPopover } from "../popovers/login/login.popover";
+import { CompetitionPopover } from "../popovers/competition/competition.popover";
+
+import { FormatDate } from "../pipes/format-date.pipe";
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -22,7 +26,10 @@ import { DbService } from "../services/db.service";
     SettingsPage,
     LoginPage,
     ScrutationPage,
-    LoginPopover
+    CompetitionsPage,
+    LoginPopover,
+    CompetitionPopover,
+    FormatDate,
   ],
   imports: [
     BrowserModule,
@@ -35,7 +42,9 @@ import { DbService } from "../services/db.service";
     SettingsPage,
     LoginPage,
     ScrutationPage,
-    LoginPopover
+    CompetitionsPage,
+    LoginPopover,
+    CompetitionPopover
   ],
   providers: [
     StatusBar,

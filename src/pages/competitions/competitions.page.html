@@ -1,0 +1,55 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title text-center>
+      <ion-icon name="trophy"></ion-icon>&nbsp;&nbsp;Compétitions</ion-title>
+    <ion-buttons end>
+      <button ion-button end (click)="logout()" style="font-size: 18px">
+        <ion-icon name="log-out"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-row>
+    <button class="add-competition-btn" ion-button icon-left (click)="openAddCompetitionPopover()" tappable>
+      <ion-icon name="add"></ion-icon>
+      <span class="uppercase">Nouvelle compétition</span>
+    </button>
+  </ion-row>
+  <ion-list radio-group [(ngModel)]="currentCompetitionId">
+    <ion-list-header>
+      Liste des compétitions en cours
+    </ion-list-header>
+
+    <ion-item *ngIf="openCompetitions || !openCompetitions.length">
+      Aucune compétion en cours.
+    </ion-item>
+    <ion-item-sliding *ngFor="let competition of openCompetitions; let i=index">
+      <ion-item>
+        <ion-label>{{ i+1 }} - <span class="capitalize">{{ competition.titre }}</span> -
+          <span class="uppercase">{{ competition.type.name }} </span>- {{ competition.date | formatDate }}</ion-label>
+        <ion-radio value="{{ competition.id }}">{{ competition.id }}</ion-radio>
+      </ion-item>
+
+      <ion-item-options>
+        <button ion-button icon-only (click)="deleteCompetition(competition, i)">
+          <ion-icon name="trash"></ion-icon>
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+  <ion-list radio-group [(ngModel)]="currentCompetitionId">
+    <ion-list-header>
+      Liste des compétitions clôturées
+    </ion-list-header>
+    <ion-item *ngFor="let competition of closedCompetitions; let i=index">
+      <ion-label>{{ i+1 }} - <span class="capitalize">{{ competition.titre }}</span> -
+        <span class="uppercase">{{ competition.type.name }} </span>- {{ competition.date | formatDate }}</ion-label>
+      <ion-radio value="{{ competition.id }}">{{ competition.id }}</ion-radio>
+    </ion-item>
+  </ion-list>
+</ion-content>

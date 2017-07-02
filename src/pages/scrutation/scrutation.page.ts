@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { AlertController, NavController } from "ionic-angular";
+import { AlertController, NavController, ViewController } from "ionic-angular";
 import { LoginPage } from "../login/login.page";
 import { DbService } from "../../services/db.service";
 import * as _ from "lodash";
@@ -13,34 +13,40 @@ export class ScrutationPage {
   public judgeSheets: any[] = [];
   public judgeId: string;
   public danseFilter: string = "chacha";
-  public danses = ["chacha", "rumba", "jive", "paso", "samba", "latino"];
+  public danses = ["chacha", "rumba", "jive", "paso", "samba"];
   public criteria = ["tq", "mm", "ps", "cp"];
   public dossardsAliases: string[] = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];;
 
   constructor(
     public alertCtrl: AlertController,
     public navCtrl: NavController,
-    public db: DbService
+    public db: DbService,
+    public viewCtrl: ViewController
   ) {
     this.db.get("dossards")
   }
 
   ngOnInit() {
-    this.db.allDocs()
-      .then(res => {
-        this.judgeSheets = res.rows.map(sheet => {
-          return sheet.doc;
-        }).filter(sheet => {
-          return sheet.judgeId;
-        });
+    this.viewCtrl.didEnter.subscribe(() => {
+      this.db.allDocs()
+        .then(res => {
 
-        this.db.get("dossards").then(res => {
-          this.dossardsAliases = res.aliases;
+          console.log(res);
+          this.judgeSheets = res.rows.map(document => {
+            return document.doc;
+          }).filter(sheet => {
+            return sheet.judgeId &&
+              sheet.competitionId == localStorage.getItem("currentCompetitionId");
+          });
+
+          this.db.get("dossards").then(res => {
+            this.dossardsAliases = res.aliases;
+          })
         })
-      })
-      .catch(e => {
-        console.log(e);
-      })
+        .catch(e => {
+          console.log(e);
+        })
+    })
   }
 
 
@@ -56,7 +62,7 @@ export class ScrutationPage {
         this.db.get("dossards").then(res => {
           this.dossardsAliases = res.aliases;
         })
-        
+
         refresher.complete();
 
       })

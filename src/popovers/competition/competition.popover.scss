@@ -1,0 +1,19 @@
+popover-competition {
+  .danses-list {
+    margin: 32px auto;
+    ion-item.item-block:first-child {
+      border-top: none;
+    }
+
+    ion-item.item-block:last-child {
+      border-bottom: none;
+    }
+  }
+
+
+  h1 {
+    display: inline-block;
+    margin: 8px auto;
+  }
+  
+}

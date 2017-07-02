@@ -7,6 +7,7 @@ import { LoginPage } from "../pages/login/login.page";
 import { JudgeSheetPage } from '../pages/judge-sheet/judge-sheet.page';
 import { SettingsPage } from '../pages/settings/settings.page';
 import { ScrutationPage } from '../pages/scrutation/scrutation.page';
+import { CompetitionsPage } from '../pages/competitions/competitions.page';
 
 import { DbService } from "../services/db.service";
 
@@ -35,16 +36,16 @@ export class MyApp {
 
     // used for an example of ngFor and navigation
     // if (localStorage.getItem("role") == "scrutateur") {
-      this.pages = [
-        { title: 'Scrutation', component: ScrutationPage },
-        { title: 'Réglages', component: SettingsPage }
-      ];
-    // } else if (localStorage.getItem("role") == "juge") {
-    //   this.pages = [
-    //     // { title: 'Feuille de juge', component: JudgeSheetPage }
-    //   ];
-    // }
+    this.pages = [
+      { title: 'Scrutation', component: ScrutationPage },
+      { title: 'Réglages', component: SettingsPage },
+      { title: 'Compétitions', component: CompetitionsPage }
+    ];
+  }
 
+  ngOnInit() {
+    // Création des design doc pour l'optimisation du requetage via PouchDB.
+    this.db.createAllDesignDoc();
   }
 
   initializeApp() {

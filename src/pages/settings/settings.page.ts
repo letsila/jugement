@@ -30,11 +30,7 @@ export class SettingsPage {
       })
   }
 
-  public logout() {
-    this.navCtrl.push(LoginPage, {}, { animate: true, direction: "back" })
-  }
-
-  public change() {
+  ionViewWillLeave() {
     console.log("changed ...");
     console.log(this.dossardAliases);
 
@@ -49,6 +45,10 @@ export class SettingsPage {
     }).catch(e => {
       console.log(e);
     })
+  }
+
+  public logout() {
+    this.navCtrl.push(LoginPage, {}, { animate: true, direction: "back" })
   }
 
   public saveJudgeId() {

@@ -1,0 +1,36 @@
+<ion-row class="popover-header">
+  <h2 class="popover-title">
+    COMPETITION
+  </h2>
+</ion-row>
+
+<ion-row style="margin-top: 16px">
+  <form style="width: 100%;" #competitionForm="ngForm" name="" (ngSubmit)="addCompetition(competitionForm)">
+    <ion-item>
+      <ion-input name="titre" #titre="ngModel" type="text" placeholder="Titre" [(ngModel)]="competitionTitre" required></ion-input>
+    </ion-item>
+    <ion-item *ngIf="titre.errors && (titre.dirty || titre.touched || submitAttempted)" class="alert alert-danger">
+      <div [hidden]="!titre.errors.required" style="text-align: center; color: red;">
+        Le titre est requis
+      </div>
+    </ion-item>
+    <ion-list radio-group class="danses-list" [(ngModel)]="competitionTypeId" name="danseType">
+      <ion-item *ngFor="let type of competitionsType">
+        <ion-label>{{ type.name }}</ion-label>
+        <ion-radio value="{{ type.id }}"></ion-radio>
+      </ion-item>
+    </ion-list>
+  </form>
+</ion-row>
+<ion-row>
+  <ion-col col-6 text-center>
+    <button ion-button>
+      FERMER
+    </button>
+  </ion-col>
+  <ion-col col-6 text-center>
+    <button ion-button (click)="competitionForm.ngSubmit.emit()">
+      AJOUTER
+    </button>
+  </ion-col>
+</ion-row>

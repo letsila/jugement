@@ -31,6 +31,60 @@ export class DbService {
   }
 
   /**
+ * Création des design doc qui sera appelé à l'instanciation de l'app,
+ * cf. app.component.ts.
+ */
+  public createAllDesignDoc() {
+    let ddocs = [];
+
+    // Ddoc pour retrouver toutes les sessions d'un utilisateur.
+    ddocs.push(
+      this.createDesignDoc("judgeSheets", function (doc) {
+        if (doc.judgeId) {
+          emit(doc.competitionId);
+        }
+      })
+    );
+
+    // Insertion des ddocs.
+    ddocs.forEach(ddoc => {
+      this.db
+        .put(ddoc)
+        .then(() => {
+          console.log("ddoc inseré");
+        })
+        .catch(e => {
+          console.log("ddoc insertion error");
+          console.log(e);
+        });
+    });
+  }
+
+
+  public getJudgeSheetOfCompetition(competitionId) {
+    return this.db.query("judgeSheets", {
+      key: competitionId,
+      include_docs: true
+    });
+  }
+
+  /**
+   * Création d'un design doc pouch db.
+   *
+   * @param name
+   * @param mapFunction
+   * @returns {{_id: string, views: {}}}
+   */
+  public createDesignDoc(name, mapFunction) {
+    let ddoc = {
+      _id: "_design/" + name,
+      views: {}
+    };
+    ddoc.views[name] = { map: mapFunction.toString() };
+    return ddoc;
+  }
+
+  /**
    * Sync
    */
   public sync() {

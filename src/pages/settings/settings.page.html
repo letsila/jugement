@@ -3,7 +3,8 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Réglages</ion-title>
+    <ion-title text-center>
+      <ion-icon name="cog"></ion-icon>&nbsp;&nbsp;Réglages</ion-title>
     <ion-buttons end>
       <button ion-button end (click)="logout()" style="font-size: 18px">
         <ion-icon name="log-out"></ion-icon>
@@ -16,7 +17,7 @@
 
   <ion-list radio-group [(ngModel)]="judgeId" (ionChange)="saveJudgeId()">
     <ion-list-header>
-      <ion-icon name="person" class="title-icon"></ion-icon>
+      <ion-icon name="people" class="title-icon"></ion-icon>
       &nbsp;&nbsp;Attribuer cette tablette au
     </ion-list-header>
 
@@ -36,7 +37,7 @@
     </ion-list-header>
     <ion-item *ngFor="let dossardNumber of dossards; let i=index">
       <ion-label fixed>Dossard {{ dossardNumber }}</ion-label>
-      <ion-input [(ngModel)]="dossardAliases[i]" type="text" (ionChange)="change()"></ion-input>
+      <ion-input [(ngModel)]="dossardAliases[i]" type="text"></ion-input>
     </ion-item>
   </ion-list>
 
