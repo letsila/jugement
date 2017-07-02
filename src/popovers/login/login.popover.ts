@@ -1,20 +1,23 @@
 import { Component } from "@angular/core";
 import { AlertController, NavController, NavParams, ViewController } from "ionic-angular";
 import { ScrutationPage } from "../../pages/scrutation/scrutation.page";
+import { DbService } from "../../services/db.service";
+import * as _ from "lodash";
 
 @Component({
   selector: "popover-login",
   templateUrl: "login.popover.html"
 })
 export class LoginPopover {
-  public login: string = "mpitsara@tcmd.com";
-  public password: string = "judgeDred";
-  
+  public login: string = "";
+  public password: string = "";
+
   public dataTunnelFunc: any = this.navParams.get("dataTunnelFunc");
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     public viewCtrl: ViewController,
-    public alertCtrl: AlertController) {
+    public alertCtrl: AlertController,
+    public db: DbService) {
 
   }
 
@@ -24,25 +27,26 @@ export class LoginPopover {
   public connectScrutateur() {
     console.log(this.login);
     console.log(this.password);
-    console.log(localStorage.getItem("loginCheck"));
 
+    this.db.get("credentials").then(res => {
+      let user = _.find(res.users, { login: this.login, password: this.password });
 
+      if (user) {
+        localStorage.setItem("role", "scrutateur");
+        localStorage.setItem("login", this.login);
 
-    if (this.login == localStorage.getItem("loginCheck") && this.password == localStorage.getItem("mdpCheck")) {
-      localStorage.setItem("role", "scrutateur");
-      console.log(localStorage.getItem("role"));
-
-      this.dataTunnelFunc();
-      this.viewCtrl.dismiss();
-
-    }
-    else {
-      let alert = this.alertCtrl.create({
-        title: 'Erreur de connexion',
-        subTitle: 'Login/Mot de passe incorrect',
-        buttons: ['Fermer']
-      });
-      alert.present();
-    }
+        this.dataTunnelFunc();
+        this.viewCtrl.dismiss();
+      } else {
+        let alert = this.alertCtrl.create({
+          title: 'Erreur de connexion',
+          subTitle: 'Login/Mot de passe incorrect',
+          buttons: ['Fermer']
+        });
+        alert.present();
+      }
+    }).catch(e => {
+      console.log(e);
+    })
   }
 }

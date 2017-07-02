@@ -37,13 +37,6 @@ export class LoginPage {
       })
       .catch(e => console.log(e));
 
-    this.db.get("credentials").then(res => {
-      console.log(res);
-      localStorage.setItem("loginCheck", res.loginCheck);
-      localStorage.setItem("mdpCheck", res.mdpCheck);
-    }).catch(e => {
-    })
-
     // Insertion des aliases de dossards.
     this.bootstrapData();
   }
