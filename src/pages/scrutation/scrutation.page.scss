@@ -1,5 +1,9 @@
 page-scrutation {
 
+  ion-footer {
+    background-color: white !important;
+  }
+
   .judge-title {
     .button-ios {
       height: 1.8em;
@@ -31,5 +35,10 @@ page-scrutation {
 
   ion-row:nth-child(2n) {
     background-color: #F5F5F5;
+  }
+
+  ion-footer ion-col {
+    color: #2196F3 !important;
+    font-size: 0.8em !important;
   }
 }

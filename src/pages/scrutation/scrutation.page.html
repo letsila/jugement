@@ -36,7 +36,7 @@
       <ion-grid>
         <ion-row class="judge-title">
           <ion-col col-11 sty>
-            <h1 style="padding-top: 8px;">Juge <span class="capitalize">{{ judgesheet.judgeId }}</span></h1>
+            <h6 style="padding-top: 8px;">Juge <span class="capitalize">{{ judgesheet.judgeId }}</span></h6>
           </ion-col>
           <ion-col col-1>
             <button *ngIf="competition && !competition.closed" ion-button icon-only color="danger" (click)="deleteJudgeSheet(judgesheet)">
@@ -82,7 +82,7 @@
     <ion-grid>
       <ion-row>
         <ion-col col-12>
-          <h1 class="judge-title">Recap <span class="capitalize">{{ danseFilter }}</span></h1>
+          <h5 class="judge-title">Recap <span class="capitalize">{{ danseFilter }}</span></h5>
         </ion-col>
       </ion-row>
       <ion-row>
@@ -133,7 +133,14 @@
         </ion-col>
       </ion-row>
 
-      <h1>Overall</h1>
+      <h5>Overall</h5>
+      <ion-row>
+        <ion-col col-1></ion-col>
+        <ion-col col-1 class="dossard" *ngFor="let dossardAlias of dossardsAliases">
+          <span class="number">{{ dossardAlias }}</span>
+        </ion-col>
+        <ion-col col-1 class="dossard"><span class="number">#</span></ion-col>
+      </ion-row>
       <ion-row>
         <ion-col col-1 class="rank">SCORE</ion-col>
         <ion-col col-1 class="rate" *ngFor="let dossard of dossards; let i=index">
@@ -162,5 +169,9 @@
 </ion-content>
 
 <ion-footer>
-
+  <ion-row>
+    <ion-col col-12 class="legend" *ngIf="competition" text-center>
+      {{ competition.titre }} - {{ competition.type.name }} - {{ competition.date | formatDate }}
+    </ion-col>
+  </ion-row>
 </ion-footer>
