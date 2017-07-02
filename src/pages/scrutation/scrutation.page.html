@@ -39,7 +39,7 @@
             <h1 style="padding-top: 8px;">Juge <span class="capitalize">{{ judgesheet.judgeId }}</span></h1>
           </ion-col>
           <ion-col col-1>
-            <button ion-button icon-only color="danger" (click)="deleteJudgeSheet(judgesheet)">
+            <button *ngIf="competition && !competition.closed" ion-button icon-only color="danger" (click)="deleteJudgeSheet(judgesheet)">
               <ion-icon name="remove-circle"></ion-icon>
             </button>
           </ion-col>

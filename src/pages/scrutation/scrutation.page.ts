@@ -16,6 +16,7 @@ export class ScrutationPage {
   public danses = ["chacha", "rumba", "jive", "paso", "samba"];
   public criteria = ["tq", "mm", "ps", "cp"];
   public dossardsAliases: string[] = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];;
+  public competition: any;
 
   constructor(
     public alertCtrl: AlertController,
@@ -28,19 +29,23 @@ export class ScrutationPage {
 
   ngOnInit() {
     this.viewCtrl.didEnter.subscribe(() => {
-      this.db.allDocs()
+      let competId = localStorage.getItem("currentCompetitionId");
+      console.log(competId);
+      this.db.getJudgeSheetOfCompetition(competId)
         .then(res => {
-
           console.log(res);
-          this.judgeSheets = res.rows.map(document => {
-            return document.doc;
-          }).filter(sheet => {
-            return sheet.judgeId &&
-              sheet.competitionId == localStorage.getItem("currentCompetitionId");
+          this.judgeSheets = res.rows.map(value => {
+            return value.doc;
           });
+
+          console.log(this.judgeSheets);
 
           this.db.get("dossards").then(res => {
             this.dossardsAliases = res.aliases;
+          })
+
+          this.db.get("competitions").then(res => {
+            this.competition = _.find(res.list, { id: competId });
           })
         })
         .catch(e => {

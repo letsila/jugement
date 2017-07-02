@@ -28,7 +28,9 @@ export class LoginPage {
   }
 
   ngOnInit() {
+    
     this.viewCtrl.didEnter.subscribe(() => {
+      
       this.judgeId = localStorage.getItem("judgeId");
 
       // récupération de la compétition en cours

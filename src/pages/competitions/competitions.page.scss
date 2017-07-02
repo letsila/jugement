@@ -2,4 +2,13 @@ page-competitions {
   .add-competition-btn {
     margin: 32px auto;
   }
+
+  ion-list-header {
+    text-transform: uppercase !important;
+    font-size: 1.8rem !important;
+  }
+
+  ion-list:last-child {
+    margin-top: 64px !important;
+  }
 }

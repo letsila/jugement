@@ -25,8 +25,8 @@
       Liste des compétitions en cours
     </ion-list-header>
 
-    <ion-item *ngIf="openCompetitions || !openCompetitions.length">
-      Aucune compétion en cours.
+    <ion-item *ngIf="!openCompetitions.length">
+      <ion-icon name="information-circle" color="primary"></ion-icon> Aucune compétion en cours.
     </ion-item>
     <ion-item-sliding *ngFor="let competition of openCompetitions; let i=index">
       <ion-item>
