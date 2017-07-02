@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { AlertController, NavController, ViewController } from "ionic-angular";
+import { AlertController, NavController, ViewController, LoadingController } from "ionic-angular";
 import { LoginPage } from "../login/login.page";
 import { DbService } from "../../services/db.service";
 import * as _ from "lodash";
@@ -22,7 +22,8 @@ export class ScrutationPage {
     public alertCtrl: AlertController,
     public navCtrl: NavController,
     public db: DbService,
-    public viewCtrl: ViewController
+    public viewCtrl: ViewController,
+    public loading: LoadingController
   ) {
     this.db.get("dossards")
   }
@@ -30,7 +31,9 @@ export class ScrutationPage {
   ngOnInit() {
     this.viewCtrl.didEnter.subscribe(() => {
       let competId = localStorage.getItem("currentCompetitionId");
-      console.log(competId);
+      let loading = this.loading.create({ content: "Chargement..." });
+      loading.present();
+
       this.db.getJudgeSheetOfCompetition(competId)
         .then(res => {
           console.log(res);
@@ -40,13 +43,17 @@ export class ScrutationPage {
 
           console.log(this.judgeSheets);
 
-          this.db.get("dossards").then(res => {
-            this.dossardsAliases = res.aliases;
-          })
+          this.db.get("dossards")
+            .then(res => {
+              this.dossardsAliases = res.aliases;
 
-          this.db.get("competitions").then(res => {
-            this.competition = _.find(res.list, { id: competId });
-          })
+              this.db.get("competitions").then(res => {
+                this.competition = _.find(res.list, { id: competId });
+
+                loading.dismiss();
+              })
+            })
+
         })
         .catch(e => {
           console.log(e);

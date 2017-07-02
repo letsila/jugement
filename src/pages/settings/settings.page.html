@@ -15,7 +15,13 @@
 
 <ion-content>
 
-  <ion-list radio-group [(ngModel)]="judgeId" (ionChange)="saveJudgeId()">
+  <ion-row style="margin-top: 64px;">
+    <ion-col col-12 text-center *ngIf="(competition && competition.closed) || !competition">
+      <ion-icon name="information-circle" color="primary"></ion-icon> Les configurations sont indisponibles car vous n'avez pas de compétition active
+    </ion-col>
+  </ion-row>
+
+  <ion-list radio-group [(ngModel)]="judgeId" (ionChange)="saveJudgeId()" *ngIf="competition && !competition.closed">
     <ion-list-header>
       <ion-icon name="people" class="title-icon"></ion-icon>
       &nbsp;&nbsp;Attribuer cette tablette au
@@ -31,7 +37,7 @@
       <ion-radio value="{{ judgeAlias }}"></ion-radio>
     </ion-item>
   </ion-list>
-  <ion-list *ngIf="dossardAliases">
+  <ion-list *ngIf="dossardAliases && competition && !competition.closed">
     <ion-list-header>
       <ion-icon name="bookmark" class="title-icon"></ion-icon>&nbsp;&nbsp; Assignation des dossards
     </ion-list-header>

@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, ViewController, LoadingController} from 'ionic-angular';
 import { DbService } from "../../services/db.service";
 import { LoginPage } from "../login/login.page";
+import * as _ from "lodash";
 
 @Component({
   selector: 'page-settings',
@@ -13,21 +14,39 @@ export class SettingsPage {
   public dossards: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   public dossardAliases: string[] = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
   public judgeAliases: string[] = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+  public competition: any;
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    public db: DbService) {
+    public viewCtrl: ViewController,
+    public db: DbService,
+    public loading: LoadingController) {
   }
 
   ngOnInit() {
-    this.db.get("dossards")
-      .then(res => {
-        this.dossardAliases = res.aliases;
-      })
-      .catch(e => {
-        console.log(e);
-      })
+    this.viewCtrl.didEnter.subscribe(() => {
+      let competId = localStorage.getItem("currentCompetitionId");
+      let loading = this.loading.create({ content: "Chargement..."});
+      loading.present();
+      
+      this.db.get("competitions")
+        .then((res) => {
+          this.competition = _.find(res.list, { id: competId });
+          console.log(this.competition);
+
+
+          // Dossards
+          this.db.get("dossards")
+            .then(res => {
+              this.dossardAliases = res.aliases;
+              loading.dismiss();
+            })
+        })
+        .catch(e => {
+          console.log(e)
+        })
+    })
   }
 
   ionViewWillLeave() {
