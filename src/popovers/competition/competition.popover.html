@@ -23,13 +23,8 @@
   </form>
 </ion-row>
 <ion-row>
-  <ion-col col-6 text-center>
-    <button ion-button>
-      FERMER
-    </button>
-  </ion-col>
-  <ion-col col-6 text-center>
-    <button ion-button (click)="competitionForm.ngSubmit.emit()">
+  <ion-col col-12 text-center>
+    <button style="display: block; width: 100%; margin: 8px 0;" ion-button (click)="competitionForm.ngSubmit.emit()">
       AJOUTER
     </button>
   </ion-col>
