@@ -13,6 +13,7 @@
 </ion-header>
 
 <ion-content>
+
   <ion-list radio-group [(ngModel)]="judgeId" (ionChange)="saveJudgeId()">
     <ion-list-header>
       <ion-icon name="person" class="title-icon"></ion-icon>
@@ -24,42 +25,11 @@
       <ion-radio value="null"></ion-radio>
     </ion-item>
 
-    <ion-item>
-      <ion-label>JUGE A</ion-label>
-      <ion-radio value="a"></ion-radio>
-    </ion-item>
-
-    <ion-item>
-      <ion-label>JUGE B</ion-label>
-      <ion-radio value="b"></ion-radio>
-    </ion-item>
-
-    <ion-item>
-      <ion-label>JUGE C</ion-label>
-      <ion-radio value="c"></ion-radio>
-    </ion-item>
-
-    <ion-item>
-      <ion-label>JUGE D</ion-label>
-      <ion-radio value="d"></ion-radio>
-    </ion-item>
-
-    <ion-item>
-      <ion-label>JUGE E</ion-label>
-      <ion-radio value="e"></ion-radio>
-    </ion-item>
-
-    <ion-item>
-      <ion-label>JUGE F</ion-label>
-      <ion-radio value="f"></ion-radio>
-    </ion-item>
-
-    <ion-item>
-      <ion-label>JUGE G</ion-label>
-      <ion-radio value="g"></ion-radio>
+    <ion-item *ngFor="let judgeAlias of judgeAliases">
+      <ion-label>JUGE <span class="uppercase">{{ judgeAlias }}</span></ion-label>
+      <ion-radio value="{{ judgeAlias }}"></ion-radio>
     </ion-item>
   </ion-list>
-
   <ion-list *ngIf="dossardAliases">
     <ion-list-header>
       <ion-icon name="bookmark" class="title-icon"></ion-icon>&nbsp;&nbsp; Assignation des dossards
@@ -69,4 +39,6 @@
       <ion-input [(ngModel)]="dossardAliases[i]" type="text" (ionChange)="change()"></ion-input>
     </ion-item>
   </ion-list>
+
+
 </ion-content>

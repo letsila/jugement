@@ -12,6 +12,7 @@ export class SettingsPage {
   public judgeId: string = localStorage.getItem("judgeId");
   public dossards: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   public dossardAliases: string[] = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
+  public judgeAliases: string[] = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
 
   constructor(
     public navCtrl: NavController,
