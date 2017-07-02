@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { DbService } from "../../services/db.service";
+import { LoginPage } from "../login/login.page";
 
 @Component({
   selector: 'page-settings',
@@ -28,15 +29,22 @@ export class SettingsPage {
       })
   }
 
+  public logout() {
+    this.navCtrl.push(LoginPage, {}, { animate: true, direction: "back" })
+  }
+
   public change() {
     console.log("changed ...");
     console.log(this.dossardAliases);
 
     this.db.get("dossards").then(res => {
+      console.log(res);
       res.aliases = this.dossardAliases;
       this.db.put(res).then(() => {
         // this.dossardAliases = 
-      });
+      }).catch(e => {
+        console.log(e);
+      })
     }).catch(e => {
       console.log(e);
     })

@@ -7,8 +7,9 @@ import { ScrutationPage } from "../../pages/scrutation/scrutation.page";
   templateUrl: "login.popover.html"
 })
 export class LoginPopover {
-  public login: string;
-  public password: string;
+  public login: string = "mpitsara@tcmd.com";
+  public password: string = "judgeDred";
+  
   public dataTunnelFunc: any = this.navParams.get("dataTunnelFunc");
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
@@ -24,6 +25,7 @@ export class LoginPopover {
     console.log(this.login);
     console.log(this.password);
     console.log(localStorage.getItem("loginCheck"));
+
 
 
     if (this.login == localStorage.getItem("loginCheck") && this.password == localStorage.getItem("mdpCheck")) {

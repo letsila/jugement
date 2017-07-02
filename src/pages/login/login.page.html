@@ -10,9 +10,14 @@
 
   <ion-grid>
     <div text-center style="margin: 32px 0;" *ngIf="!judgeId || judgeId == 'null'" class="config-error-msg">
-      <ion-icon name="alert" color="danger"></ion-icon>&nbsp; 
-      Votre feuille n'a pas été configurée correctement, veuillez vous réferer au scrutateur.
+      <ion-icon name="alert" color="danger"></ion-icon>&nbsp; Votre feuille n'a pas été configurée correctement, veuillez vous réferer au scrutateur.
     </div>
+    <ion-item style="width: 270px; margin:32px auto;">
+      <ion-label>Danse</ion-label>
+      <ion-select [(ngModel)]="danseSelected">
+        <ion-option value="{{ danse.identifier }}" *ngFor="let danse of danses">{{ danse.name }}</ion-option>
+      </ion-select>
+    </ion-item>
 
     <div *ngIf="judgeId && judgeId != 'null'">
       <button ion-button (click)="connectJuge()" icon-end color="secondary" class="connexion judge-btn">
@@ -24,12 +29,6 @@
         </button>
 
     </div>
-    <ion-item style="width: 270px; margin:0 auto;">
-      <ion-label>Danse</ion-label>
-      <ion-select [(ngModel)]="danseSelected">
-        <ion-option value="{{ danse.identifier }}" *ngFor="let danse of danses">{{ danse.name }}</ion-option>
-      </ion-select>
-    </ion-item>
   </ion-grid>
 </ion-content>
 

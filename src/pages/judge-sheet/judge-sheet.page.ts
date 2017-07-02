@@ -136,7 +136,10 @@ export class JudgeSheetPage {
       this.db.get("dossards").then(res => {
         this.dossardsAliases = res.aliases;
         this.dossardsAliases1 = this.dossardsAliases.slice().splice(0, 5);
-        this.dossardsAliases2 = this.dossardsAliases.slice().splice(4, 5);
+        this.dossardsAliases2 = this.dossardsAliases.slice().splice(5, 5);
+        console.log(this.dossardsAliases);
+        console.log(this.dossardsAliases1);
+        console.log(this.dossardsAliases2);
       })
     })
       .catch(e => {
