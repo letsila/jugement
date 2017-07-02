@@ -8,8 +8,8 @@
     <ion-title text-center *ngIf="!judgeId || judgeId == 'null'" class="config-error-msg">
       <ion-icon name="alert" color="danger"></ion-icon>&nbsp; Votre feuille n'a pas été configurée correctement, veuillez vous réferer au scrutateur.
     </ion-title>
-    <ion-title text-center *ngIf="judgeId">Feuille de Juge <span class="capitalize">{{ judgeId }}</span> -
-      <span class="capitalize danse-name">{{ danse }}</span>
+    <ion-title text-center *ngIf="judgeId">Feuille de Juge <span class="uppercase">{{ judgeId }}</span> -
+      <span class="uppercase danse-name">{{ danse }}</span>
     </ion-title>
     <ion-buttons end>
       <button ion-button icon-only>
@@ -24,79 +24,13 @@
     <ion-row *ngIf="dossardsAliases1">
       <ion-col col-2></ion-col>
       <ion-col col-2 class="dossard" *ngFor="let dossardAlias of dossardsAliases1">
-        Dossard <span class="number">{{ dossardAlias }}</span>
+        <span class="number">{{ dossardAlias }}</span>
       </ion-col>
     </ion-row>
-    <ion-row>
-      <ion-col col-2>TQ</ion-col>
-      <ion-col col-2 class="rate">
-        <ion-input type="number" placeholder="note" [(ngModel)]="dossard1TQ" (ionChange)="inputChanged()"></ion-input>
-      </ion-col>
-      <ion-col col-2 class="rate">
-        <ion-input type="number" placeholder="note" [(ngModel)]="dossard2TQ" (ionChange)="inputChanged()"></ion-input>
-      </ion-col>
-      <ion-col col-2 class="rate">
-        <ion-input type="number" placeholder="note" [(ngModel)]="dossard3TQ" (ionChange)="inputChanged()"></ion-input>
-      </ion-col>
-      <ion-col col-2 class="rate">
-        <ion-input type="number" placeholder="note" [(ngModel)]="dossard4TQ" (ionChange)="inputChanged()"></ion-input>
-      </ion-col>
-      <ion-col col-2 class="rate">
-        <ion-input type="number" placeholder="note" [(ngModel)]="dossard5TQ" (ionChange)="inputChanged()"></ion-input>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col col-2>MM</ion-col>
-      <ion-col col-2 class="rate">
-        <ion-input type="number" placeholder="note" [(ngModel)]="dossard1MM" (ionChange)="inputChanged()"></ion-input>
-      </ion-col>
-      <ion-col col-2 class="rate">
-        <ion-input type="number" placeholder="note" [(ngModel)]="dossard2MM" (ionChange)="inputChanged()"></ion-input>
-      </ion-col>
-      <ion-col col-2 class="rate">
-        <ion-input type="number" placeholder="note" [(ngModel)]="dossard3MM" (ionChange)="inputChanged()"></ion-input>
-      </ion-col>
-      <ion-col col-2 class="rate">
-        <ion-input type="number" placeholder="note" [(ngModel)]="dossard4MM" (ionChange)="inputChanged()"></ion-input>
-      </ion-col>
-      <ion-col col-2 class="rate">
-        <ion-input type="number" placeholder="note" [(ngModel)]="dossard5MM" (ionChange)="inputChanged()"></ion-input>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col col-2>PS</ion-col>
-      <ion-col col-2 class="rate">
-        <ion-input type="number" placeholder="note" [(ngModel)]="dossard1PS" (ionChange)="inputChanged()"></ion-input>
-      </ion-col>
-      <ion-col col-2 class="rate">
-        <ion-input type="number" placeholder="note" [(ngModel)]="dossard2PS" (ionChange)="inputChanged()"></ion-input>
-      </ion-col>
-      <ion-col col-2 class="rate">
-        <ion-input type="number" placeholder="note" [(ngModel)]="dossard3PS" (ionChange)="inputChanged()"></ion-input>
-      </ion-col>
-      <ion-col col-2 class="rate">
-        <ion-input type="number" placeholder="note" [(ngModel)]="dossard4PS" (ionChange)="inputChanged()"></ion-input>
-      </ion-col>
-      <ion-col col-2 class="rate">
-        <ion-input type="number" placeholder="note" [(ngModel)]="dossard5PS" (ionChange)="inputChanged()"></ion-input>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col col-2>CP</ion-col>
-      <ion-col col-2 class="rate">
-        <ion-input type="number" placeholder="note" [(ngModel)]="dossard1CP" (ionChange)="inputChanged()"></ion-input>
-      </ion-col>
-      <ion-col col-2 class="rate">
-        <ion-input type="number" placeholder="note" [(ngModel)]="dossard2CP" (ionChange)="inputChanged()"></ion-input>
-      </ion-col>
-      <ion-col col-2 class="rate">
-        <ion-input type="number" placeholder="note" [(ngModel)]="dossard3CP" (ionChange)="inputChanged()"></ion-input>
-      </ion-col>
-      <ion-col col-2 class="rate">
-        <ion-input type="number" placeholder="note" [(ngModel)]="dossard4CP" (ionChange)="inputChanged()"></ion-input>
-      </ion-col>
-      <ion-col col-2 class="rate">
-        <ion-input type="number" placeholder="note" [(ngModel)]="dossard5CP" (ionChange)="inputChanged()"></ion-input>
+    <ion-row *ngFor="let critere of criteria">
+      <ion-col col-2><span class="uppercase">{{ critere }}</span></ion-col>
+      <ion-col col-2 class="rate" *ngFor="let indexDossard of [0, 1, 2, 3, 4];">
+        <ion-input type="number" placeholder="note" [(ngModel)]="dossards[indexDossard][critere]" (ionChange)="inputChanged()"></ion-input>
       </ion-col>
     </ion-row>
   </ion-grid>
@@ -104,79 +38,13 @@
     <ion-row class="dossardsAliases2">
       <ion-col col-2></ion-col>
       <ion-col col-2 class="dossard" *ngFor="let dossardAlias of dossardsAliases2">
-        Dossard <span class="number">{{ dossardAlias }}</span>
+        <span class="number">{{ dossardAlias }}</span>
       </ion-col>
     </ion-row>
-    <ion-row>
-      <ion-col col-2>TQ</ion-col>
-      <ion-col col-2 class="rate">
-        <ion-input type="number" placeholder="note" [(ngModel)]="dossard6TQ" (ionChange)="inputChanged()"></ion-input>
-      </ion-col>
-      <ion-col col-2 class="rate">
-        <ion-input type="number" placeholder="note" [(ngModel)]="dossard7TQ" (ionChange)="inputChanged()"></ion-input>
-      </ion-col>
-      <ion-col col-2 class="rate">
-        <ion-input type="number" placeholder="note" [(ngModel)]="dossard8TQ" (ionChange)="inputChanged()"></ion-input>
-      </ion-col>
-      <ion-col col-2 class="rate">
-        <ion-input type="number" placeholder="note" [(ngModel)]="dossard9TQ" (ionChange)="inputChanged()"></ion-input>
-      </ion-col>
-      <ion-col col-2 class="rate">
-        <ion-input type="number" placeholder="note" [(ngModel)]="dossard10TQ" (ionChange)="inputChanged()"></ion-input>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col col-2>MM</ion-col>
-      <ion-col col-2 class="rate">
-        <ion-input type="number" placeholder="note" [(ngModel)]="dossard6MM" (ionChange)="inputChanged()"></ion-input>
-      </ion-col>
-      <ion-col col-2 class="rate">
-        <ion-input type="number" placeholder="note" [(ngModel)]="dossard7MM" (ionChange)="inputChanged()"></ion-input>
-      </ion-col>
-      <ion-col col-2 class="rate">
-        <ion-input type="number" placeholder="note" [(ngModel)]="dossard8MM" (ionChange)="inputChanged()"></ion-input>
-      </ion-col>
-      <ion-col col-2 class="rate">
-        <ion-input type="number" placeholder="note" [(ngModel)]="dossard9MM" (ionChange)="inputChanged()"></ion-input>
-      </ion-col>
-      <ion-col col-2 class="rate">
-        <ion-input type="number" placeholder="note" [(ngModel)]="dossard10MM" (ionChange)="inputChanged()"></ion-input>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col col-2>PS</ion-col>
-      <ion-col col-2 class="rate">
-        <ion-input type="number" placeholder="note" [(ngModel)]="dossard6PS" (ionChange)="inputChanged()"></ion-input>
-      </ion-col>
-      <ion-col col-2 class="rate">
-        <ion-input type="number" placeholder="note" [(ngModel)]="dossard7PS" (ionChange)="inputChanged()"></ion-input>
-      </ion-col>
-      <ion-col col-2 class="rate">
-        <ion-input type="number" placeholder="note" [(ngModel)]="dossard8PS" (ionChange)="inputChanged()"></ion-input>
-      </ion-col>
-      <ion-col col-2 class="rate">
-        <ion-input type="number" placeholder="note" [(ngModel)]="dossard9PS" (ionChange)="inputChanged()"></ion-input>
-      </ion-col>
-      <ion-col col-2 class="rate">
-        <ion-input type="number" placeholder="note" [(ngModel)]="dossard10PS" (ionChange)="inputChanged()"></ion-input>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col col-2>CP</ion-col>
-      <ion-col col-2 class="rate">
-        <ion-input type="number" placeholder="note" [(ngModel)]="dossard6CP" (ionChange)="inputChanged()"></ion-input>
-      </ion-col>
-      <ion-col col-2 class="rate">
-        <ion-input type="number" placeholder="note" [(ngModel)]="dossard7CP" (ionChange)="inputChanged()"></ion-input>
-      </ion-col>
-      <ion-col col-2 class="rate">
-        <ion-input type="number" placeholder="note" [(ngModel)]="dossard8CP" (ionChange)="inputChanged()"></ion-input>
-      </ion-col>
-      <ion-col col-2 class="rate">
-        <ion-input type="number" placeholder="note" [(ngModel)]="dossard9CP" (ionChange)="inputChanged()"></ion-input>
-      </ion-col>
-      <ion-col col-2 class="rate">
-        <ion-input type="number" placeholder="note" [(ngModel)]="dossard10CP" (ionChange)="inputChanged()"></ion-input>
+    <ion-row *ngFor="let critere of criteria">
+      <ion-col col-2><span class="uppercase">{{ critere }}</span></ion-col>
+      <ion-col col-2 class="rate" *ngFor="let indexDossard of [5, 6, 7, 8, 9];">
+        <ion-input type="number" placeholder="note" [(ngModel)]="dossards[indexDossard][critere]" (ionChange)="inputChanged()"></ion-input>
       </ion-col>
     </ion-row>
   </ion-grid>

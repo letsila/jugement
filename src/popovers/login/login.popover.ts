@@ -9,8 +9,8 @@ import * as _ from "lodash";
   templateUrl: "login.popover.html"
 })
 export class LoginPopover {
-  public login: string = "";
-  public password: string = "";
+  public login: string = "letsila";
+  public password: string = "petitgarcon";
 
   public dataTunnelFunc: any = this.navParams.get("dataTunnelFunc");
   constructor(public navCtrl: NavController,
