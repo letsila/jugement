@@ -12,9 +12,9 @@
       </button>
     </ion-buttons>
   </ion-toolbar>
-  <ion-segment [(ngModel)]="danseFilter" color="secondary">
-    <ion-segment-button *ngFor="let danse of danses" value="{{ danse }}">
-      <span class="capitalize">{{ danse }}</span>
+  <ion-segment *ngIf="danses.length" [(ngModel)]="danseFilter" color="secondary">
+    <ion-segment-button *ngFor="let danse of danses" value="{{ danse.identifier }}">
+      <span class="capitalize">{{ danse.identifier }}</span>
     </ion-segment-button>
   </ion-segment>
 </ion-header>

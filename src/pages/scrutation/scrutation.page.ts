@@ -13,7 +13,7 @@ export class ScrutationPage {
   public judgeSheets: any[] = [];
   public judgeId: string;
   public danseFilter: string = "chacha";
-  public danses = ["chacha", "rumba", "jive", "paso", "samba"];
+  public danses: any[] = [];
   public criteria = ["tq", "mm", "ps", "cp"];
   public dossardsAliases: string[] = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];;
   public competition: any;
@@ -29,6 +29,7 @@ export class ScrutationPage {
   }
 
   ngOnInit() {
+    console.log(this.danseFilter);
     this.viewCtrl.didEnter.subscribe(() => {
       let competId = localStorage.getItem("currentCompetitionId");
       let loading = this.loading.create({ content: "Chargement..." });
@@ -50,9 +51,21 @@ export class ScrutationPage {
               this.db.get("competitions").then(res => {
                 this.competition = _.find(res.list, { id: competId });
 
+
+                this.db.get("danses")
+                  .then(res => {
+                    this.danses = res.list.filter(danse => {
+                      if (this.competition) {
+                        return danse.competitions.indexOf(this.competition.type.id) != -1;
+                      }
+                    });
+                    console.log(this.danses);
+                  })
+                  .catch(e => console.log(e));
                 loading.dismiss();
               })
             })
+
 
         })
         .catch(e => {
