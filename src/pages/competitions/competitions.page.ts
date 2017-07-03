@@ -31,6 +31,19 @@ export class CompetitionsPage {
     this.currentCompetitionId = localStorage.getItem("currentCompetitionId");
 
     console.log(this.currentCompetitionId);
+
+    this.loadCompetitions();
+
+    this.db.get("competitions-type")
+      .then(res => {
+        this.competitionsType = res.list;
+      })
+      .catch(e => {
+        console.log(e)
+      })
+  }
+
+  loadCompetitions() {
     this.db.get("competitions")
       .then(res => {
         console.log(res);
@@ -44,16 +57,44 @@ export class CompetitionsPage {
       .catch(e => {
         console.log(e);
       })
-
-    this.db.get("competitions-type")
-      .then(res => {
-        this.competitionsType = res.list;
-      })
-      .catch(e => {
-        console.log(e)
-      })
   }
 
+  closeCompetition(competition, index) {
+    let confirmation = this.alertCtrl.create({
+      title: "Clôture",
+      message: "Une fois clôturer cette compétition ne pourra plus être modifiée",
+      buttons: [
+        {
+          text: "Clôturer",
+          handler: () => {
+            this.applyCloture(competition, index)
+          }
+        },
+        {
+          text: "Annuler",
+          handler: () => {
+
+          }
+        }
+      ]
+    });
+
+    confirmation.present();
+  }
+
+  applyCloture(competition, index) {
+    console.log(competition);
+    this.db.get("competitions").then(res => {
+      const competIndex = _.findIndex(res.list, { id: competition.id })
+      res.list[competIndex].closed = true;
+      res.list[competIndex].date_cloture = Date.now();
+
+      this.db.put(res).then(() => {
+        this.loadCompetitions();
+      })
+    })
+      .catch(e => console.log(e))
+  }
 
   deleteCompetition(competition, index) {
 

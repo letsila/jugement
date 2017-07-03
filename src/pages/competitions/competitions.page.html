@@ -14,25 +14,13 @@
 </ion-header>
 
 <ion-content>
-  <ion-row>
-    <button class="add-competition-btn" color="secondary" ion-button icon-left (click)="openAddCompetitionPopover()" tappable>
-      <ion-icon name="add"></ion-icon>
-      <span class="uppercase">Nouvelle compétition</span>
-    </button>
-  </ion-row>
-
-  <ion-row>
-    <ion-col text-center>
-      <ion-icon name="information-circle" color="primary"></ion-icon> Selectionnez une compétition pour l'activer.
-    </ion-col>
-  </ion-row>
   <ion-list radio-group [(ngModel)]="currentCompetitionId">
     <ion-list-header>
       Liste des compétitions en cours
     </ion-list-header>
 
-    <ion-item *ngIf="!openCompetitions.length">
-      <ion-icon name="information-circle" color="primary"></ion-icon> Aucune compétion en cours.
+    <ion-item *ngIf="!openCompetitions.length" style="color: grey">
+      Aucune compétition en cours
     </ion-item>
     <ion-item-sliding *ngFor="let competition of openCompetitions; let i=index">
       <ion-item>
@@ -41,8 +29,14 @@
         <ion-radio value="{{ competition.id }}">{{ competition.id }}</ion-radio>
       </ion-item>
 
-      <ion-item-options style="background-color: #f53d3d;">
-        <button ion-button icon-only (click)="deleteCompetition(competition, i)">
+      <ion-item-options side="left" (click)="closeCompetition(competition, i)">
+        <button ion-button>
+          <ion-icon name="lock"></ion-icon>
+        </button>
+      </ion-item-options>
+
+      <ion-item-options side="right">
+        <button ion-button icon-only color="danger" (click)="deleteCompetition(competition, i)">
           <ion-icon name="trash"></ion-icon>
         </button>
       </ion-item-options>
@@ -59,3 +53,12 @@
     </ion-item>
   </ion-list>
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar text-center>
+    <button class="add-competition-btn" color="secondary" ion-button icon-left (click)="openAddCompetitionPopover()" tappable>
+      <ion-icon name="add"></ion-icon>
+      <span class="uppercase">Nouvelle compétition</span>
+    </button>
+  </ion-toolbar>
+</ion-footer>

@@ -11,8 +11,8 @@ declare let emit: any;
 export class DbService {
   public db: any;
   public remote: any;
-  public couchdbUrl: string = "http://50.116.7.99:5984/judgement-db";
-  // public couchdbUrl: string = "http://192.168.1.101:5984/judgement-db";
+  // public couchdbUrl: string = "http://50.116.7.99:5984/judgement-db";
+  public couchdbUrl: string = "http://192.168.1.101:5984/judgement-db";
 
   constructor() {
     this.db = new PouchDB("jugement", {
