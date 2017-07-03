@@ -17,6 +17,7 @@ export class ScrutationPage {
   public criteria = ["tq", "mm", "ps", "cp"];
   public dossardsAliases: string[] = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];;
   public competition: any;
+  public competId: any;
 
   constructor(
     public alertCtrl: AlertController,
@@ -31,11 +32,11 @@ export class ScrutationPage {
   ngOnInit() {
     console.log(this.danseFilter);
     this.viewCtrl.didEnter.subscribe(() => {
-      let competId = localStorage.getItem("currentCompetitionId");
+      this.competId = localStorage.getItem("currentCompetitionId");
       let loading = this.loading.create({ content: "Chargement..." });
       loading.present();
 
-      this.db.getJudgeSheetOfCompetition(competId)
+      this.db.getJudgeSheetOfCompetition(this.competId)
         .then(res => {
           console.log(res);
           this.judgeSheets = res.rows.map(value => {
@@ -49,7 +50,7 @@ export class ScrutationPage {
               this.dossardsAliases = res.aliases;
 
               this.db.get("competitions").then(res => {
-                this.competition = _.find(res.list, { id: competId });
+                this.competition = _.find(res.list, { id: this.competId });
 
 
                 this.db.get("danses")
@@ -76,19 +77,14 @@ export class ScrutationPage {
 
 
   doRefresh(refresher) {
-    this.db.allDocs()
+    this.db.getJudgeSheetOfCompetition(this.competId)
       .then(res => {
-        this.judgeSheets = res.rows.map(sheet => {
-          return sheet.doc;
-        }).filter(sheet => {
-          return sheet.judgeId;
+        console.log(res);
+        this.judgeSheets = res.rows.map(value => {
+          return value.doc;
         });
 
-        this.db.get("dossards").then(res => {
-          this.dossardsAliases = res.aliases;
-        })
-
-        refresher.complete();
+        refresher.cancel();
 
       })
       .catch(e => {
