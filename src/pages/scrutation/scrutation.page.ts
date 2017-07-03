@@ -83,7 +83,6 @@ export class ScrutationPage {
         this.judgeSheets = res.rows.map(value => {
           return value.doc;
         });
-
         refresher.cancel();
 
       })
@@ -111,8 +110,10 @@ export class ScrutationPage {
    */
   public overallScore(dossardIndex) {
     let score: number = 0;
+
+    // console.log(this.danses);
     this.danses.forEach(danse => {
-      score += Number(this.scoresPerDanse(dossardIndex, danse)) || 0;
+      score += Number(this.scoresPerDanse(dossardIndex)) || 0;
     });
 
     return _.round(score, 3);
@@ -178,11 +179,11 @@ export class ScrutationPage {
   /**
    * Rank per danse of the dossard.
    */
-  public rankPerDanse(dossardIndex, danse) {
+  public rankPerDanse(dossardIndex) {
     let dossardsRanked = this.dossards.map((dossard, index) => {
       let dossardObj: any = {};
-      dossardObj.score = this.scoresPerDanse(index, danse);
-      dossardObj.danse = danse;
+      dossardObj.score = this.scoresPerDanse(index);
+      dossardObj.danse = this.danseFilter;
       dossardObj.id = index;
       return dossardObj;
     });
@@ -199,10 +200,10 @@ export class ScrutationPage {
    * @param dossardIndex 
    * @param danse 
    */
-  public scoresPerDanse(dossardIndex, danse) {
+  public scoresPerDanse(dossardIndex) {
     let scoresPerDanse: number = 0;
     this.criteria.forEach(criteria => {
-      scoresPerDanse += Number(this.meanCriteriaScoreOfDossardId(dossardIndex, danse, criteria));
+      scoresPerDanse += Number(this.meanCriteriaScoreOfDossardId(dossardIndex, criteria));
     });
 
     return _.round(scoresPerDanse, 3);
@@ -211,7 +212,7 @@ export class ScrutationPage {
   /**
    * Moyenne d'une critere pour un dossard pour une danse.
    */
-  public meanCriteriaScoreOfDossardId(dossardIndex: number, danse: string, criteria: string) {
+  public meanCriteriaScoreOfDossardId(dossardIndex: number, criteria: string) {
     try {
 
       let mean: number = 0;
@@ -219,7 +220,7 @@ export class ScrutationPage {
       if (this.judgeSheets.length) {
         // Les feuilles de juges pour la danse en cours.
         let sheetsOfTheDanse: any = this.judgeSheets.filter(sheet => {
-          return sheet.danse == danse;
+          return sheet.danse == this.danseFilter;
         });
         // Récupération des scores du dossard pour la danse en cours.
         if (sheetsOfTheDanse.length) {

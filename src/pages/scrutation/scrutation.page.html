@@ -95,7 +95,7 @@
       <ion-row>
         <ion-col col-1 class="rank">TQ</ion-col>
         <ion-col col-1 class="rate" *ngFor="let dossard of dossards; let i=index">
-          <ion-input type="text" placeholder="note" value="{{ meanCriteriaScoreOfDossardId(i, danseFilter, 'tq') }}" disabled></ion-input>
+          <ion-input type="text" placeholder="note" value="{{ meanCriteriaScoreOfDossardId(i, 'tq') }}" disabled></ion-input>
         </ion-col>
         <ion-col col-1 class="rank">
         </ion-col>
@@ -103,7 +103,7 @@
       <ion-row>
         <ion-col col-1 class="rank">MM</ion-col>
         <ion-col col-1 class="rate" *ngFor="let dossard of dossards; let i=index">
-          <ion-input type="text" placeholder="note" value="{{ meanCriteriaScoreOfDossardId(i, danseFilter, 'mm') }}" disabled></ion-input>
+          <ion-input type="text" placeholder="note" value="{{ meanCriteriaScoreOfDossardId(i, 'mm') }}" disabled></ion-input>
         </ion-col>
         <ion-col col-1 class="rank">
         </ion-col>
@@ -111,7 +111,7 @@
       <ion-row>
         <ion-col col-1 class="rank">PS</ion-col>
         <ion-col col-1 class="rate" *ngFor="let dossard of dossards; let i=index">
-          <ion-input type="text" placeholder="note" value="{{ meanCriteriaScoreOfDossardId(i, danseFilter, 'ps') }}" disabled></ion-input>
+          <ion-input type="text" placeholder="note" value="{{ meanCriteriaScoreOfDossardId(i, 'ps') }}" disabled></ion-input>
         </ion-col>
         <ion-col col-1 class="rank">
         </ion-col>
@@ -119,7 +119,7 @@
       <ion-row>
         <ion-col col-1 class="rank">CP</ion-col>
         <ion-col col-1 class="rate" *ngFor="let dossard of dossards; let i=index">
-          <ion-input type="text" placeholder="note" value="{{ meanCriteriaScoreOfDossardId(i, danseFilter, 'cp') }}" disabled></ion-input>
+          <ion-input type="text" placeholder="note" value="{{ meanCriteriaScoreOfDossardId(i, 'cp') }}" disabled></ion-input>
         </ion-col>
         <ion-col col-1 class="rank">
         </ion-col>
@@ -127,7 +127,7 @@
       <ion-row>
         <ion-col col-1 class="rank">TOTAL</ion-col>
         <ion-col col-1 class="rate" *ngFor="let dossard of dossards; let i=index">
-          <ion-input type="text" placeholder="note" value="{{ scoresPerDanse(i, danseFilter) }}" disabled></ion-input>
+          <ion-input type="text" placeholder="note" value="{{ scoresPerDanse(i) }}" disabled></ion-input>
         </ion-col>
         <ion-col col-1 class="rank">
         </ion-col>
@@ -153,7 +153,7 @@
       <ion-row>
         <ion-col col-1 class="rank">RANK</ion-col>
         <ion-col col-1 class="rate" *ngFor="let dossard of dossards; let i=index">
-          <ion-input type="text" placeholder="note" value="{{ rankOverall(i, danseFilter) }}" disabled></ion-input>
+          <ion-input type="text" placeholder="note" value="{{ rankOverall(i) }}" disabled></ion-input>
         </ion-col>
         <ion-col col-1 class="rank">
           <!--{{ rankPerDanse(i, danseFilter) }}-->
