@@ -3,4 +3,17 @@ page-settings {
     font-size: 32px;
     vertical-align: middle;
   }
+
+  ion-content {
+    background-color:#f8f8f8 !important;
+  }
+
+  ion-list-header {
+    text-transform: uppercase !important;
+    font-size: 1.4rem !important;
+    background-color:#f8f8f8 !important;
+  }
+
+
+
 }
