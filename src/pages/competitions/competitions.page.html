@@ -16,7 +16,7 @@
 <ion-content>
   <ion-list radio-group [(ngModel)]="currentCompetitionId">
     <ion-list-header>
-      Liste des compétitions en cours
+      En cours
     </ion-list-header>
 
     <ion-item *ngIf="!openCompetitions.length" style="color: grey">
@@ -24,8 +24,14 @@
     </ion-item>
     <ion-item-sliding *ngFor="let competition of openCompetitions; let i=index">
       <ion-item>
-        <ion-label>{{ i+1 }} - <span class="capitalize">{{ competition.titre }}</span> -
-          <span class="uppercase">{{ competition.type.name }} </span>- {{ competition.date | formatDate }}</ion-label>
+        <ion-label>
+          <ion-row>
+            <ion-col col-1>{{ i+1 }}</ion-col>
+            <ion-col col-6><span class="capitalize">{{ competition.titre }}</span></ion-col>
+            <ion-col col-2><span class="uppercase">{{ competition.type.name }} </span></ion-col>
+            <ion-col col-3>{{ competition.date | formatDate }}</ion-col>
+          </ion-row>
+        </ion-label>
         <ion-radio value="{{ competition.id }}">{{ competition.id }}</ion-radio>
       </ion-item>
 
@@ -44,11 +50,17 @@
   </ion-list>
   <ion-list radio-group [(ngModel)]="currentCompetitionId">
     <ion-list-header>
-      Liste des compétitions clôturées
+      Clôturées
     </ion-list-header>
     <ion-item *ngFor="let competition of closedCompetitions; let i=index">
-      <ion-label>{{ i+1 }} - <span class="capitalize">{{ competition.titre }}</span> -
-        <span class="uppercase">{{ competition.type.name }} </span>- {{ competition.date | formatDate }}</ion-label>
+      <ion-label>
+        <ion-row>
+          <ion-col col-1>{{ i+1 }}</ion-col>
+          <ion-col col-6><span class="capitalize">{{ competition.titre }}</span></ion-col>
+          <ion-col col-2><span class="uppercase">{{ competition.type.name }}</span></ion-col>
+          <ion-col col-3>{{ competition.date | formatDate }}</ion-col>
+        </ion-row>
+      </ion-label>
       <ion-radio value="{{ competition.id }}">{{ competition.id }}</ion-radio>
     </ion-item>
   </ion-list>

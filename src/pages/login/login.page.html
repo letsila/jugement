@@ -11,7 +11,7 @@
 
     <ion-item *ngIf="currentCompetition" text-center>
       <ion-icon name="trophy"></ion-icon>&nbsp;&nbsp;<span class="uppercase">{{ currentCompetition.titre }}</span> - {{ currentCompetition.type.name
-      }}
+      }} - {{ currentCompetition.date | formatDate }}
     </ion-item>
 
     <div text-center style="margin: 32px 0;" *ngIf="(!judgeId || judgeId == 'null') && (currentCompetition && !currentCompetition.closed)" class="config-error-msg">

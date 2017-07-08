@@ -6,6 +6,7 @@ page-competitions {
   ion-list-header {
     text-transform: uppercase !important;
     font-size: 1.8rem !important;
+    background-color:#f8f8f8 !important;
   }
 
   ion-list {
@@ -15,4 +16,14 @@ page-competitions {
   ion-label {
     font-size: 1.4rem !important;
   }
+  
+  ion-content {
+    background-color:#f8f8f8 !important;
+  }
+
+  ion-col {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
 }
