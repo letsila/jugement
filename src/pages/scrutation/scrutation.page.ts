@@ -139,9 +139,9 @@ export class ScrutationPage {
   }
 
   public deleteJudgeSheet(judgeSheet) {
-    let alert = this.alertCtrl.create({
+    this.alertCtrl.create({
       title: "Attention !",
-      message: "Voulez-vous vraiment supprimer cette feuille ?",
+      message: "Etes-vous certain de vouloir supprimer cette feuille ?",
       buttons: [
         {
           text: "Oui",
@@ -154,23 +154,22 @@ export class ScrutationPage {
           text: "Non",
           role: "cancel",
           handler: () => {
-
           }
         }
       ]
     })
-
-    alert.present();
+      .present();
   }
 
   public appliqueDeleteSheet(judgeSheet) {
     console.log(judgeSheet);
     this.db.get(judgeSheet._id).then(sheet => {
       // sheet._deleted = true;
-      this.db.remove(sheet).then(() => {
-        let index = _.findIndex(this.judgeSheets, { id: judgeSheet.id });
-        this.judgeSheets.splice(index, 1);
-      })
+      this.db.remove(sheet)
+        .then(() => {
+          let index = _.findIndex(this.judgeSheets, { id: judgeSheet.id });
+          this.judgeSheets.splice(index, 1);
+        })
     }).catch(e => {
       console.log(e);
     })
@@ -203,7 +202,9 @@ export class ScrutationPage {
   public scoresPerDanse(dossardIndex) {
     let scoresPerDanse: number = 0;
     this.criteria.forEach(criteria => {
-      scoresPerDanse += Number(this.meanCriteriaScoreOfDossardId(dossardIndex, criteria));
+      scoresPerDanse += Number(
+        this.meanCriteriaScoreOfDossardId(dossardIndex, criteria)
+      );
     });
 
     return _.round(scoresPerDanse, 3);
@@ -226,7 +227,9 @@ export class ScrutationPage {
         if (sheetsOfTheDanse.length) {
           let scoresOfTheCriteria = [];
           sheetsOfTheDanse.forEach(sheet => {
-            scoresOfTheCriteria.push(sheet.dossards[Number(dossardIndex)][criteria] || 0);
+            scoresOfTheCriteria.push(
+              sheet.dossards[Number(dossardIndex)][criteria] || 0
+            );
             scoresOfTheCriteria = scoresOfTheCriteria.map(el => Number(el));
           })
           mean = this.mean(scoresOfTheCriteria);

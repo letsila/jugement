@@ -51,28 +51,10 @@
           </ion-col>
           <ion-col col-1 class="dossard"><span class="number">#</span></ion-col>
         </ion-row>
-        <ion-row>
-          <ion-col col-1 class="rank">TQ</ion-col>
+        <ion-row *ngFor="let critere of criteria">
+          <ion-col col-1 class="rank uppercase">{{ critere }}</ion-col>
           <ion-col col-1 class="rate" *ngFor="let dossard of judgesheet.dossards">
-            <ion-input type="text" placeholder="note" value="{{ dossard.tq }}" disabled></ion-input>
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col col-1 class="rank">MM</ion-col>
-          <ion-col col-1 class="rate" *ngFor="let dossard of judgesheet.dossards">
-            <ion-input type="text" placeholder="note" value="{{ dossard.mm }}" disabled></ion-input>
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col col-1 class="rank">PS</ion-col>
-          <ion-col col-1 class="rate" *ngFor="let dossard of judgesheet.dossards">
-            <ion-input type="text" placeholder="note" value="{{ dossard.ps }}" disabled></ion-input>
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col col-1 class="rank">CP</ion-col>
-          <ion-col col-1 class="rate" *ngFor="let dossard of judgesheet.dossards">
-            <ion-input type="text" placeholder="note" value="{{ dossard.cp }}" disabled></ion-input>
+            <ion-input type="text" placeholder="note" value="{{ dossard[critere] }}" disabled></ion-input>
           </ion-col>
         </ion-row>
       </ion-grid>
@@ -92,34 +74,10 @@
         </ion-col>
         <ion-col col-1 class="dossard"><span class="number">#</span></ion-col>
       </ion-row>
-      <ion-row>
-        <ion-col col-1 class="rank">TQ</ion-col>
+      <ion-row *ngFor="let critere of criteria">
+        <ion-col col-1 class="rank uppercase">{{ critere }}</ion-col>
         <ion-col col-1 class="rate" *ngFor="let dossard of dossards; let i=index">
-          <ion-input type="text" placeholder="note" value="{{ meanCriteriaScoreOfDossardId(i, 'tq') }}" disabled></ion-input>
-        </ion-col>
-        <ion-col col-1 class="rank">
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col col-1 class="rank">MM</ion-col>
-        <ion-col col-1 class="rate" *ngFor="let dossard of dossards; let i=index">
-          <ion-input type="text" placeholder="note" value="{{ meanCriteriaScoreOfDossardId(i, 'mm') }}" disabled></ion-input>
-        </ion-col>
-        <ion-col col-1 class="rank">
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col col-1 class="rank">PS</ion-col>
-        <ion-col col-1 class="rate" *ngFor="let dossard of dossards; let i=index">
-          <ion-input type="text" placeholder="note" value="{{ meanCriteriaScoreOfDossardId(i, 'ps') }}" disabled></ion-input>
-        </ion-col>
-        <ion-col col-1 class="rank">
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col col-1 class="rank">CP</ion-col>
-        <ion-col col-1 class="rate" *ngFor="let dossard of dossards; let i=index">
-          <ion-input type="text" placeholder="note" value="{{ meanCriteriaScoreOfDossardId(i, 'cp') }}" disabled></ion-input>
+          <ion-input type="text" placeholder="note" value="{{ meanCriteriaScoreOfDossardId(i, critere) }}" disabled></ion-input>
         </ion-col>
         <ion-col col-1 class="rank">
         </ion-col>
