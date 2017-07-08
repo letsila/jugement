@@ -99,8 +99,8 @@ export class CompetitionsPage {
   deleteCompetition(competition, index) {
 
     let alert = this.alertCtrl.create({
-      title: "Suppression competition",
-      message: "Voulez-vous vraiment supprimer cette compétition",
+      title: "Suppression !",
+      message: "Etes-vous certain de vouloir supprimer cette compétition ?",
       buttons: [
         {
           text: "Oui",
