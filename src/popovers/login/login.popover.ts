@@ -1,6 +1,5 @@
 import { Component } from "@angular/core";
 import { AlertController, NavController, NavParams, ViewController } from "ionic-angular";
-import { ScrutationPage } from "../../pages/scrutation/scrutation.page";
 import { DbService } from "../../services/db.service";
 import * as _ from "lodash";
 

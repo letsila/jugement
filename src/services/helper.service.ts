@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { AlertController, LoadingController, PopoverController } from 'ionic-angular';
-import * as _ from 'lodash';
 
 declare let navigator: any;
 declare let Connection: any;

@@ -1,7 +1,6 @@
 import { Component, NgZone } from '@angular/core';
 import { NavController, IonicPage, ViewController } from 'ionic-angular';
 import { DbService } from "../../services/db.service";
-import * as _ from "lodash";
 
 @IonicPage()
 @Component({
