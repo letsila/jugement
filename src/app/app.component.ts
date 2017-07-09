@@ -1,13 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform } from 'ionic-angular';
+import { MenuController, Nav, Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-
-// import { LoginPage } from "../pages/login/login.page";
-// import { JudgeSheetPage } from '../pages/judge-sheet/judge-sheet.page';
-// import { SettingsPage } from '../pages/settings/settings.page';
-// import { ScrutationPage } from '../pages/scrutation/scrutation.page';
-// import { CompetitionsPage } from '../pages/competitions/competitions.page';
 
 import { DbService } from "../services/db.service";
 
@@ -17,7 +11,7 @@ import { DbService } from "../services/db.service";
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = 'LoginPage';
+  rootPage: any = 'MenuPage';
 
   pages: Array<{ title: string, component: any }>;
 
@@ -30,17 +24,6 @@ export class MyApp {
 
     // Always Sync 
     this.db.sync();
-
-
-    console.log(localStorage.getItem("role"));
-
-    // used for an example of ngFor and navigation
-    // if (localStorage.getItem("role") == "scrutateur") {
-    this.pages = [
-      { title: 'Scrutation', component: 'ScrutationPage' },
-      { title: 'Réglages', component: 'SettingsPage' },
-      { title: 'Compétitions', component: 'CompetitionsPage' }
-    ];
   }
 
   ngOnInit() {
@@ -55,11 +38,5 @@ export class MyApp {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
-  }
-
-  openPage(page) {
-    // Reset the content nav to have just this page
-    // we wouldn't want the back button to show in this scenario
-    this.nav.setRoot(page.component);
   }
 }

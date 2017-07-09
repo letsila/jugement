@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { AlertController, IonicPage, NavController, PopoverController, ViewController } from "ionic-angular";
+import { AlertController, IonicPage, MenuController, NavController, PopoverController, ViewController } from "ionic-angular";
 import { DbService } from "../../services/db.service";
 import { LoginPopover } from "../../popovers/login/login.popover";
 import * as _ from "lodash";
@@ -23,13 +23,16 @@ export class LoginPage {
     public navCtrl: NavController,
     public viewCtrl: ViewController,
     public popoverCtrl: PopoverController,
+    public menu: MenuController,
     public alertCtrl: AlertController) {
+    menu.swipeEnable(false, 'menu');
   }
 
   ngOnInit() {
+
     
     this.viewCtrl.didEnter.subscribe(() => {
-      
+
       this.judgeId = localStorage.getItem("judgeId");
 
       // récupération de la compétition en cours
@@ -104,6 +107,17 @@ export class LoginPage {
   public connectJuge() {
     localStorage.setItem("role", "juge");
     localStorage.setItem("danse", this.danseSelected);
+
+    console.log(localStorage.getItem('danse'));
+    if (!this.danseSelected) {
+      this.alertCtrl.create({
+        title: 'Erreur !',
+        subTitle: 'Vous n\'avez pas selectionné de danse à juger',
+        buttons: ['Fermer']
+      })
+        .present();
+      return;
+    }
     this.navCtrl.setRoot('JudgeSheetPage')
   }
 }

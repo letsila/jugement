@@ -38,12 +38,12 @@ export class LoginPopover {
         this.dataTunnelFunc();
         this.viewCtrl.dismiss();
       } else {
-        let alert = this.alertCtrl.create({
+        this.alertCtrl.create({
           title: 'Erreur de connexion',
           subTitle: 'Login/Mot de passe incorrect',
           buttons: ['Fermer']
-        });
-        alert.present();
+        })
+          .present();
       }
     }).catch(e => {
       console.log(e);

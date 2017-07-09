@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, IonicPage, NavParams, ViewController, LoadingController} from 'ionic-angular';
+import { NavController, IonicPage, MenuController, NavParams, ViewController, LoadingController } from 'ionic-angular';
 import { DbService } from "../../services/db.service";
 import * as _ from "lodash";
 
@@ -21,15 +21,17 @@ export class SettingsPage {
     public navParams: NavParams,
     public viewCtrl: ViewController,
     public db: DbService,
+    public menu: MenuController,
     public loading: LoadingController) {
+    menu.swipeEnable(true, 'menu');
   }
 
   ngOnInit() {
     this.viewCtrl.didEnter.subscribe(() => {
       let competId = localStorage.getItem("currentCompetitionId");
-      let loading = this.loading.create({ content: "Chargement..."});
+      let loading = this.loading.create({ content: "Chargement..." });
       loading.present();
-      
+
       this.db.get("competitions")
         .then((res) => {
           this.competition = _.find(res.list, { id: competId });

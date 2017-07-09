@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { AlertController, IonicPage, NavController, ViewController, LoadingController } from "ionic-angular";
+import { AlertController, IonicPage, MenuController, NavController, ViewController, LoadingController } from "ionic-angular";
 import { DbService } from "../../services/db.service";
 import * as _ from "lodash";
 
@@ -24,8 +24,10 @@ export class ScrutationPage {
     public navCtrl: NavController,
     public db: DbService,
     public viewCtrl: ViewController,
-    public loading: LoadingController
+    public loading: LoadingController,
+    public menu: MenuController,
   ) {
+    menu.swipeEnable(true, 'menu');
   }
 
   ngOnInit() {

@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
 import { DbService } from "../../services/db.service";
-import { AlertController, IonicPage, NavController, PopoverController } from "ionic-angular";
+import { AlertController, IonicPage, MenuController, NavController, PopoverController } from "ionic-angular";
 import { CompetitionPopover } from "../../popovers/competition/competition.popover";
 import * as _ from "lodash";
 
@@ -19,7 +19,9 @@ export class CompetitionsPage {
     public navCtrl: NavController,
     public popoverCtrl: PopoverController,
     public db: DbService,
+    public menu: MenuController,
     public alertCtrl: AlertController) {
+    menu.swipeEnable(true, 'menu');
   }
 
   ionViewWillLeave() {
