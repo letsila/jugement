@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ViewController, LoadingController} from 'ionic-angular';
+import { NavController, IonicPage, NavParams, ViewController, LoadingController} from 'ionic-angular';
 import { DbService } from "../../services/db.service";
-import { LoginPage } from "../login/login.page";
 import * as _ from "lodash";
 
+@IonicPage()
 @Component({
   selector: 'page-settings',
   templateUrl: 'settings.page.html'
@@ -67,7 +67,7 @@ export class SettingsPage {
   }
 
   public logout() {
-    this.navCtrl.push(LoginPage, {}, { animate: true, direction: "back" })
+    this.navCtrl.push('LoginPage', {}, { animate: true, direction: "back" })
   }
 
   public saveJudgeId() {

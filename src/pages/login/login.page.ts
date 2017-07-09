@@ -1,11 +1,10 @@
 import { Component } from "@angular/core";
-import { AlertController, NavController, PopoverController, ViewController } from "ionic-angular";
-import { JudgeSheetPage } from "../judge-sheet/judge-sheet.page";
-import { ScrutationPage } from "../scrutation/scrutation.page";
+import { AlertController, IonicPage, NavController, PopoverController, ViewController } from "ionic-angular";
 import { DbService } from "../../services/db.service";
 import { LoginPopover } from "../../popovers/login/login.popover";
 import * as _ from "lodash";
 
+@IonicPage()
 @Component({
   selector: "page-login",
   templateUrl: "login.page.html",
@@ -81,7 +80,7 @@ export class LoginPage {
     let popover = this.popoverCtrl.create(LoginPopover, {
       dataTunnelFunc: () => {
         console.log("func");
-        this.navCtrl.setRoot(ScrutationPage, {}, { animate: true, direction: "forward" })
+        this.navCtrl.setRoot('ScrutationPage', {}, { animate: true, direction: "forward" })
       }
     });
     popover.present();
@@ -105,6 +104,6 @@ export class LoginPage {
   public connectJuge() {
     localStorage.setItem("role", "juge");
     localStorage.setItem("danse", this.danseSelected);
-    this.navCtrl.setRoot(JudgeSheetPage)
+    this.navCtrl.setRoot('JudgeSheetPage')
   }
 }

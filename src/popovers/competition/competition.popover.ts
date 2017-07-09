@@ -1,6 +1,5 @@
 import { Component } from "@angular/core";
 import { NavParams, NavController, ViewController } from "ionic-angular";
-import { LoginPage } from "../../pages/login/login.page";
 import { DbService } from "../../services/db.service";
 
 @Component({

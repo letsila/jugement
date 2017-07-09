@@ -1,9 +1,9 @@
 import { Component, NgZone } from '@angular/core';
-import { NavController, ViewController } from 'ionic-angular';
-import { LoginPage } from "../login/login.page";
+import { NavController, IonicPage, ViewController } from 'ionic-angular';
 import { DbService } from "../../services/db.service";
 import * as _ from "lodash";
 
+@IonicPage()
 @Component({
   selector: 'page-sheet',
   templateUrl: 'judge-sheet.page.html'
@@ -11,8 +11,6 @@ import * as _ from "lodash";
 export class JudgeSheetPage {
   public criteria: string[] = ["tq", "mm", "ps", "cp"];
   public dossardsAliases: string[] = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
-  // public dossardsAliases1: string[];
-  // public dossardsAliases2: string[];
   public judgeId: string;
   public sheetId: string;
   public judgeIdFilter: string;
@@ -81,7 +79,7 @@ export class JudgeSheetPage {
   }
 
   public logout() {
-    this.navCtrl.push(LoginPage, {}, { animate: true, direction: "back" });
+    this.navCtrl.push('LoginPage', {}, { animate: true, direction: "back" });
     localStorage.setItem("role", "");
   }
 

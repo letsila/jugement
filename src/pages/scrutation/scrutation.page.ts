@@ -1,9 +1,9 @@
 import { Component } from "@angular/core";
-import { AlertController, NavController, ViewController, LoadingController } from "ionic-angular";
-import { LoginPage } from "../login/login.page";
+import { AlertController, IonicPage, NavController, ViewController, LoadingController } from "ionic-angular";
 import { DbService } from "../../services/db.service";
 import * as _ from "lodash";
 
+@IonicPage()
 @Component({
   selector: "page-scrutation",
   templateUrl: "scrutation.page.html"
@@ -26,7 +26,6 @@ export class ScrutationPage {
     public viewCtrl: ViewController,
     public loading: LoadingController
   ) {
-    this.db.get("dossards")
   }
 
   ngOnInit() {
@@ -52,12 +51,12 @@ export class ScrutationPage {
               this.db.get("competitions").then(res => {
                 this.competition = _.find(res.list, { id: this.competId });
 
-
                 this.db.get("danses")
                   .then(res => {
                     this.danses = res.list.filter(danse => {
                       if (this.competition) {
-                        return danse.competitions.indexOf(this.competition.type.id) != -1;
+                        return danse.competitions
+                          .indexOf(this.competition.type.id) != -1;
                       }
                     });
                     console.log(this.danses);
@@ -66,8 +65,6 @@ export class ScrutationPage {
                 loading.dismiss();
               })
             })
-
-
         })
         .catch(e => {
           console.log(e);
@@ -97,7 +94,7 @@ export class ScrutationPage {
    * 
    * @param danse
    */
-  public countJudgeSheetsOfDanse(danse: string) {
+  countJudgeSheetsOfDanse(danse: string) {
     return this.judgeSheets.filter(sheet => {
       return sheet.danse == danse;
     }).length;
@@ -108,7 +105,7 @@ export class ScrutationPage {
    * 
    * @param dossardIndex
    */
-  public overallScore(dossardIndex) {
+  overallScore(dossardIndex) {
     let score: number = 0;
 
     // console.log(this.danses);
@@ -123,7 +120,7 @@ export class ScrutationPage {
    * Rank overall
    * @param dossardIndex
    */
-  public rankOverall(dossardIndex) {
+  rankOverall(dossardIndex) {
 
     let dossardsRanked = this.dossards.map((dossard, index) => {
       let dossardObj: any = {};
@@ -138,7 +135,7 @@ export class ScrutationPage {
     return _.findIndex(dossardsRanked_ordered, { id: dossardIndex }) + 1;
   }
 
-  public deleteJudgeSheet(judgeSheet) {
+  deleteJudgeSheet(judgeSheet) {
     this.alertCtrl.create({
       title: "Attention !",
       message: "Etes-vous certain de vouloir supprimer cette feuille ?",
@@ -161,7 +158,7 @@ export class ScrutationPage {
       .present();
   }
 
-  public appliqueDeleteSheet(judgeSheet) {
+  appliqueDeleteSheet(judgeSheet) {
     console.log(judgeSheet);
     this.db.get(judgeSheet._id).then(sheet => {
       // sheet._deleted = true;
@@ -178,7 +175,7 @@ export class ScrutationPage {
   /**
    * Rank per danse of the dossard.
    */
-  public rankPerDanse(dossardIndex) {
+  rankPerDanse(dossardIndex) {
     let dossardsRanked = this.dossards.map((dossard, index) => {
       let dossardObj: any = {};
       dossardObj.score = this.scoresPerDanse(index);
@@ -199,7 +196,7 @@ export class ScrutationPage {
    * @param dossardIndex 
    * @param danse 
    */
-  public scoresPerDanse(dossardIndex) {
+  scoresPerDanse(dossardIndex) {
     let scoresPerDanse: number = 0;
     this.criteria.forEach(criteria => {
       scoresPerDanse += Number(
@@ -213,7 +210,7 @@ export class ScrutationPage {
   /**
    * Moyenne d'une critere pour un dossard pour une danse.
    */
-  public meanCriteriaScoreOfDossardId(dossardIndex: number, criteria: string) {
+  meanCriteriaScoreOfDossardId(dossardIndex: number, criteria: string) {
     try {
 
       let mean: number = 0;
@@ -245,7 +242,7 @@ export class ScrutationPage {
   /**
    * Moyenne
    */
-  public mean(scoresPerJudge: number[]) {
+  mean(scoresPerJudge: number[]) {
     let mean: number = 0;
     // console.log(sortedScores);
     let sortedScores = scoresPerJudge.sort();
@@ -268,8 +265,8 @@ export class ScrutationPage {
   /**
    * Logout
    */
-  public logout() {
-    this.navCtrl.push(LoginPage, {}, { animate: true, direction: "back" })
+  logout() {
+    this.navCtrl.push('LoginPage', {}, { animate: true, direction: "back" })
   }
 
 

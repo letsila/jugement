@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 import { AlertController, LoadingController, PopoverController } from 'ionic-angular';
-// import { LoginPage } from '../pages/login/login.page';
-// import { TranslateService } from 'ng2-translate';
 import * as _ from 'lodash';
 
 declare let navigator: any;

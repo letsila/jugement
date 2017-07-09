@@ -1,10 +1,10 @@
 import { Component } from "@angular/core";
 import { DbService } from "../../services/db.service";
-import { AlertController, NavController, PopoverController } from "ionic-angular";
+import { AlertController, IonicPage, NavController, PopoverController } from "ionic-angular";
 import { CompetitionPopover } from "../../popovers/competition/competition.popover";
-import { LoginPage } from "../../pages/login/login.page";
 import * as _ from "lodash";
 
+@IonicPage()
 @Component({
   selector: "page-competitions",
   templateUrl: "competitions.page.html"
@@ -191,7 +191,7 @@ export class CompetitionsPage {
   }
 
   logout() {
-    this.navCtrl.push(LoginPage, {}, { animate: true, direction: "back" })
+    this.navCtrl.push('LoginPage', {}, { animate: true, direction: "back" })
   }
 
 }
