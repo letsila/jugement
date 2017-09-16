@@ -20,7 +20,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding >
+<ion-content padding>
   <form *ngIf="scoresForm" [formGroup]="scoresForm">
     <ion-grid>
       <ion-row *ngIf="dossardsAliases1">
@@ -32,8 +32,8 @@
       <ion-row *ngFor="let critere of criteria">
         <ion-col col-2><span class="uppercase">{{ critere }}</span></ion-col>
         <ion-col col-2 class="rate" *ngFor="let indexDossard of [0, 1, 2, 3, 4];">
-          <ion-input type="number" formControlName="{{critere + indexDossard}}" placeholder="note" [(ngModel)]="dossards[indexDossard][critere]" 
-          [ngClass]="{'invalid': scroresForm && !scroresForm.controls[critere + indexDossard].valid}" (ionChange)="inputChanged()"></ion-input>
+          <ion-input type="number" formControlName="{{critere + indexDossard}}" placeholder="note" [(ngModel)]="dossards[indexDossard][critere]"
+            [ngClass]="{'invalid': scroresForm && !scroresForm.controls[critere + indexDossard].valid}" (ionChange)="inputChanged()"></ion-input>
         </ion-col>
       </ion-row>
     </ion-grid>
@@ -47,8 +47,8 @@
       <ion-row *ngFor="let critere of criteria">
         <ion-col col-2><span class="uppercase">{{ critere }}</span></ion-col>
         <ion-col col-2 class="rate" *ngFor="let indexDossard of [5, 6, 7, 8, 9];">
-          <ion-input type="number" *ngIf="criteria" formControlName="{{critere + indexDossard}}" placeholder="note" [(ngModel)]="dossards[indexDossard][critere]" 
-          [ngClass]="{'invalid': scroresForm && !scroresForm.controls[critere + indexDossard].valid}" (ionChange)="inputChanged()"></ion-input>
+          <ion-input type="number" *ngIf="criteria" formControlName="{{critere + indexDossard}}" placeholder="note" [(ngModel)]="dossards[indexDossard][critere]"
+            [ngClass]="{'invalid': scroresForm && !scroresForm.controls[critere + indexDossard].valid}" (ionChange)="inputChanged()"></ion-input>
         </ion-col>
       </ion-row>
     </ion-grid>
@@ -56,10 +56,9 @@
 </ion-content>
 
 <ion-footer>
-  <ion-row>
-    <ion-col col-3 class="legend"><strong>TQ:</strong> Technical Quality</ion-col>
-    <ion-col col-3 class="legend"><strong>MM:</strong> Movement to Music</ion-col>
-    <ion-col col-3 class="legend"><strong>PS:</strong> Partner Skill</ion-col>
-    <ion-col col-3 class="legend"><strong>CP:</strong> Choregraphy and Presentation</ion-col>
+  <ion-row *ngIf="criteriaLongObj">
+    <ion-col col-2 class="legend" *ngFor="let critere of criteriaLongObj">
+      <strong>{{ critere.short }}:</strong> {{ critere.name }}
+    </ion-col>
   </ion-row>
 </ion-footer>

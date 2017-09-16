@@ -55,6 +55,9 @@ page-sheet {
 
   .legend {
     font-size: 14px;
+    strong {
+      text-transform: uppercase;
+    }
   }
 
   ion-input.ng-invalid {

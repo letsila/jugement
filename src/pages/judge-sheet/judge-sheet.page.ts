@@ -12,6 +12,7 @@ import * as _ from 'lodash';
 })
 export class JudgeSheetPage {
   criteria?: string[];
+  criteriaLongObj: any;
   dossardsAliases: string[] = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
   judgeId: string;
   sheetId: string;
@@ -54,9 +55,11 @@ export class JudgeSheetPage {
             const competition = _.find(competitions.list, { id: this.competitionId });
 
             if (competition.type.criteria && competition.type.criteria.length) {
-              this.criteria = criteria.list.filter(critere => {
+              this.criteriaLongObj = criteria.list.filter(critere => {
                 return competition.type.criteria.indexOf(critere.id) != -1;
-              }).map(critere => {
+              })
+
+              this.criteria = this.criteriaLongObj.map(critere => {
                 return critere.short;
               })
             }
