@@ -9,10 +9,10 @@ declare let emit: any;
 
 @Injectable()
 export class DbService {
-  public db: any;
-  public remote: any;
-  public couchdbUrl: string = "http://50.116.7.99:5984/judgement-db";
-  // public couchdbUrl: string = "http://192.168.1.101:5984/judgement-db";
+  db: any;
+  remote: any;
+  // couchdbUrl: string = "http://50.116.7.99:5984/judgement-db";
+  couchdbUrl: string = "http://192.168.1.101:5984/judgement-db";
 
   constructor() {
     this.db = new PouchDB("jugement", {
@@ -22,7 +22,6 @@ export class DbService {
     });
 
     this.remote = new PouchDB(this.couchdbUrl, {
-      skipSetup: true,
       ajax: {
         timeout: 60000
       },
@@ -34,7 +33,7 @@ export class DbService {
  * Création des design doc qui sera appelé à l'instanciation de l'app,
  * cf. app.component.ts.
  */
-  public createAllDesignDoc() {
+  createAllDesignDoc() {
     let ddocs = [];
 
     // Ddoc pour retrouver toutes les sessions d'un utilisateur.
@@ -61,7 +60,7 @@ export class DbService {
   }
 
 
-  public getJudgeSheetOfCompetition(competitionId) {
+  getJudgeSheetOfCompetition(competitionId) {
     return this.db.query("judgeSheets", {
       key: competitionId,
       include_docs: true
@@ -75,7 +74,7 @@ export class DbService {
    * @param mapFunction
    * @returns {{_id: string, views: {}}}
    */
-  public createDesignDoc(name, mapFunction) {
+  createDesignDoc(name, mapFunction) {
     let ddoc = {
       _id: "_design/" + name,
       views: {}
@@ -87,7 +86,7 @@ export class DbService {
   /**
    * Sync
    */
-  public sync() {
+  sync() {
     this.db.sync(this.remote, {
       live: true,
       retry: true
@@ -106,11 +105,11 @@ export class DbService {
    * @param id
    * @returns {any}
    */
-  public get(id) {
+  get(id) {
     return this.db.get(id);
   }
 
-  public allDocs() {
+  allDocs() {
     return this.db.allDocs({ include_docs: true });
   }
 
@@ -119,7 +118,7 @@ export class DbService {
    *
    * @param arr
    */
-  public bulkDocs(arr) {
+  bulkDocs(arr) {
     return this.db.bulkDocs(arr);
   }
 
@@ -130,7 +129,7 @@ export class DbService {
    * @param obj
    * @returns {any|Observable<Response>|IDBRequest|Observable<T>}
    */
-  public put(obj) {
+  put(obj) {
     return this.db.put(obj);
   }
 
@@ -141,7 +140,7 @@ export class DbService {
    * @param id
    * @returns {any}
    */
-  public remove(id) {
+  remove(id) {
     return this.db.remove(id);
   }
 }

@@ -1,5 +1,12 @@
 import { Component } from '@angular/core';
-import { NavController, IonicPage, MenuController, NavParams, ViewController, LoadingController } from 'ionic-angular';
+import {
+  NavController,
+  IonicPage,
+  MenuController,
+  NavParams,
+  ViewController,
+  LoadingController
+} from 'ionic-angular';
 import { DbService } from "../../services/db.service";
 import * as _ from "lodash";
 

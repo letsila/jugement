@@ -26,7 +26,6 @@ export class CompetitionPopover {
   ngOnInit() {
     this.db.get("competitions-type")
       .then(res => {
-        console.log(res);
         this.competitionsType = res.list;
       }).catch(e => {
         console.log(e);
@@ -34,7 +33,6 @@ export class CompetitionPopover {
   }
 
   addCompetition(competitionForm) {
-    console.log("submit");
     this.submitAttempted = true;
 
     if (competitionForm.valid) {

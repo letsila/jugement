@@ -48,7 +48,6 @@ export class JudgeSheetPage {
     return this.dossardsAliases.slice().splice(5, 5)
   }
 
-
   ionViewDidLoad() {
     this.viewCtrl.didEnter.subscribe(() => {
       this.judgeId = localStorage.getItem("judgeId");
@@ -88,9 +87,6 @@ export class JudgeSheetPage {
     })
   }
 
-  ngOnInit() {
-  }
-
   logout() {
     this.navCtrl.push('LoginPage', {}, { animate: true, direction: "back" });
     localStorage.setItem("role", "");
@@ -107,6 +103,7 @@ export class JudgeSheetPage {
           }
         })
       })
+
       this.db.put(sheet)
 
     }).catch(e => {

@@ -9,15 +9,15 @@ import * as _ from "lodash";
   templateUrl: "scrutation.page.html"
 })
 export class ScrutationPage {
-  public dossards = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-  public judgeSheets: any[] = [];
-  public judgeId: string;
-  public danseFilter: string = "chacha";
-  public danses: any[] = [];
-  public criteria = ["tq", "mm", "ps", "cp"];
-  public dossardsAliases: string[] = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];;
-  public competition: any;
-  public competId: any;
+  dossards = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  judgeSheets: any[] = [];
+  judgeId: string;
+  danseFilter: string = "chacha";
+  danses: any[] = [];
+  criteria = ["tq", "mm", "ps", "cp"];
+  dossardsAliases: string[] = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];;
+  competition: any;
+  competId: any;
 
   constructor(
     public alertCtrl: AlertController,
@@ -39,12 +39,9 @@ export class ScrutationPage {
 
       this.db.getJudgeSheetOfCompetition(this.competId)
         .then(res => {
-          console.log(res);
           this.judgeSheets = res.rows.map(value => {
             return value.doc;
           });
-
-          console.log(this.judgeSheets);
 
           this.db.get("dossards")
             .then(res => {
@@ -61,7 +58,6 @@ export class ScrutationPage {
                           .indexOf(this.competition.type.id) != -1;
                       }
                     });
-                    console.log(this.danses);
                   })
                   .catch(e => console.log(e));
                 loading.dismiss();
@@ -78,12 +74,11 @@ export class ScrutationPage {
   doRefresh(refresher) {
     this.db.getJudgeSheetOfCompetition(this.competId)
       .then(res => {
-        console.log(res);
         this.judgeSheets = res.rows.map(value => {
           return value.doc;
         });
-        refresher.cancel();
 
+        refresher.cancel();
       })
       .catch(e => {
         console.log(e);
@@ -110,7 +105,6 @@ export class ScrutationPage {
   overallScore(dossardIndex) {
     let score: number = 0;
 
-    // console.log(this.danses);
     this.danses.forEach(danse => {
       score += Number(this.scoresPerDanse(dossardIndex)) || 0;
     });
@@ -137,6 +131,11 @@ export class ScrutationPage {
     return _.findIndex(dossardsRanked_ordered, { id: dossardIndex }) + 1;
   }
 
+  /**
+   * Alerte de suppression d'une feuille de juge.
+   * 
+   * @param judgeSheet 
+   */
   deleteJudgeSheet(judgeSheet) {
     this.alertCtrl.create({
       title: "Attention !",
@@ -160,13 +159,17 @@ export class ScrutationPage {
       .present();
   }
 
+  /**
+   * Appliquer la suppression d'une feuille de juge.
+   * 
+   * @param judgeSheet 
+   */
   appliqueDeleteSheet(judgeSheet) {
-    console.log(judgeSheet);
     this.db.get(judgeSheet._id).then(sheet => {
       // sheet._deleted = true;
       this.db.remove(sheet)
         .then(() => {
-          let index = _.findIndex(this.judgeSheets, { id: judgeSheet.id });
+          const index = _.findIndex(this.judgeSheets, { id: judgeSheet.id });
           this.judgeSheets.splice(index, 1);
         })
     }).catch(e => {
@@ -187,7 +190,6 @@ export class ScrutationPage {
     });
 
     let dossardsRanked_ordered = _.orderBy(dossardsRanked, "score", "desc");
-    // console.log(dossardsRanked_ordered);
 
     return _.findIndex(dossardsRanked_ordered, { id: dossardIndex }) + 1;
   }
@@ -246,9 +248,8 @@ export class ScrutationPage {
    */
   mean(scoresPerJudge: number[]) {
     let mean: number = 0;
-    // console.log(sortedScores);
     let sortedScores = scoresPerJudge.sort();
-    // console.log(sortedScores);
+
     if (sortedScores.length) {
       sortedScores = sortedScores.map((val, index) => {
         if (index == 0 || index == sortedScores.length - 1) {
