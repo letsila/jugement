@@ -18,8 +18,6 @@ page-sheet {
     color: red;
   }
 
-  font-size: 16px;
-
   .grid:nth-child(2) {
     margin-top: 32px !important;
   }
@@ -57,5 +55,9 @@ page-sheet {
 
   .legend {
     font-size: 14px;
+  }
+
+  ion-input.ng-invalid {
+    color: red !important;
   }
 }

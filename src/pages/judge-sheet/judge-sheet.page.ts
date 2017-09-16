@@ -1,6 +1,8 @@
 import { Component, NgZone } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 import { NavController, IonicPage, ViewController } from 'ionic-angular';
 import { DbService } from "../../services/db.service";
+import { ScoreValidator } from '../../validators/score.validator';
 
 @IonicPage()
 @Component({
@@ -8,22 +10,34 @@ import { DbService } from "../../services/db.service";
   templateUrl: 'judge-sheet.page.html'
 })
 export class JudgeSheetPage {
-  public criteria: string[] = ["tq", "mm", "ps", "cp"];
-  public dossardsAliases: string[] = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
-  public judgeId: string;
-  public sheetId: string;
-  public judgeIdFilter: string;
-  public danse: string;
-  public dossards: any[] = [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}];
-  public dossards1: any[];
-  public dossards2: any[];
-  public competitionId = localStorage.getItem("currentCompetitionId");
+  criteria: string[] = ["tq", "mm", "ps", "cp"];
+  dossardsAliases: string[] = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
+  judgeId: string;
+  sheetId: string;
+  judgeIdFilter: string;
+  danse: string;
+  dossards: any[] = [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}];
+  dossards1: any[];
+  dossards2: any[];
+  competitionId = localStorage.getItem("currentCompetitionId");
+  scoresForm: any;
 
   constructor(public navCtrl: NavController,
     public db: DbService,
     public viewCtrl: ViewController,
-    public zone: NgZone) {
+    public zone: NgZone,
+    public formBuilder: FormBuilder
+  ) {
 
+    let groupInput = {};
+
+    this.criteria.forEach(critere => {
+      [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].forEach(alias => {
+        groupInput[critere + alias] = ['', Validators.compose([Validators.maxLength(2), ScoreValidator.isValid])];
+      })
+    })
+
+    this.scoresForm = formBuilder.group(groupInput);
   }
 
   get dossardsAliases1() {
@@ -35,11 +49,8 @@ export class JudgeSheetPage {
   }
 
 
-  ngOnInit() {
+  ionViewDidLoad() {
     this.viewCtrl.didEnter.subscribe(() => {
-
-      // Always Sync 
-
       this.judgeId = localStorage.getItem("judgeId");
       this.danse = localStorage.getItem("danse");
       this.sheetId = "judge-sheet-" + this.judgeId + "-" +
@@ -55,10 +66,10 @@ export class JudgeSheetPage {
         });
 
         // this.zone.run(() => {
-          // Dossards aliases
-          this.db.get("dossards").then(res => {
-            this.dossardsAliases = res.aliases;
-          })
+        // Dossards aliases
+        this.db.get("dossards").then(res => {
+          this.dossardsAliases = res.aliases;
+        })
         // })
       })
         .catch(e => {
@@ -77,18 +88,23 @@ export class JudgeSheetPage {
     })
   }
 
-  public logout() {
+  ngOnInit() {
+  }
+
+  logout() {
     this.navCtrl.push('LoginPage', {}, { animate: true, direction: "back" });
     localStorage.setItem("role", "");
   }
 
-  public inputChanged() {
-    console.log('changement');
+  inputChanged() {
     this.db.get(this.sheetId).then(sheet => {
-
-      this.criteria.forEach(criteria => {
+      this.criteria.forEach(critere => {
         this.dossards.forEach((dossard, index) => {
-          sheet.dossards[index][criteria] = dossard[criteria];
+          if (!this.scoresForm.controls[critere + index].valid) {
+            sheet.dossards[index][critere] = 0;
+          } else {
+            sheet.dossards[index][critere] = dossard[critere];
+          }
         })
       })
       this.db.put(sheet)

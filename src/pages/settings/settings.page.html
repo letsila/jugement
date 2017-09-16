@@ -4,7 +4,7 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title text-center>
-      <ion-icon name="cog"></ion-icon>&nbsp;&nbsp;Réglages</ion-title>
+      <ion-icon name="cog"></ion-icon>Réglages</ion-title>
     <ion-buttons end>
       <button ion-button end (click)="logout()" style="font-size: 18px">
         <ion-icon name="log-out"></ion-icon>
@@ -17,14 +17,14 @@
 
   <ion-row style="margin-top: 64px;">
     <ion-col col-12 text-center *ngIf="(competition && competition.closed) || !competition">
-      <ion-icon name="information-circle" color="primary"></ion-icon> Les configurations sont ne sont pas disponible car vous n'avez pas de compétition active
+      <ion-icon name="information-circle" color="primary"></ion-icon> Les configurations ne sont pas disponibles car vous n'avez pas de compétition active
     </ion-col>
   </ion-row>
 
   <ion-list radio-group [(ngModel)]="judgeId" (ionChange)="saveJudgeId()" *ngIf="competition && !competition.closed">
     <ion-list-header>
       <ion-icon name="people" class="title-icon"></ion-icon>
-      &nbsp;&nbsp;Attribuer cette tablette au
+      Attribuer cette tablette au
     </ion-list-header>
 
     <ion-item>
@@ -39,7 +39,7 @@
   </ion-list>
   <ion-list *ngIf="dossardAliases && competition && !competition.closed">
     <ion-list-header>
-      <ion-icon name="bookmark" class="title-icon"></ion-icon>&nbsp;&nbsp; Assignation des dossards
+      <ion-icon name="bookmark" class="title-icon"></ion-icon>Assignation des dossards
     </ion-list-header>
     <ion-item *ngFor="let dossardNumber of dossards; let i=index">
       <ion-label fixed>Dossard {{ dossardNumber }}</ion-label>
