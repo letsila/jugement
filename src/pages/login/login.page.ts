@@ -146,7 +146,8 @@ export class LoginPage {
 
         this.navCtrl.push('JudgeSheetPage', {
           criteria: theCriteria,
-          scoresForm
+          scoresForm,
+          criteriaLongObj
         })
 
       }).catch(e => console.log(e))

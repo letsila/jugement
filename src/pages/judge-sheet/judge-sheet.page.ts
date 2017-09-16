@@ -12,7 +12,7 @@ import * as _ from 'lodash';
 })
 export class JudgeSheetPage {
   criteria?: string[] = this.navParams.get('criteria');
-  criteriaLongObj: any;
+  criteriaLongObj: any = this.navParams.get('criteriaLongObj');
   dossardsAliases: string[] = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
   judgeId = localStorage.getItem("judgeId");
   sheetId: string;
