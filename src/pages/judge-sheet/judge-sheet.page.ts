@@ -1,6 +1,6 @@
 import { Component, NgZone } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { NavController, IonicPage, ViewController } from 'ionic-angular';
+import { NavController, NavParams, IonicPage, ViewController } from 'ionic-angular';
 import { DbService } from "../../services/db.service";
 import { ScoreValidator } from '../../validators/score.validator';
 import * as _ from 'lodash';
@@ -11,25 +11,28 @@ import * as _ from 'lodash';
   templateUrl: 'judge-sheet.page.html'
 })
 export class JudgeSheetPage {
-  criteria?: string[];
+  criteria?: string[] = this.navParams.get('criteria');
   criteriaLongObj: any;
   dossardsAliases: string[] = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
-  judgeId: string;
+  judgeId = localStorage.getItem("judgeId");
   sheetId: string;
   judgeIdFilter: string;
-  danse: string;
+  danse: string = localStorage.getItem("danse");
   dossards: any[] = [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}];
   dossards1: any[];
   dossards2: any[];
   competitionId = localStorage.getItem("currentCompetitionId");
-  scoresForm: any;
+  scoresForm: any = this.navParams.get('scoresForm');
 
   constructor(public navCtrl: NavController,
     public db: DbService,
     public viewCtrl: ViewController,
+    public navParams: NavParams,
     public zone: NgZone,
     public formBuilder: FormBuilder
   ) {
+    this.sheetId = "judge-sheet-" + this.judgeId + "-" +
+    this.danse + "-" + this.competitionId;
   }
 
   get dossardsAliases1() {
@@ -40,52 +43,21 @@ export class JudgeSheetPage {
     return this.dossardsAliases.slice().splice(5, 5)
   }
 
-  ionViewDidLoad() {
-    this.viewCtrl.didEnter.subscribe(() => {
-      this.judgeId = localStorage.getItem("judgeId");
-      this.danse = localStorage.getItem("danse");
-      this.sheetId = "judge-sheet-" + this.judgeId + "-" +
-        this.danse + "-" + this.competitionId;
-
+  ngOnInit() {
+    // this.viewCtrl.didEnter.subscribe(() => {
       // Création de la feuille au niveau de la base
       // si celle ci n'existe pas encore.
       this.db.get(this.sheetId).then(res => {
-        this.db.get('criteria-list').then(criteria => {
-          this.db.get('competitions').then(competitions => {
-            const competition = _.find(competitions.list, { id: this.competitionId });
+        this.criteria.forEach(criteria => {
+          res.dossards.forEach((dossard, index) => {
+            this.dossards[index][criteria] = dossard[criteria];
+          });
+        });
 
-            if (competition.type.criteria && competition.type.criteria.length) {
-              this.criteriaLongObj = criteria.list.filter(critere => {
-                return competition.type.criteria.indexOf(critere.id) != -1;
-              })
-
-              this.criteria = this.criteriaLongObj.map(critere => {
-                return critere.short;
-              })
-            }
-
-            let groupInput = {};
-            this.criteria.forEach(critere => {
-              [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].forEach(alias => {
-                groupInput[critere + alias] = ['', Validators.compose([Validators.maxLength(2), ScoreValidator.isValid])];
-              })
-            })
-
-            this.scoresForm = this.formBuilder.group(groupInput);
-
-            this.criteria.forEach(criteria => {
-              res.dossards.forEach((dossard, index) => {
-                this.dossards[index][criteria] = dossard[criteria];
-              });
-            });
-
-            // Dossards aliases
-            this.db.get("dossards").then(res => {
-              this.dossardsAliases = res.aliases;
-            })
-
-          }).catch(e => console.log(e))
-        }).catch(e => console.log(e))
+        // Dossards aliases
+        this.db.get("dossards").then(res => {
+          this.dossardsAliases = res.aliases;
+        })
       })
         .catch(e => {
           if (e.name == "not_found" && this.judgeId) {
@@ -100,7 +72,7 @@ export class JudgeSheetPage {
             })
           }
         })
-    })
+    // })
   }
 
   logout() {

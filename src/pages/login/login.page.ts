@@ -2,6 +2,8 @@ import { Component } from "@angular/core";
 import { AlertController, IonicPage, MenuController, NavController, PopoverController, ViewController } from "ionic-angular";
 import { DbService } from "../../services/db.service";
 import { LoginPopover } from "../../popovers/login/login.popover";
+import { ScoreValidator } from '../../validators/score.validator';
+import { FormBuilder, Validators } from '@angular/forms';
 import * as _ from "lodash";
 
 @IonicPage()
@@ -17,6 +19,7 @@ export class LoginPage {
   loginCheck: string;
   mdpCheck: string;
   currentCompetition: any;
+  competitionId: string;
 
   constructor(
     public db: DbService,
@@ -24,6 +27,7 @@ export class LoginPage {
     public viewCtrl: ViewController,
     public popoverCtrl: PopoverController,
     public menu: MenuController,
+    public formBuilder: FormBuilder,
     public alertCtrl: AlertController) {
 
     menu.swipeEnable(false, 'menu');
@@ -45,7 +49,7 @@ export class LoginPage {
           }
         }
 
-        let competitionId = localStorage.getItem("currentCompetitionId");
+        let competitionId = this.competitionId = localStorage.getItem("currentCompetitionId");
 
         // Récupération des informations sur la compétition en cours
         this.currentCompetition = _.find(res.list, { id: competitionId });
@@ -109,6 +113,44 @@ export class LoginPage {
         .present();
       return;
     }
-    this.navCtrl.setRoot('JudgeSheetPage')
+
+    // Important !!!
+    // La construction du formGroup dans la partie onInit() du judge-sheet provoque
+    // un bug car les clé des critères de validation sont requises dans au moment
+    // de l'instanciation du component. Nous les préchargeons donc dans cette page
+    // afin de passer ces valeurs dans le constructeur.
+    this.db.get('criteria-list').then(criteria => {
+      this.db.get('competitions').then(competitions => {
+        const competition = _.find(competitions.list, { id: this.competitionId });
+
+        let theCriteria;
+        let criteriaLongObj;
+        if (competition.type.criteria && competition.type.criteria.length) {
+          criteriaLongObj = criteria.list.filter(critere => {
+            return competition.type.criteria.indexOf(critere.id) != -1;
+          })
+
+          theCriteria = criteriaLongObj.map(critere => {
+            return critere.short;
+          })
+        }
+
+        let groupInput = {};
+        theCriteria.forEach(critere => {
+          [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].forEach(alias => {
+            groupInput[critere + alias] = ['', Validators.compose([Validators.maxLength(2), ScoreValidator.isValid])];
+          })
+        })
+
+        let scoresForm = this.formBuilder.group(groupInput);
+
+        this.navCtrl.push('JudgeSheetPage', {
+          criteria: theCriteria,
+          scoresForm
+        })
+
+      }).catch(e => console.log(e))
+    }).catch(e => console.log(e))
+
   }
 }
