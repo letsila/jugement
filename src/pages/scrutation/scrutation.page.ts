@@ -12,7 +12,7 @@ export class ScrutationPage {
   dossards = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   judgeSheets: any[] = [];
   judgeId: string;
-  danseFilter: string = "chacha";
+  danseFilter: string;
   danses: any[] = [];
   criteria = ["tq", "mm", "ps", "cp"];
   dossardsAliases: string[] = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];;
@@ -31,52 +31,52 @@ export class ScrutationPage {
   }
 
   ngOnInit() {
-    this.viewCtrl.didEnter.subscribe(() => {
-      this.competId = localStorage.getItem("currentCompetitionId");
-      let loading = this.loading.create({ content: "Chargement..." });
-      loading.present();
+    this.competId = localStorage.getItem("currentCompetitionId");
+    let loading = this.loading.create({ content: "Chargement..." });
+    loading.present();
 
-      this.db.getJudgeSheetOfCompetition(this.competId)
-        .then(res => {
-          this.judgeSheets = res.rows.map(value => {
-            return value.doc;
-          });
+    this.db.getJudgeSheetOfCompetition(this.competId)
+      .then(res => {
+        this.judgeSheets = res.rows.map(value => {
+          return value.doc;
+        });
 
-          this.db.get("dossards")
-            .then(res => {
-              this.dossardsAliases = res.aliases;
+        this.db.get("dossards")
+          .then(res => {
+            this.dossardsAliases = res.aliases;
 
-              this.db.get("competitions").then(res => {
-                this.db.get('criteria-list').then(criteria => {
-                  this.competition = _.find(res.list, { id: this.competId });
-                  
-                  if (this.competition.type.criteria && this.competition.type.criteria.length) {
-                    this.criteria = criteria.list.filter(critere => {
-                      return this.competition.type.criteria.indexOf(critere.id) != -1;
-                    }).map(critere => {
-                      return critere.short;
-                    })
-                  }
+            this.db.get("competitions").then(res => {
+              this.db.get('criteria-list').then(criteria => {
+                this.competition = _.find(res.list, { id: this.competId });
 
-                  this.db.get("danses")
-                    .then(res => {
-                      this.danses = res.list.filter(danse => {
-                        if (this.competition) {
-                          return danse.competitions
-                            .indexOf(this.competition.type.id) != -1;
-                        }
-                      });
-                    })
-                    .catch(e => console.log(e));
-                  loading.dismiss();
-                }).catch(e => console.log(e))
+                if (this.competition && this.competition.type.criteria && this.competition.type.criteria.length) {
+                  this.criteria = criteria.list.filter(critere => {
+                    return this.competition.type.criteria.indexOf(critere.id) != -1;
+                  }).map(critere => {
+                    return critere.short;
+                  })
+                }
+
+                this.db.get("danses")
+                  .then(res => {
+                    this.danses = res.list.filter(danse => {
+                      if (this.competition) {
+                        return danse.competitions
+                          .indexOf(this.competition.type.id) != -1;
+                      }
+                    });
+
+                    this.danseFilter = this.danses[0].identifier;
+                  })
+                  .catch(e => console.log(e));
+                loading.dismiss();
               }).catch(e => console.log(e))
             }).catch(e => console.log(e))
-        })
-        .catch(e => {
-          console.log(e);
-        })
-    })
+          }).catch(e => console.log(e))
+      })
+      .catch(e => {
+        console.log(e);
+      })
   }
 
 
