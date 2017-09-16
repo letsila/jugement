@@ -1,0 +1,43 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title text-center>
+      <ion-icon name="cog"></ion-icon>Types</ion-title>
+    <ion-buttons end>
+      <button ion-button end (click)="logout()" style="font-size: 18px">
+        <ion-icon name="log-out"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-list-header>
+    Liste des types de compétitions
+  </ion-list-header>
+  <ion-list *ngIf="types && types.length">
+    <ion-item-sliding *ngFor="let type of types">
+      <button ion-item icon-start (click)="openCriteriaAlertOf(type.id)" tappable>
+        {{ type.name }}
+      </button>
+      <ion-item-options side="right">
+        <button ion-button icon-only color="danger" (click)="removeType(type.id)" tappable>
+            <ion-icon name="close"></ion-icon>
+          </button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+
+  <ion-list-header>
+    Ajouter un nouveau type
+  </ion-list-header>
+  <ion-list>
+    <ion-item>
+      <ion-input name="newTypeName" [(ngModel)]="newTypeName" placeholder="Dénommination"></ion-input>
+    </ion-item>
+    <button ion-button (click)="addType()">Ajouter</button>
+  </ion-list>
+
+</ion-content>
