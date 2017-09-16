@@ -11,7 +11,7 @@ import * as _ from "lodash";
 })
 export class LoginPage {
 
-  danseSelected: string = "chacha";
+  danseSelected: string;
   danses: any[];
   judgeId: string;
   loginCheck: string;
@@ -29,46 +29,43 @@ export class LoginPage {
     menu.swipeEnable(false, 'menu');
   }
 
-  ionViewDidLoad() {    
-    this.viewCtrl.didEnter.subscribe(() => {
+  ngOnInit() {
+    this.judgeId = localStorage.getItem("judgeId");
 
-      this.judgeId = localStorage.getItem("judgeId");
+    // récupération de la compétition en cours
+    this.db.get("competitions")
+      .then(res => {
+        if (localStorage.getItem("currentCompetitionId") == "") {
+          let openCompetitions = res.list.filter(res => {
+            return !res.closed;
+          })
 
-      // récupération de la compétition en cours
-      this.db.get("competitions")
-        .then(res => {
-          if (localStorage.getItem("currentCompetitionId") == "") {
-            let openCompetitions = res.list.filter(res => {
-              return !res.closed;
-            })
-
-            if (openCompetitions.length) {
-              localStorage.setItem("currentCompetitionId", openCompetitions[0].id)
-            }
+          if (openCompetitions.length) {
+            localStorage.setItem("currentCompetitionId", openCompetitions[0].id)
           }
+        }
 
-          let competitionId = localStorage.getItem("currentCompetitionId");
+        let competitionId = localStorage.getItem("currentCompetitionId");
 
-          // Récupération des informations sur la compétition en cours
-          this.currentCompetition = _.find(res.list, { id: competitionId });
-        })
-        .catch(e => {
-          console.log(e);
-        })
+        // Récupération des informations sur la compétition en cours
+        this.currentCompetition = _.find(res.list, { id: competitionId });
 
-      this.db.get("danses")
-        .then(res => {
-          this.danses = res.list.filter(danse => {
-            if (this.currentCompetition) {
-              return danse.competitions.indexOf(this.currentCompetition.type.id) != -1;
-            }
-          });
-        })
-        .catch(e => console.log(e));
+        this.db.get("danses")
+          .then(res => {
+            this.danses = res.list.filter(danse => {
+              if (this.currentCompetition) {
+                return danse.competitions.indexOf(this.currentCompetition.type.id) != -1;
+              }
+            });
+          })
+          .catch(e => console.log(e));
+      })
+      .catch(e => {
+        console.log(e);
+      })
 
-      // Insertion des aliases de dossards.
-      this.bootstrapData();
-    })
+    // Insertion des aliases de dossards.
+    this.bootstrapData();
   }
 
   /**

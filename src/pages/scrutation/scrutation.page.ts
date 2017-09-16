@@ -31,7 +31,6 @@ export class ScrutationPage {
   }
 
   ngOnInit() {
-    console.log(this.danseFilter);
     this.viewCtrl.didEnter.subscribe(() => {
       this.competId = localStorage.getItem("currentCompetitionId");
       let loading = this.loading.create({ content: "Chargement..." });
@@ -48,21 +47,31 @@ export class ScrutationPage {
               this.dossardsAliases = res.aliases;
 
               this.db.get("competitions").then(res => {
-                this.competition = _.find(res.list, { id: this.competId });
+                this.db.get('criteria-list').then(criteria => {
+                  this.competition = _.find(res.list, { id: this.competId });
+                  
+                  if (this.competition.type.criteria && this.competition.type.criteria.length) {
+                    this.criteria = criteria.list.filter(critere => {
+                      return this.competition.type.criteria.indexOf(critere.id) != -1;
+                    }).map(critere => {
+                      return critere.short;
+                    })
+                  }
 
-                this.db.get("danses")
-                  .then(res => {
-                    this.danses = res.list.filter(danse => {
-                      if (this.competition) {
-                        return danse.competitions
-                          .indexOf(this.competition.type.id) != -1;
-                      }
-                    });
-                  })
-                  .catch(e => console.log(e));
-                loading.dismiss();
-              })
-            })
+                  this.db.get("danses")
+                    .then(res => {
+                      this.danses = res.list.filter(danse => {
+                        if (this.competition) {
+                          return danse.competitions
+                            .indexOf(this.competition.type.id) != -1;
+                        }
+                      });
+                    })
+                    .catch(e => console.log(e));
+                  loading.dismiss();
+                }).catch(e => console.log(e))
+              }).catch(e => console.log(e))
+            }).catch(e => console.log(e))
         })
         .catch(e => {
           console.log(e);
