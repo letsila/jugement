@@ -71,9 +71,12 @@ export class ScrutationPage {
                     })
                     .catch(e => console.log(e));
                   loading.dismiss();
-                }).catch(e => console.log(e))
-              }).catch(e => console.log(e))
-            }).catch(e => console.log(e))
+                })
+                  .catch(e => console.log(e))
+              })
+                .catch(e => console.log(e))
+            })
+            .catch(e => console.log(e))
         })
         .catch(e => {
           console.log(e);
@@ -118,7 +121,7 @@ export class ScrutationPage {
     let score: number = 0;
 
     this.danses.forEach(danse => {
-      score += Number(this.scoresPerDanse(dossardIndex)) || 0;
+      score += Number(this.scoresPerDanse(dossardIndex, danse.identifier)) || 0;
     });
 
     return _.round(score, 3);
@@ -192,11 +195,11 @@ export class ScrutationPage {
   /**
    * Rank per danse of the dossard.
    */
-  rankPerDanse(dossardIndex) {
+  rankPerDanse(dossardIndex, danseFilter = this.danseFilter) {
     let dossardsRanked = this.dossards.map((dossard, index) => {
       let dossardObj: any = {};
-      dossardObj.score = this.scoresPerDanse(index);
-      dossardObj.danse = this.danseFilter;
+      dossardObj.score = this.scoresPerDanse(index, danseFilter);
+      dossardObj.danse = danseFilter;
       dossardObj.id = index;
       return dossardObj;
     });
@@ -212,11 +215,11 @@ export class ScrutationPage {
    * @param dossardIndex 
    * @param danse 
    */
-  scoresPerDanse(dossardIndex) {
+  scoresPerDanse(dossardIndex, danseFilter) {
     let scoresPerDanse: number = 0;
     this.criteria.forEach(criteria => {
       scoresPerDanse += Number(
-        this.meanCriteriaScoreOfDossardId(dossardIndex, criteria)
+        this.meanCriteriaScoreOfDossardId(dossardIndex, criteria, danseFilter)
       );
     });
 
@@ -226,7 +229,7 @@ export class ScrutationPage {
   /**
    * Moyenne d'une critere pour un dossard pour une danse.
    */
-  meanCriteriaScoreOfDossardId(dossardIndex: number, criteria: string) {
+  meanCriteriaScoreOfDossardId(dossardIndex: number, criteria: string, danseFilter = this.danseFilter) {
     try {
 
       let mean: number = 0;
@@ -234,7 +237,7 @@ export class ScrutationPage {
       if (this.judgeSheets.length) {
         // Les feuilles de juges pour la danse en cours.
         let sheetsOfTheDanse: any = this.judgeSheets.filter(sheet => {
-          return sheet.danse == this.danseFilter;
+          return sheet.danse == danseFilter;
         });
         // Récupération des scores du dossard pour la danse en cours.
         if (sheetsOfTheDanse.length) {

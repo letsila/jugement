@@ -32,7 +32,7 @@ export class MenuPage {
     this.pages = [
       { title: 'Scrutation', component: 'ScrutationPage', active: true, icon: 'stats' },
       { title: 'Réglages', component: 'SettingsPage', active: false, icon: 'cog' },
-      { title: 'Types', component: 'TypesPage', active: false, icon: 'funnel' },
+      { title: 'Disciplines', component: 'TypesPage', active: false, icon: 'funnel' },
       { title: 'Compétitions', component: 'CompetitionsPage', active: false, icon: 'trophy' }
     ];
 

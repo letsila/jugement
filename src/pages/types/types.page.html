@@ -4,7 +4,7 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title text-center>
-      <ion-icon name="cog"></ion-icon>Types</ion-title>
+      <ion-icon name="cog"></ion-icon>Disciplines</ion-title>
     <ion-buttons end>
       <button ion-button end (click)="logout()" style="font-size: 18px">
         <ion-icon name="log-out"></ion-icon>
@@ -15,7 +15,7 @@
 
 <ion-content>
   <ion-list-header>
-    Liste des types de compétitions
+    Liste des disciplines
   </ion-list-header>
   <ion-list *ngIf="types && types.length">
     <ion-item-sliding *ngFor="let type of types">
@@ -31,7 +31,7 @@
   </ion-list>
 
   <ion-list-header>
-    Ajouter un nouveau type
+    Ajouter une nouvelle discipline
   </ion-list-header>
   <ion-list>
     <ion-item>
