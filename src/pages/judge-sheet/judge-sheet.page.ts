@@ -1,6 +1,6 @@
 import { Component, NgZone } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { NavController, NavParams, IonicPage, ViewController } from 'ionic-angular';
+import { AlertController, NavController, NavParams, IonicPage, ViewController } from 'ionic-angular';
 import { DbService } from "../../services/db.service";
 import { ScoreValidator } from '../../validators/score.validator';
 import * as _ from 'lodash';
@@ -29,10 +29,11 @@ export class JudgeSheetPage {
     public viewCtrl: ViewController,
     public navParams: NavParams,
     public zone: NgZone,
-    public formBuilder: FormBuilder
+    public formBuilder: FormBuilder,
+    public alertCtrl: AlertController
   ) {
     this.sheetId = "judge-sheet-" + this.judgeId + "-" +
-    this.danse + "-" + this.competitionId;
+      this.danse + "-" + this.competitionId;
   }
 
   get dossardsAliases1() {
@@ -45,33 +46,33 @@ export class JudgeSheetPage {
 
   ngOnInit() {
     // this.viewCtrl.didEnter.subscribe(() => {
-      // Création de la feuille au niveau de la base
-      // si celle ci n'existe pas encore.
-      this.db.get(this.sheetId).then(res => {
-        this.criteria.forEach(criteria => {
-          res.dossards.forEach((dossard, index) => {
-            this.dossards[index][criteria] = dossard[criteria];
-          });
+    // Création de la feuille au niveau de la base
+    // si celle ci n'existe pas encore.
+    this.db.get(this.sheetId).then(res => {
+      this.criteria.forEach(criteria => {
+        res.dossards.forEach((dossard, index) => {
+          this.dossards[index][criteria] = dossard[criteria];
         });
+      });
 
-        // Dossards aliases
-        this.db.get("dossards").then(res => {
-          this.dossardsAliases = res.aliases;
-        })
+      // Dossards aliases
+      this.db.get("dossards").then(res => {
+        this.dossardsAliases = res.aliases;
       })
-        .catch(e => {
-          if (e.name == "not_found" && this.judgeId) {
-            this.db.put({
-              _id: this.sheetId,
-              judgeId: this.judgeId,
-              danse: this.danse,
-              competitionId: this.competitionId,
-              dossards: [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}]
-            }).catch(e => {
-              console.log(e);
-            })
-          }
-        })
+    })
+      .catch(e => {
+        if (e.name == "not_found" && this.judgeId) {
+          this.db.put({
+            _id: this.sheetId,
+            judgeId: this.judgeId,
+            danse: this.danse,
+            competitionId: this.competitionId,
+            dossards: [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}]
+          }).catch(e => {
+            console.log(e);
+          })
+        }
+      })
     // })
   }
 
@@ -85,6 +86,20 @@ export class JudgeSheetPage {
       this.criteria.forEach(critere => {
         this.dossards.forEach((dossard, index) => {
           if (!this.scoresForm.controls[critere + index].valid) {
+            this.alertCtrl
+              .create({
+                title: 'Score invalide',
+                message: 'Veuillez modifier le score que vous avez saisie',
+                buttons: [{
+                  text: 'Ok',
+                  role: 'cancel',
+                  handler: () => {
+                    console.log('Cancel clicked');
+                  }
+                }]
+              })
+              .present();
+
             sheet.dossards[index][critere] = 0;
           } else {
             sheet.dossards[index][critere] = dossard[critere];

@@ -67,7 +67,7 @@ export class ScrutationPage {
                         }
                       });
 
-                      this.danseFilter = this.danses[0].identifier;
+                      this.danseFilter = this.danses.length? this.danses[0].id : null;
                     })
                     .catch(e => console.log(e));
                   loading.dismiss();

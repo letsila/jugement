@@ -11,8 +11,8 @@ declare let emit: any;
 export class DbService {
   db: any;
   remote: any;
-  // couchdbUrl: string = "http://50.116.7.99:5984/judgement-db";
-  couchdbUrl: string = "http://192.168.1.101:5984/judgement-db";
+  couchdbUrl: string = "http://50.116.7.99:5984/judgement-db";
+  // couchdbUrl: string = "http://192.168.1.101:5984/judgement-db";
 
   constructor() {
     this.db = new PouchDB("jugement", {
@@ -23,6 +23,9 @@ export class DbService {
 
     this.remote = new PouchDB(this.couchdbUrl, {
       ajax: {
+        headers: {
+          Authorization: 'Basic ' + window.btoa('admin:petitgqrcon*&1')
+        },
         timeout: 60000
       },
       retry: true
@@ -30,8 +33,8 @@ export class DbService {
   }
 
   /**
- * Création des design doc qui sera appelé à l'instanciation de l'app,
- * cf. app.component.ts.
+   * Création des design doc qui sera appelé à l'instanciation de l'app,
+   * cf. app.component.ts.
  */
   createAllDesignDoc() {
     let ddocs = [];
@@ -45,18 +48,18 @@ export class DbService {
       })
     );
 
-    // Insertion des ddocs.
-    ddocs.forEach(ddoc => {
-      this.db
-        .put(ddoc)
-        .then(() => {
-          console.log("ddoc inseré");
-        })
-        .catch(e => {
-          console.log("ddoc insertion error");
-          console.log(e);
-        });
-    });
+    // // Insertion des ddocs.
+    // ddocs.forEach(ddoc => {
+    //   this.db
+    //     .put(ddoc)
+    //     .then(() => {
+    //       console.log("ddoc inseré");
+    //     })
+    //     .catch(e => {
+    //       console.log("ddoc insertion error");
+    //       console.log(e);
+    //     });
+    // });
   }
 
 
@@ -87,15 +90,26 @@ export class DbService {
    * Sync
    */
   sync() {
-    this.db.sync(this.remote, {
-      live: true,
+    console.log('replicate from');
+    return this.db.replicate.from(this.remote, {
+      live: false,
       retry: true
-    }).on('change', function (change) {
-      console.log('changing ...');
     })
-      .on('error', function (err) {
-        console.log(err);
-      });;
+    // .on('change', function (change) {
+    //   console.log('changing ...');
+    // })
+    //   .on('error', function (err) {
+    //     console.log(err);
+    //   });
+    // this.db.replicate.to(this.remote, {
+    //   live: true,
+    //   retry: true
+    // }).on('change', function (change) {
+    //   console.log('changing ...');
+    // })
+    //   .on('error', function (err) {
+    //     console.log(err);
+    //   });
   }
 
   /**

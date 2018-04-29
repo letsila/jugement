@@ -36,7 +36,6 @@ export class LoginPage {
   ngOnInit() {
     this.judgeId = localStorage.getItem("judgeId");
 
-    // récupération de la compétition en cours
     this.db.get("competitions")
       .then(res => {
         if (localStorage.getItem("currentCompetitionId") == "") {
@@ -70,6 +69,7 @@ export class LoginPage {
 
     // Insertion des aliases de dossards.
     this.bootstrapData();
+
   }
 
   /**
