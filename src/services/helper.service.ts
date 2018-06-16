@@ -27,6 +27,16 @@ export class HelperService {
   }
 
   /**
+   * Retourne une instance de loading.
+   */
+  public getLoading(text: string = '') {
+    console.log('presenting loading ...');
+    return this.loadingCtrl.create({
+      content: 'En cours de chargement ...'
+    });
+  }
+
+  /**
    * Affiche la date du jour au format dd/mm/yyyy
    */
   public static getFormatedDate(today: Date, separator = '/') {

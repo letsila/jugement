@@ -3,6 +3,11 @@
     <ion-title text-center style="padding-bottom: 8px;">
       <h6>JUDGING SYSTEM 2.0</h6>
     </ion-title>
+    <ion-buttons end>
+      <button ion-button end (click)="sync()" style="font-size: 18px">
+        <ion-icon name="sync"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -10,11 +15,13 @@
   <ion-grid>
 
     <ion-item *ngIf="currentCompetition" text-center>
-      <ion-icon name="trophy"></ion-icon><span class="uppercase">{{ currentCompetition.titre }}</span> - {{ currentCompetition.type.name
-      }} - {{ currentCompetition.date | formatDate }}
+      <ion-icon name="trophy"></ion-icon>
+      <span class="uppercase">{{ currentCompetition.titre }}</span> - {{ currentCompetition.type.name }} - {{ currentCompetition.date | formatDate
+      }}
     </ion-item>
 
-    <div text-center style="margin: 32px 0;" *ngIf="(!judgeId || judgeId == 'null') && (currentCompetition && !currentCompetition.closed)" class="config-error-msg">
+    <div text-center style="margin: 32px 0;" *ngIf="(!judgeId || judgeId == 'null') && (currentCompetition && !currentCompetition.closed)"
+      class="config-error-msg">
       <ion-icon name="alert" color="danger"></ion-icon> Votre feuille n'a pas été configurée, veuillez vous réferer au scrutateur.
     </div>
     <div text-center style="margin: 32px 0;" *ngIf="!currentCompetition" class="config-error-msg">
@@ -34,11 +41,11 @@
 
     <div *ngIf="judgeId && judgeId != 'null' && currentCompetition && !currentCompetition.closed">
       <button ion-button (click)="connectJuge()" icon-end color="secondary" class="connexion judge-btn">
-          FEUILLE JUGE
-          <ion-badge>
-            <span class="capitalize">{{ judgeId }}</span>
-          </ion-badge>
-          <ion-icon name="arrow-forward"></ion-icon>
+        FEUILLE JUGE
+        <ion-badge>
+          <span class="capitalize">{{ judgeId }}</span>
+        </ion-badge>
+        <ion-icon name="arrow-forward"></ion-icon>
       </button>
     </div>
   </ion-grid>

@@ -7,6 +7,7 @@ import { MyApp } from './app.component';
 import { LoginPopover } from "../popovers/login/login.popover";
 import { CompetitionPopover } from "../popovers/competition/competition.popover";
 
+import { HelperService } from '../services/helper.service';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
@@ -32,6 +33,7 @@ import { DbService } from "../services/db.service";
     StatusBar,
     SplashScreen,
     DbService,
+    HelperService,
     { provide: ErrorHandler, useClass: IonicErrorHandler }
   ]
 })

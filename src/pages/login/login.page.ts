@@ -1,10 +1,15 @@
 import { Component } from "@angular/core";
-import { AlertController, IonicPage, MenuController, NavController, PopoverController, ViewController } from "ionic-angular";
+import { AlertController, Platform, IonicPage, MenuController, NavController, PopoverController, ViewController } from "ionic-angular";
 import { DbService } from "../../services/db.service";
 import { LoginPopover } from "../../popovers/login/login.popover";
 import { ScoreValidator } from '../../validators/score.validator';
 import { FormBuilder, Validators } from '@angular/forms';
+import { HelperService } from '../../services/helper.service';
 import * as _ from "lodash";
+
+
+declare let navigator: any;
+declare let Connection: any;
 
 @IonicPage()
 @Component({
@@ -26,6 +31,8 @@ export class LoginPage {
     public navCtrl: NavController,
     public viewCtrl: ViewController,
     public popoverCtrl: PopoverController,
+    public helper: HelperService,
+    public platform: Platform,
     public menu: MenuController,
     public formBuilder: FormBuilder,
     public alertCtrl: AlertController) {
@@ -153,5 +160,74 @@ export class LoginPage {
       }).catch(e => console.log(e))
     }).catch(e => console.log(e))
 
+  }
+
+  /**
+   * Synchronise pouchdb : récupération de catalogue et envoie de sessions de ventes.
+   */
+  public async sync() {
+    const loading = this.helper.getLoading();
+    loading.present();
+
+    const noInternetTxt = "Erreur internet";
+    const noInternetMsg = "Vous n'êtes pas connectés au réseau!";
+    const catalogDownloadErrorMsg = "Erreur de téléchargement"
+    const pouchdbSyncedSuccessMsg = "Votre base de données est à jour";
+
+    if (
+      this.platform.is('cordova') &&
+      navigator.connection.type == Connection.NONE
+    ) {
+      this.alertCtrl.create({
+        title: 'Erreur !',
+        subTitle: noInternetMsg,
+        buttons: ['Fermer']
+      })
+        .present();
+      loading.dismiss();
+    } else {
+      this.db
+        .replicateToRemote(false)
+        .on('error', () => {
+          console.log('error');
+        })
+        .on('complete', () => {
+          console.log('replicateToRemote');
+          this.db
+            .replicateFromRemote(false)
+            .on('denied', err => {
+              loading.dismiss();
+              this.alertCtrl.create({
+                title: 'Erreur !',
+                subTitle: catalogDownloadErrorMsg,
+                buttons: ['Fermer']
+              })
+                .present();
+              console.log(err);
+            })
+            .on('complete', err => {
+              loading.dismiss();
+              this.alertCtrl.create({
+                title: 'Synchronisé !',
+                subTitle: pouchdbSyncedSuccessMsg,
+                buttons: ['Fermer']
+              })
+                .present();
+            })
+            .on('error', e => {
+              loading.dismiss();
+              this.alertCtrl.create({
+                title: 'OOPS ...',
+                subTitle: catalogDownloadErrorMsg,
+                buttons: ['Fermer']
+              })
+                .present();
+              console.error(e);
+            })
+            .catch(e => {
+              console.error(e);
+            });
+        });
+    }
   }
 }

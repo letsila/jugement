@@ -24,7 +24,7 @@ export class DbService {
     this.remote = new PouchDB(this.couchdbUrl, {
       ajax: {
         headers: {
-          Authorization: 'Basic ' + window.btoa('admin:petitgqrcon*&1')
+          Authorization: 'Basic ' + window.btoa('admin:xKhjm1y9z3q46uOkURGO')
         },
         timeout: 60000
       },
@@ -91,25 +91,48 @@ export class DbService {
    */
   sync() {
     console.log('replicate from');
-    return this.db.replicate.from(this.remote, {
+    this.db.replicate.from(this.remote, {
       live: false,
       retry: true
     })
-    // .on('change', function (change) {
-    //   console.log('changing ...');
-    // })
-    //   .on('error', function (err) {
-    //     console.log(err);
-    //   });
-    // this.db.replicate.to(this.remote, {
-    //   live: true,
-    //   retry: true
-    // }).on('change', function (change) {
-    //   console.log('changing ...');
-    // })
-    //   .on('error', function (err) {
-    //     console.log(err);
-    //   });
+      .on('change', function (change) {
+        console.log('changing ...');
+      })
+      .on('error', function (err) {
+        console.log(err);
+      });
+    return this.db.replicate.to(this.remote, {
+      live: true,
+      retry: true
+    }).on('change', function (change) {
+      console.log('changing ...');
+    })
+      .on('error', function (err) {
+        console.log(err);
+      });
+  }
+
+
+  /**
+   * Fonction de réplication pouchdb -> couchdb
+   */
+  public replicateFromRemote(live = false) {
+    return this.db.replicate.from(this.remote, {
+      timeout: 60000,
+      retry: true,
+      live,
+    });
+  }
+
+  /**
+   * Fonction de réplication couchdb -> pouchdb
+   */
+  public replicateToRemote(live = false) {
+    return this.db.replicate.to(this.remote, {
+      timeout: 60000,
+      retry: true,
+      live,
+    });
   }
 
   /**
