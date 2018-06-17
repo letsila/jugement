@@ -68,7 +68,7 @@ export class ScrutationPage {
                         }
                       });
 
-                      this.danseFilter = this.danses.length ? this.danses[0].id : null;
+                      this.danseFilter = this.danses.length ? this.danses[0].identifier : null;
                     })
                     .catch(e => console.log(e));
                   loading.dismiss();
@@ -127,6 +127,41 @@ export class ScrutationPage {
 
     return _.round(score, 3);
   }
+
+  /**
+   * Score global
+   * 
+   * @param dossardIndex
+   */
+  overallScoreSK(dossardIndex) {
+    let score: number = 0;
+
+    this.danses.forEach(danse => {
+      score += Number(this.scoresPerDanseSK(dossardIndex, danse.identifier)) || 0;
+    });
+
+    return _.round(score, 3);
+  }
+
+  /**
+   * Rank overall
+   * @param dossardIndex
+   */
+  rankOverallSK(dossardIndex) {
+
+    let dossardsRanked = this.dossards.map((dossard, index) => {
+      let dossardObj: any = {};
+      dossardObj.score = this.overallScoreSK(index);
+      dossardObj.id = index;
+      return dossardObj;
+    });
+
+    let dossardsRanked_ordered = _.orderBy(dossardsRanked, "score", "desc");
+    // console.log(dossardsRanked_ordered);
+
+    return _.findIndex(dossardsRanked_ordered, { id: dossardIndex }) + 1;
+  }
+
 
   /**
    * Rank overall
@@ -225,6 +260,27 @@ export class ScrutationPage {
     });
 
     return _.round(scoresPerDanse, 3);
+  }
+
+  scoresPerDanseSK(dossardIndex, danseFilter = this.danseFilter) {
+    let total: number = 0;
+
+    if (this.judgeSheets.length) {
+      let sheetsOfTheDanse: any = this.judgeSheets.filter(sheet => {
+        return sheet.danse == danseFilter;
+      });
+      if (sheetsOfTheDanse.length) {
+        let scores = [];
+        sheetsOfTheDanse.forEach(sheet => {
+          scores.push(
+            sheet.dossards[Number(dossardIndex)] || 0
+          );
+        })
+
+        total = scores.filter(val => val).length;
+      }
+    }
+    return total;
   }
 
   /**
