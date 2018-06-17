@@ -3,7 +3,7 @@
     <name>Judging System 2.0</name>
     <description>An awesome Ionic/Cordova app.</description>
     <author email="hi@ionicframework" href="http://ionicframework.com/">Ionic Framework Team</author>
-    <content src="index.html" />
+    <content original-src="index.html" src="http://192.168.1.102:8100" />
     <access origin="*" />
     <allow-navigation href="http://ionic.local/*" />
     <allow-intent href="http://*/*" />
@@ -83,6 +83,9 @@
     <plugin name="cordova-plugin-statusbar" spec="2.2.2" />
     <plugin name="cordova-plugin-device" spec="1.1.4" />
     <plugin name="cordova-plugin-splashscreen" spec="~4.0.1" />
+    <allow-navigation href="http://192.168.1.100:8100" />
+    <allow-navigation href="http://192.168.1.102:8100" />
+    <plugin name="cordova-plugin-network-information" spec="2.0.1" />
     <engine name="ios" spec="~4.3.1" />
     <engine name="android" spec="~6.1.2" />
 </widget>
