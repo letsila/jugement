@@ -2,6 +2,7 @@ import { Component } from "@angular/core";
 import { AlertController, IonicPage, MenuController, NavController, ViewController, LoadingController } from "ionic-angular";
 import { DbService } from "../../services/db.service";
 import * as _ from "lodash";
+import { constructDependencies } from "@angular/core/src/di/reflective_provider";
 
 @IonicPage()
 @Component({
@@ -67,7 +68,7 @@ export class ScrutationPage {
                         }
                       });
 
-                      this.danseFilter = this.danses.length? this.danses[0].id : null;
+                      this.danseFilter = this.danses.length ? this.danses[0].id : null;
                     })
                     .catch(e => console.log(e));
                   loading.dismiss();
@@ -265,7 +266,27 @@ export class ScrutationPage {
     let mean: number = 0;
     let sortedScores = scoresPerJudge.sort();
 
-    if (sortedScores.length) {
+    // System 2.1 si le nombre de juge est impair et supérieur à 2
+    if (sortedScores.length && sortedScores.length > 2 && sortedScores.length % 2 != 0) {
+      const medianIndex = Math.ceil(sortedScores.length / 2) - 1;
+      let weights = [];
+
+      const numerator = sortedScores.reduce((accumulator, currentValue) => {
+        const distance = Math.abs(currentValue - sortedScores[medianIndex]);
+        const weight = 1 / (1 + Math.pow(distance, 2));
+        const updatedScore = currentValue * weight;
+        weights.push(weight);
+
+        return accumulator + updatedScore;
+      }, 0);
+
+      const denominator = _.sum(weights);
+
+      mean = numerator / (denominator);
+    }
+
+    // System 2.1 si le nombre de juge est pair et supérieur à 1
+    if (sortedScores.length && sortedScores.length > 1 && sortedScores.length % 2 == 0) {
       sortedScores = sortedScores.map((val, index) => {
         if (index == 0 || index == sortedScores.length - 1) {
           return val / 2;
@@ -277,6 +298,7 @@ export class ScrutationPage {
       mean = _.sum(sortedScores) / divider;
     }
 
+    // return sortedScores.length;
     return _.round(mean, 3);
   }
 
