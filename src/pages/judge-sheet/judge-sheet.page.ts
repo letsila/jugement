@@ -18,11 +18,14 @@ export class JudgeSheetPage {
   sheetId: string;
   judgeIdFilter: string;
   danse: string = localStorage.getItem("danse");
+  dossardsSkating = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
   dossards: any[] = [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}];
   dossards1: any[];
   dossards2: any[];
   competitionId = localStorage.getItem("currentCompetitionId");
+  currentCompetition = this.navParams.get("currentCompetition");
   scoresForm: any = this.navParams.get('scoresForm');
+
 
   constructor(public navCtrl: NavController,
     public db: DbService,
@@ -44,41 +47,78 @@ export class JudgeSheetPage {
     return this.dossardsAliases.slice().splice(5, 5)
   }
 
-  ngOnInit() {
-    // this.viewCtrl.didEnter.subscribe(() => {
-    // Création de la feuille au niveau de la base
-    // si celle ci n'existe pas encore.
-    this.db.get(this.sheetId).then(res => {
-      this.criteria.forEach(criteria => {
-        res.dossards.forEach((dossard, index) => {
-          this.dossards[index][criteria] = dossard[criteria];
-        });
-      });
+  get checkboxColor() {
+    const checkedNumber = this.dossardsSkating.filter(value => value).length;
 
-      // Dossards aliases
-      this.db.get("dossards").then(res => {
-        this.dossardsAliases = res.aliases;
-      })
-    })
-      .catch(e => {
+    if (checkedNumber == this.currentCompetition.nombreSelection) {
+      return "true";
+    } else {
+      return "danger";
+    }
+  }
+
+  ionViewDidLoad() {
+    this.viewCtrl.didEnter.subscribe(() => {
+      console.log(this.sheetId);
+      // Création de la feuille au niveau de la base
+      // si celle ci n'existe pas encore.
+      this.db.get(this.sheetId).then(res => {
+        if (this.currentCompetition.judgingSystem && this.currentCompetition.judgingSystem == 1) {
+          this.criteria.forEach(criteria => {
+            res.dossards.forEach((dossard, index) => {
+              this.dossards[index][criteria] = dossard[criteria];
+            });
+          });
+        }
+
+        if (this.currentCompetition.judgingSystem && this.currentCompetition.judgingSystem == 2) {
+          this.dossardsSkating = res.dossards;
+        }
+
+        // Dossards aliases
+        this.db.get("dossards").then(res => {
+          this.dossardsAliases = res.aliases;
+        });
+      }).catch(e => {
         if (e.name == "not_found" && this.judgeId) {
+          let dossards = [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}];
+          if (this.currentCompetition.judgingSystem && this.currentCompetition.judgingSystem == 2) {
+            dossards = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+          }
+
           this.db.put({
             _id: this.sheetId,
             judgeId: this.judgeId,
             danse: this.danse,
             competitionId: this.competitionId,
-            dossards: [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}]
+            dossards
           }).catch(e => {
             console.log(e);
           })
         }
       })
-    // })
+    })
   }
 
   logout() {
     this.navCtrl.push('LoginPage', {}, { animate: true, direction: "back" });
     localStorage.setItem("role", "");
+  }
+
+
+
+
+  checkBoxChanged() {
+    this.db.get(this.sheetId).then(sheet => {
+      this.dossardsSkating.forEach((dossard, index) => {
+        sheet.dossards[index] = dossard;
+      });
+
+      this.db.put(sheet);
+    })
+      .catch(e => {
+        console.log(e);
+      });
   }
 
   inputChanged() {

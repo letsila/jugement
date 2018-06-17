@@ -33,7 +33,9 @@
     </ion-item>
 
     <ion-item *ngFor="let judgeAlias of judgeAliases">
-      <ion-label>JUGE <span class="uppercase">{{ judgeAlias }}</span></ion-label>
+      <ion-label>JUGE
+        <span class="uppercase">{{ judgeAlias }}</span>
+      </ion-label>
       <ion-radio value="{{ judgeAlias }}"></ion-radio>
     </ion-item>
   </ion-list>
@@ -44,6 +46,15 @@
     <ion-item *ngFor="let dossardNumber of dossards; let i=index">
       <ion-label fixed>Dossard {{ dossardNumber }}</ion-label>
       <ion-input [(ngModel)]="dossardAliases[i]" type="text"></ion-input>
+    </ion-item>
+  </ion-list>
+  <ion-list *ngIf="competition && competition.judgingSystem && competition.judgingSystem == 2">
+    <ion-list-header>
+      <ion-icon name="contacts" class="title-icon"></ion-icon>Nombre de selection (skating system)
+    </ion-list-header>
+    <ion-item>
+      <ion-label fixed>Nb.</ion-label>
+      <ion-input [(ngModel)]="nombreSelection" type="text"></ion-input>
     </ion-item>
   </ion-list>
 

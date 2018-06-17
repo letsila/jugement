@@ -22,6 +22,8 @@ export class SettingsPage {
   public dossardAliases: string[] = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
   public judgeAliases: string[] = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
   public competition: any;
+  public nombreSelection: number = 8;
+  public competId = localStorage.getItem("currentCompetitionId");
 
   constructor(
     public navCtrl: NavController,
@@ -33,17 +35,14 @@ export class SettingsPage {
     menu.swipeEnable(true, 'menu');
   }
 
-  ngOnInit() {
+  ionViewDidLoad() {
     this.viewCtrl.didEnter.subscribe(() => {
-      let competId = localStorage.getItem("currentCompetitionId");
       let loading = this.loading.create({ content: "Chargement..." });
       loading.present();
 
       this.db.get("competitions")
         .then((res) => {
-          this.competition = _.find(res.list, { id: competId });
-          console.log(this.competition);
-
+          this.competition = _.find(res.list, { id: this.competId });
 
           // Dossards
           this.db.get("dossards")
@@ -59,17 +58,19 @@ export class SettingsPage {
   }
 
   ionViewWillLeave() {
-    console.log("changed ...");
-    console.log(this.dossardAliases);
 
     this.db.get("dossards").then(res => {
-      console.log(res);
       res.aliases = this.dossardAliases;
-      this.db.put(res).then(() => {
-        // this.dossardAliases = 
-      }).catch(e => {
-        console.log(e);
-      })
+      this.db.put(res).then(() => { // this.dossardAliases = 
+      });
+
+      this.db.get("competitions").then(res => {
+        const currCompetIndex = _.findIndex(res.list, { id: this.competId });
+        res.list[currCompetIndex].nombreSelection = this.nombreSelection;
+
+        this.db.put(res).then(() => {
+        });
+      });
     }).catch(e => {
       console.log(e);
     })

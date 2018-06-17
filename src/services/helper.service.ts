@@ -32,7 +32,7 @@ export class HelperService {
   public getLoading(text: string = '') {
     console.log('presenting loading ...');
     return this.loadingCtrl.create({
-      content: 'En cours de chargement ...'
+      content: 'En cours de synchronisation ...'
     });
   }
 

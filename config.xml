@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.judgement.tc" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>Judging System 2.0</name>
+<widget id="com.judgement.tc" version="0.1.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>Judging System 2.1</name>
     <description>An awesome Ionic/Cordova app.</description>
     <author email="hi@ionicframework" href="http://ionicframework.com/">Ionic Framework Team</author>
-    <content src="index.html" />
+    <content original-src="index.html" src="http://192.168.1.102:8101" />
     <access origin="*" />
     <allow-navigation href="http://ionic.local/*" />
     <allow-intent href="http://*/*" />
@@ -86,6 +86,7 @@
     <allow-navigation href="http://192.168.1.100:8100" />
     <allow-navigation href="http://192.168.1.102:8100" />
     <plugin name="cordova-plugin-network-information" spec="2.0.1" />
+    <allow-navigation href="http://192.168.1.102:8101" />
     <engine name="ios" spec="~4.3.1" />
     <engine name="android" spec="~6.1.2" />
 </widget>

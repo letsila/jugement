@@ -9,7 +9,8 @@
       <ion-icon name="alert" color="danger"></ion-icon>Votre feuille n'a pas été configurée correctement, veuillez vous réferer au scrutateur.
     </ion-title>
     <ion-title text-center *ngIf="judgeId">
-      <ion-icon name="paper"></ion-icon>Feuille Juge <span class="uppercase">{{ judgeId }}</span> -
+      <ion-icon name="paper"></ion-icon>Feuille Juge
+      <span class="uppercase">{{ judgeId }}</span> -
       <span class="uppercase danse-name">{{ danse }}</span>
     </ion-title>
     <ion-buttons end>
@@ -21,7 +22,7 @@
 </ion-header>
 
 <ion-content padding>
-  <form [formGroup]="scoresForm">
+  <form [formGroup]="scoresForm" *ngIf="currentCompetition && !currentCompetition.judgingSystem || currentCompetition.judgingSystem == 1">
     <ion-grid>
       <ion-row *ngIf="dossardsAliases1">
         <ion-col col-2></ion-col>
@@ -30,7 +31,9 @@
         </ion-col>
       </ion-row>
       <ion-row *ngFor="let critere of criteria">
-        <ion-col col-2><span class="uppercase">{{ critere }}</span></ion-col>
+        <ion-col col-2>
+          <span class="uppercase">{{ critere }}</span>
+        </ion-col>
         <ion-col col-2 class="rate" *ngFor="let indexDossard of [0, 1, 2, 3, 4];">
           <ion-input type="number" formControlName="{{critere + indexDossard}}" placeholder="note" [(ngModel)]="dossards[indexDossard][critere]"
             [ngClass]="{'invalid': scroresForm && !scroresForm.controls[critere + indexDossard].valid}" (ionChange)="inputChanged()"></ion-input>
@@ -45,7 +48,9 @@
         </ion-col>
       </ion-row>
       <ion-row *ngFor="let critere of criteria">
-        <ion-col col-2><span class="uppercase">{{ critere }}</span></ion-col>
+        <ion-col col-2>
+          <span class="uppercase">{{ critere }}</span>
+        </ion-col>
         <ion-col col-2 class="rate" *ngFor="let indexDossard of [5, 6, 7, 8, 9];">
           <ion-input type="number" *ngIf="criteria" formControlName="{{critere + indexDossard}}" placeholder="note" [(ngModel)]="dossards[indexDossard][critere]"
             [ngClass]="{'invalid': scroresForm && !scroresForm.controls[critere + indexDossard].valid}" (ionChange)="inputChanged()"></ion-input>
@@ -53,9 +58,16 @@
       </ion-row>
     </ion-grid>
   </form>
+
+  <ion-list *ngIf="currentCompetition.judgingSystem && currentCompetition.judgingSystem == 2">
+    <ion-item *ngFor="let dossardAlias of dossardsAliases; let i=index;">
+      <ion-label>{{ dossardAlias }}</ion-label>
+      <ion-checkbox [(ngModel)]="dossardsSkating[i]" (ionChange)="checkBoxChanged()" color="{{ checkboxColor }}"></ion-checkbox>
+    </ion-item>
+  </ion-list>
 </ion-content>
 
-<ion-footer>
+<ion-footer *ngIf="currentCompetition && currentCompetition.judgingSystem && currentCompetition.judgingSystem == 2">
   <ion-row *ngIf="criteriaLongObj">
     <ion-col col-2 class="legend" *ngFor="let critere of criteriaLongObj">
       <strong>{{ critere.short }}:</strong> {{ critere.name }}

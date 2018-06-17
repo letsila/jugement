@@ -154,7 +154,8 @@ export class LoginPage {
         this.navCtrl.push('JudgeSheetPage', {
           criteria: theCriteria,
           scoresForm,
-          criteriaLongObj
+          criteriaLongObj,
+          currentCompetition: this.currentCompetition
         })
 
       }).catch(e => console.log(e))
@@ -179,7 +180,7 @@ export class LoginPage {
       navigator.connection.type == Connection.NONE
     ) {
       this.alertCtrl.create({
-        title: 'Erreur !',
+        title: noInternetTxt,
         subTitle: noInternetMsg,
         buttons: ['Fermer']
       })

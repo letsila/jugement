@@ -1,6 +1,6 @@
 <ion-row class="popover-header">
   <h5 class="popover-title">
-    NOUVELLE COMPETITION
+    Nouvelle Compétition
   </h5>
 </ion-row>
 
@@ -20,6 +20,13 @@
         <ion-radio value="{{ type.id }}"></ion-radio>
       </ion-item>
     </ion-list>
+
+    <ion-list radio-group class="judging-systems-list" [(ngModel)]="judgingSystemId" name="judgingSytem">
+        <ion-item *ngFor="let system of judgingSystems">
+          <ion-label>{{ system.name }}</ion-label>
+          <ion-radio value="{{ system.id }}"></ion-radio>
+        </ion-item>
+      </ion-list>
   </form>
 </ion-row>
 <ion-row>

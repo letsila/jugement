@@ -14,13 +14,23 @@ export class CompetitionPopover {
   submitAttempted: boolean;
 
   competitionsType: any[] = [];
+  judgingSystemId: number = 1;
+  judgingSystems = [
+    {
+      id: 1,
+      name: "System 2.1"
+    },
+    {
+      id: 2,
+      name: "Skating system"
+    }
+  ];
 
   constructor(
     public navParams: NavParams,
     public navCtrl: NavController,
     public viewCtrl: ViewController,
     public db: DbService) {
-
   }
 
   ngOnInit() {
@@ -36,7 +46,7 @@ export class CompetitionPopover {
     this.submitAttempted = true;
 
     if (competitionForm.valid) {
-      this.sendDataToCaller(this.competitionTitre, this.competitionTypeId);
+      this.sendDataToCaller(this.competitionTitre, this.competitionTypeId, this.judgingSystemId);
       this.viewCtrl.dismiss();
     }
   }

@@ -32,8 +32,6 @@ export class CompetitionsPage {
   ngOnInit() {
     this.currentCompetitionId = localStorage.getItem("currentCompetitionId");
 
-    console.log(this.currentCompetitionId);
-
     this.loadCompetitions();
 
     this.db.get("competitions-type")
@@ -159,22 +157,22 @@ export class CompetitionsPage {
   }
 
   openAddCompetitionPopover() {
-    let newCompetitionPopover = this.popoverCtrl.create(CompetitionPopover, {
-      dataTunnelFunc: (competitionTitre, competitionType) => {
-        this.saveNewCompetition(competitionTitre, competitionType);
+    const newCompetitionPopover = this.popoverCtrl.create(CompetitionPopover, {
+      dataTunnelFunc: (competitionTitre, competitionType, judgingSystemId) => {
+        this.saveNewCompetition(competitionTitre, competitionType, judgingSystemId);
       }
-    })
+    });
 
     newCompetitionPopover.present();
   }
 
-  saveNewCompetition(competitionTitre, competitionType) {
+  saveNewCompetition(competitionTitre, competitionType, judgingSystemId) {
     let competitionTypeObj = _.find(this.competitionsType, { id: Number(competitionType) });
-    console.log(competitionTypeObj);
     let newCompet = {
       id: "compet-" + Date.now(),
       type: competitionTypeObj,
       titre: competitionTitre,
+      judgingSystem: judgingSystemId,
       closed: false,
       date: Date.now()
     };

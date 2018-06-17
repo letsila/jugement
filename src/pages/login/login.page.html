@@ -1,10 +1,10 @@
 <ion-header>
   <ion-toolbar>
     <ion-title text-center style="padding-bottom: 8px;">
-      <h6>JUDGING SYSTEM 2.0</h6>
+      <h6>JUDGING SYSTEM 2.1</h6>
     </ion-title>
-    <ion-buttons end>
-      <button ion-button end (click)="sync()" style="font-size: 18px">
+    <ion-buttons right>
+      <button ion-button end (click)="sync()" style="font-size: 24px">
         <ion-icon name="sync"></ion-icon>
       </button>
     </ion-buttons>
@@ -14,10 +14,11 @@
 <ion-content style="background-color: #f5f5f5">
   <ion-grid>
 
-    <ion-item *ngIf="currentCompetition" text-center>
+    <ion-item *ngIf="currentCompetition" text-center class="competition-infos">
       <ion-icon name="trophy"></ion-icon>
-      <span class="uppercase">{{ currentCompetition.titre }}</span> - {{ currentCompetition.type.name }} - {{ currentCompetition.date | formatDate
-      }}
+      <div class="uppercase" style="font-size: 24px; padding: 16px">{{ currentCompetition.titre }}</div>
+      <div style="padding: 8px">{{ currentCompetition.type.name }}</div>
+      <div style="font-size: 12px; color: grey;">{{ currentCompetition.date | formatDate }}</div>
     </ion-item>
 
     <div text-center style="margin: 32px 0;" *ngIf="(!judgeId || judgeId == 'null') && (currentCompetition && !currentCompetition.closed)"
