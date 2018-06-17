@@ -86,7 +86,7 @@ export class LoginPage {
   presentPopover(myEvent) {
     let popover = this.popoverCtrl.create(LoginPopover, {
       dataTunnelFunc: () => {
-        this.navCtrl.setRoot('ScrutationPage', {}, { animate: true, direction: "forward" })
+        this.navCtrl.setRoot('ScrutationPage', {});
       }
     });
     popover.present();
@@ -145,7 +145,7 @@ export class LoginPage {
         let groupInput = {};
         theCriteria.forEach(critere => {
           [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].forEach(alias => {
-            groupInput[critere + alias] = ['', Validators.compose([Validators.maxLength(2), ScoreValidator.isValid])];
+            groupInput[critere + alias] = ['', Validators.compose([Validators.maxLength(3), ScoreValidator.isValid])];
           })
         })
 

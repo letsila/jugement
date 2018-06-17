@@ -12,7 +12,8 @@ export class LoginPopover {
   public password: string = "petitgarcon";
 
   public dataTunnelFunc: any = this.navParams.get("dataTunnelFunc");
-  constructor(public navCtrl: NavController,
+  constructor(
+    public navCtrl: NavController,
     public navParams: NavParams,
     public viewCtrl: ViewController,
     public alertCtrl: AlertController,

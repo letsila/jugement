@@ -85,13 +85,14 @@ export class JudgeSheetPage {
     this.db.get(this.sheetId).then(sheet => {
       this.criteria.forEach(critere => {
         this.dossards.forEach((dossard, index) => {
-          if (!this.scoresForm.controls[critere + index].valid) {
+          if (!this.scoresForm.controls[critere + index].valid &&
+            !this.scoresForm.controls[critere + index].pristine) {
             this.alertCtrl
               .create({
                 title: 'Score invalide',
-                message: 'Veuillez modifier le score que vous avez saisie',
+                message: 'Veuillez modifier le score que vous avez saisi',
                 buttons: [{
-                  text: 'Ok',
+                  text: 'OK',
                   role: 'cancel',
                   handler: () => {
                     console.log('Cancel clicked');
