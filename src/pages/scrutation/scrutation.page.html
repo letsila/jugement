@@ -148,9 +148,9 @@
               </h6>
             </ion-col>
             <ion-col col-1>
-              <button *ngIf="competition && !competition.closed" ion-button icon-only color="danger" (click)="deleteJudgeSheet(judgesheet)">
+              <!-- <button *ngIf="competition && !competition.closed" ion-button icon-only color="danger" (click)="deleteJudgeSheet(judgesheet)">
                 <ion-icon name="remove-circle"></ion-icon>
-              </button>
+              </button> -->
             </ion-col>
           </ion-row>
           <ion-row>
@@ -170,26 +170,49 @@
             <ion-col col-1 class="rank">
             </ion-col>
           </ion-row>
-          <ion-row>
-            <ion-col col-1 class="rank">TOTAL</ion-col>
-            <ion-col col-1 class="rate" *ngFor="let dossard of dossards; let i=index">
-              <ion-input type="text" placeholder="note" value="{{ scoresPerDanseSK(i) }}" disabled></ion-input>
-            </ion-col>
-            <ion-col col-1 class="rank">
-            </ion-col>
-          </ion-row>
-          <ion-row>
-            <ion-col col-1 class="rank">STATUS</ion-col>
-            <ion-col col-1 class="rate" *ngFor="let dossard of dossards; let i=index">
-              <ion-icon color="secondary" name="checkmark" style="font-size: 24px;" *ngIf="rankOverallSK(i) <= competition.nombreSelection"></ion-icon>
-              <ion-icon color="danger" name="close" style="font-size: 24px;" *ngIf="rankOverallSK(i) > competition.nombreSelection"></ion-icon>
-            </ion-col>
-            <ion-col col-1 class="rank">
-              <!--{{ rankPerDanse(i, danseFilter) }}-->
-            </ion-col>
-          </ion-row>
         </ion-grid>
       </div>
+    </div>
+    <div>
+      <ion-grid>
+        <ion-row>
+          <ion-col col-1 class="rank">TOTAL</ion-col>
+          <ion-col col-1 class="rate" *ngFor="let dossard of dossards; let i=index">
+            <ion-input type="text" placeholder="note" value="{{ scoresPerDanseSK(i) }}" disabled></ion-input>
+          </ion-col>
+          <ion-col col-1 class="rank">
+          </ion-col>
+        </ion-row>
+        <h5>Overall</h5>
+        <ion-row>
+          <ion-col col-1></ion-col>
+          <ion-col col-1 class="dossard" *ngFor="let dossardAlias of dossardsAliases">
+            <span class="number">{{ dossardAlias }}</span>
+          </ion-col>
+          <ion-col col-1 class="dossard">
+            <span class="number">#</span>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col col-1 class="rank">SCORE</ion-col>
+          <ion-col col-1 class="rate" *ngFor="let dossard of dossards; let i=index">
+            <ion-input type="text" placeholder="note" value="{{ overallScoreSK(i) }}" disabled></ion-input>
+          </ion-col>
+          <ion-col col-1 class="rank">
+            <!--{{ rankPerDanse(i, danseFilter) }}-->
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col col-1 class="rank">STATUS</ion-col>
+          <ion-col col-1 class="rate" *ngFor="let dossard of dossards; let i=index">
+            <ion-icon color="secondary" name="checkmark" style="font-size: 24px;" *ngIf="rankOverallSK(i) <= competition.nombreSelection"></ion-icon>
+            <ion-icon color="danger" name="close" style="font-size: 24px;" *ngIf="rankOverallSK(i) > competition.nombreSelection"></ion-icon>
+          </ion-col>
+          <ion-col col-1 class="rank">
+            <!--{{ rankPerDanse(i, danseFilter) }}-->
+          </ion-col>
+        </ion-row>
+      </ion-grid>
     </div>
   </ion-grid>
 </ion-content>
