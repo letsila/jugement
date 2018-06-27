@@ -1,9 +1,7 @@
 import { Component, NgZone } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { AlertController, NavController, NavParams, IonicPage, ViewController } from 'ionic-angular';
 import { DbService } from "../../services/db.service";
-import { ScoreValidator } from '../../validators/score.validator';
-import * as _ from 'lodash';
 
 @IonicPage()
 @Component({

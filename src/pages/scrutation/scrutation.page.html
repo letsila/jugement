@@ -132,6 +132,9 @@
   </ion-grid>
 
   <ion-grid *ngIf="competition && (competition.judgingSystem  && competition.judgingSystem == 2)">
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+      <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
     <ion-card *ngIf="!countJudgeSheetsOfDanse(danseFilter)" class="no-sheets">
       <ion-card-content text-center>
         <ion-icon name="information-circle"></ion-icon>
