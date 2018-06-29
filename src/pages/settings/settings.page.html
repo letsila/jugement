@@ -26,12 +26,10 @@
       <ion-icon name="people" class="title-icon"></ion-icon>
       Attribuer cette tablette au
     </ion-list-header>
-
     <ion-item>
       <ion-label>AUCUN JUGE</ion-label>
       <ion-radio value="null"></ion-radio>
     </ion-item>
-
     <ion-item *ngFor="let judgeAlias of judgeAliases">
       <ion-label>JUGE
         <span class="uppercase">{{ judgeAlias }}</span>
@@ -39,15 +37,17 @@
       <ion-radio value="{{ judgeAlias }}"></ion-radio>
     </ion-item>
   </ion-list>
-  <ion-list *ngIf="dossardAliases && competition && !competition.closed">
+
+  <ion-row *ngIf="dossardAliases && competition && !competition.closed">
     <ion-list-header>
       <ion-icon name="bookmark" class="title-icon"></ion-icon>Assignation des dossards
     </ion-list-header>
-    <ion-item *ngFor="let dossardNumber of dossards; let i=index">
-      <ion-label fixed>Dossard {{ dossardNumber }}</ion-label>
+    <ion-col col-1 *ngFor="let dossardNumber of dossards; let i=index" style="border: 1px #bada55 solid">
+      <!-- <ion-label fixed>Dos.</ion-label> -->
       <ion-input [(ngModel)]="dossardAliases[i]" type="text"></ion-input>
-    </ion-item>
-  </ion-list>
+    </ion-col>
+  </ion-row>
+
   <ion-list *ngIf="competition && competition.judgingSystem && competition.judgingSystem == 2">
     <ion-list-header>
       <ion-icon name="contacts" class="title-icon"></ion-icon>Nombre de selection (skating system)
@@ -57,6 +57,4 @@
       <ion-input [(ngModel)]="nombreSelection" type="text"></ion-input>
     </ion-item>
   </ion-list>
-
-
 </ion-content>

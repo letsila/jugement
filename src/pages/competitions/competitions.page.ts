@@ -26,7 +26,6 @@ export class CompetitionsPage {
 
   ionViewWillLeave() {
     localStorage.setItem("currentCompetitionId", this.currentCompetitionId);
-    console.log(localStorage.getItem("currentCompetitionId"));
   }
 
   ngOnInit() {
@@ -46,7 +45,6 @@ export class CompetitionsPage {
   loadCompetitions() {
     this.db.get("competitions")
       .then(res => {
-        console.log(res);
         this.closedCompetitions = res.list.filter(compet => {
           return compet.closed;
         });
@@ -83,7 +81,6 @@ export class CompetitionsPage {
   }
 
   applyCloture(competition, index) {
-    console.log(competition);
     this.db.get("competitions").then(res => {
       const competIndex = _.findIndex(res.list, { id: competition.id })
       res.list[competIndex].closed = true;
@@ -128,7 +125,6 @@ export class CompetitionsPage {
         // Suppression de toutes les feuilles rattachées à la competitions
         this.db.getJudgeSheetOfCompetition(competition.id)
           .then(sheets => {
-            console.log(sheets.rows);
             let sheetsToDelete = sheets.rows.map(sheetDoc => {
               return sheetDoc.doc;
             }).map(sheet => {
@@ -136,7 +132,6 @@ export class CompetitionsPage {
               return sheet;
             })
 
-            console.log(sheetsToDelete);
 
             this.db.bulkDocs(sheetsToDelete).then(() => {
               // suppression de la competition

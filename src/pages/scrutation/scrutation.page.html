@@ -47,7 +47,7 @@
           </ion-row>
           <ion-row>
             <ion-col col-1></ion-col>
-            <ion-col col-1 class="dossard" *ngFor="let dossardAlias of dossardsAliases">
+            <ion-col col-1 class="dossard" *ngFor="let dossardAlias of dossardsAliases; let i=index">
               <span class="number">{{ dossardAlias }}</span>
             </ion-col>
             <ion-col col-1 class="dossard">

@@ -2,6 +2,7 @@ import { Component, NgZone } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { AlertController, NavController, NavParams, IonicPage, ViewController } from 'ionic-angular';
 import { DbService } from "../../services/db.service";
+import { SYSTEM21, SKATING } from "../../constants/judging-systems";
 
 @IonicPage()
 @Component({
@@ -38,11 +39,19 @@ export class JudgeSheetPage {
   }
 
   get dossardsAliases1() {
-    return this.dossardsAliases.slice().splice(0, 5)
+    if (this.currentCompetition && this.currentCompetition.judgingSystem && this.currentCompetition.judgingSystem == SYSTEM21) {
+      return this.dossardsAliases.slice().splice(0, 5);
+    } else {
+      return [];
+    }
   }
 
   get dossardsAliases2() {
-    return this.dossardsAliases.slice().splice(5, 5)
+    if (this.currentCompetition && this.currentCompetition.judgingSystem && this.currentCompetition.judgingSystem == SYSTEM21) {
+      return this.dossardsAliases.slice().splice(5, 5);
+    } else {
+      return [];
+    }
   }
 
   get checkboxColor() {
@@ -57,11 +66,10 @@ export class JudgeSheetPage {
 
   ionViewDidLoad() {
     this.viewCtrl.didEnter.subscribe(() => {
-      console.log(this.sheetId);
       // Création de la feuille au niveau de la base
       // si celle ci n'existe pas encore.
       this.db.get(this.sheetId).then(res => {
-        if (this.currentCompetition.judgingSystem && this.currentCompetition.judgingSystem == 1) {
+        if (this.currentCompetition.judgingSystem && this.currentCompetition.judgingSystem == SYSTEM21) {
           this.criteria.forEach(criteria => {
             res.dossards.forEach((dossard, index) => {
               this.dossards[index][criteria] = dossard[criteria];
@@ -69,19 +77,27 @@ export class JudgeSheetPage {
           });
         }
 
-        if (this.currentCompetition.judgingSystem && this.currentCompetition.judgingSystem == 2) {
+        if (this.currentCompetition.judgingSystem && this.currentCompetition.judgingSystem == SKATING) {
           this.dossardsSkating = res.dossards;
         }
 
-        // Dossards aliases
-        this.db.get("dossards").then(res => {
+        this.db.get("dossards-" + this.currentCompetition.id).then(res => {
           this.dossardsAliases = res.aliases;
-        });
+        }).catch(e => {
+          if (e.name == "not_found" && this.judgeId) {
+            this.db.get("dossards").then(res => {
+              this.dossardsAliases = res.aliases;
+            });
+          }
+        })
       }).catch(e => {
         if (e.name == "not_found" && this.judgeId) {
           let dossards = [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}];
-          if (this.currentCompetition.judgingSystem && this.currentCompetition.judgingSystem == 2) {
-            dossards = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+          if (this.currentCompetition.judgingSystem && this.currentCompetition.judgingSystem == SKATING) {
+            dossards = [];
+            for (let i = 1; i < 46; i++) {
+              dossards.push(0);
+            }
           }
 
           this.db.put({
@@ -102,9 +118,6 @@ export class JudgeSheetPage {
     this.navCtrl.push('LoginPage', {}, { animate: true, direction: "back" });
     localStorage.setItem("role", "");
   }
-
-
-
 
   checkBoxChanged() {
     this.db.get(this.sheetId).then(sheet => {

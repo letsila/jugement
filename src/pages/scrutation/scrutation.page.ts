@@ -2,7 +2,7 @@ import { Component } from "@angular/core";
 import { AlertController, IonicPage, MenuController, NavController, ViewController, LoadingController } from "ionic-angular";
 import { DbService } from "../../services/db.service";
 import * as _ from "lodash";
-import { constructDependencies } from "@angular/core/src/di/reflective_provider";
+import { SYSTEM21 } from "../../constants/judging-systems";
 
 @IonicPage()
 @Component({
@@ -34,8 +34,6 @@ export class ScrutationPage {
   ionViewDidLoad() {
     this.viewCtrl.didEnter.subscribe(() => {
       this.competId = localStorage.getItem("currentCompetitionId");
-      let loading = this.loading.create({ content: "Chargement..." });
-      loading.present();
 
       this.db.getJudgeSheetOfCompetition(this.competId)
         .then(res => {
@@ -43,41 +41,17 @@ export class ScrutationPage {
             return value.doc;
           });
 
-          this.db.get("dossards")
+          this.db.get("dossards-" + this.competId)
             .then(res => {
-              this.dossardsAliases = res.aliases;
-
-              this.db.get("competitions").then(res => {
-                this.db.get('criteria-list').then(criteria => {
-                  this.competition = _.find(res.list, { id: this.competId });
-
-                  if (this.competition && this.competition.type.criteria && this.competition.type.criteria.length) {
-                    this.criteria = criteria.list.filter(critere => {
-                      return this.competition.type.criteria.indexOf(critere.id) != -1;
-                    }).map(critere => {
-                      return critere.short;
-                    })
-                  }
-
-                  this.db.get("danses")
-                    .then(res => {
-                      this.danses = res.list.filter(danse => {
-                        if (this.competition) {
-                          return danse.competitions
-                            .indexOf(this.competition.type.id) != -1;
-                        }
-                      });
-
-                      this.danseFilter = this.danses.length ? this.danses[0].identifier : null;
-                    })
-                    .catch(e => console.log(e));
-                  loading.dismiss();
-                })
-                  .catch(e => console.log(e))
-              })
-                .catch(e => console.log(e))
+              this.initCompet(res);
             })
-            .catch(e => console.log(e))
+            .catch(e => {
+              if (e.name == 'not_found') {
+                this.db.get("dossards").then(res => {
+                  this.initCompet(res);
+                })
+              }
+            })
         })
         .catch(e => {
           console.log(e);
@@ -86,6 +60,48 @@ export class ScrutationPage {
 
   }
 
+  initCompet(result) {
+
+    let loading = this.loading.create({ content: "Chargement..." });
+    loading.present();
+
+
+    this.db.get("competitions").then(res => {
+      this.db.get('criteria-list').then(criteria => {
+        this.competition = _.find(res.list, { id: this.competId });
+        this.dossardsAliases = result.aliases;
+
+        // Show only ten aliases if 2.1
+        if (this.competition && this.competition.type && this.competition.type.id == SYSTEM21) {
+          this.dossardsAliases = result.aliases.splice(0, 10);
+        }
+
+        if (this.competition && this.competition.type.criteria && this.competition.type.criteria.length) {
+          this.criteria = criteria.list.filter(critere => {
+            return this.competition.type.criteria.indexOf(critere.id) != -1;
+          }).map(critere => {
+            return critere.short;
+          })
+        }
+
+        this.db.get("danses")
+          .then(res => {
+            this.danses = res.list.filter(danse => {
+              if (this.competition) {
+                return danse.competitions
+                  .indexOf(this.competition.type.id) != -1;
+              }
+            });
+
+            this.danseFilter = this.danses.length ? this.danses[0].identifier : null;
+          })
+          .catch(e => console.log(e));
+        loading.dismiss();
+      })
+        .catch(e => console.log(e))
+    })
+      .catch(e => console.log(e))
+  }
 
   doRefresh(refresher) {
     this.db.getJudgeSheetOfCompetition(this.competId)
