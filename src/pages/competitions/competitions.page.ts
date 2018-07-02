@@ -167,7 +167,7 @@ export class CompetitionsPage {
       id: "compet-" + Date.now(),
       type: competitionTypeObj,
       titre: competitionTitre,
-      judgingSystem: judgingSystemId,
+      judgingSystem: Number(judgingSystemId),
       closed: false,
       date: Date.now()
     };

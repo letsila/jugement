@@ -10,13 +10,23 @@ import { SYSTEM21 } from "../../constants/judging-systems";
   templateUrl: "scrutation.page.html"
 })
 export class ScrutationPage {
-  dossards = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  dossards: number[] = [
+    1, 2, 3, 4, 5, 6, 7, 8, 9,
+    10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
+    20, 21, 22, 23, 24, 25, 26, 27, 28, 29,
+    30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
+    41, 42, 43, 44, 45];
   judgeSheets: any[] = [];
   judgeId: string;
   danseFilter: string;
   danses: any[] = [];
   criteria = ["tq", "mm", "ps", "cp"];
-  dossardsAliases: string[] = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];;
+  dossardsAliases: string[] = [
+    "1", "2", "3", "4", "5", "6", "7", "8", "9",
+    "10", "11", "12", "13", "14", "15", "16", "17", "18", "19",
+    "20", "21", "22", "23", "24", "25", "26", "27", "28", "29",
+    "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40",
+    "41", "42", "43", "44", "45"];
   competition: any;
   competId: any;
 
@@ -41,6 +51,8 @@ export class ScrutationPage {
             return value.doc;
           });
 
+          console.log(this.judgeSheets);
+
           this.db.get("dossards-" + this.competId)
             .then(res => {
               this.initCompet(res);
@@ -60,20 +72,36 @@ export class ScrutationPage {
 
   }
 
+  isJudgeSheetSKValid(judgeSheet) {
+    let checkmarkCount = judgeSheet.dossards.reduce((accumulator, score) => {
+      if (score) {
+        return accumulator += 1;
+      }
+      return accumulator;
+    }, 0);
+
+    if (this.competition && checkmarkCount == this.competition.nombreSelection) {
+      return true;
+    }
+    return false;
+  }
+
   initCompet(result) {
 
     let loading = this.loading.create({ content: "Chargement..." });
     loading.present();
-
 
     this.db.get("competitions").then(res => {
       this.db.get('criteria-list').then(criteria => {
         this.competition = _.find(res.list, { id: this.competId });
         this.dossardsAliases = result.aliases;
 
+        console.log(this.competition);
+
         // Show only ten aliases if 2.1
-        if (this.competition && this.competition.type && this.competition.type.id == SYSTEM21) {
+        if (this.competition && this.competition.type && this.competition.judgingSystemId == SYSTEM21) {
           this.dossardsAliases = result.aliases.splice(0, 10);
+          this.dossards = result.aliases.splice(0, 10);
         }
 
         if (this.competition && this.competition.type.criteria && this.competition.type.criteria.length) {

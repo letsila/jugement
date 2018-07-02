@@ -7,7 +7,7 @@ import {
   ViewController,
   LoadingController
 } from 'ionic-angular';
-import { SYSTEM21, SKATING } from "../../constants/judging-systems";
+// import { SYSTEM21, SKATING } from "../../constants/judging-systems";
 import { DbService } from "../../services/db.service";
 import * as _ from "lodash";
 
@@ -19,12 +19,17 @@ import * as _ from "lodash";
 export class SettingsPage {
 
   public judgeId: string = localStorage.getItem("judgeId");
-  public dossards: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  public dossards: number[] = [
+    1, 2, 3, 4, 5, 6, 7, 8, 9,
+    10, 13, 14, 15, 16, 17, 18, 19,
+    20, 21, 22, 23, 24, 25, 26, 27, 28, 29,
+    30, 31, 32, 33, 34, 35, 36, 37, 38, 39,
+    40, 41, 42, 43, 44, 45];
   public dossardAliases: string[] = [
-    "1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
-    "11", "12", "13", "14", "15", "16", "17", "18", "19", "20",
-    "21", "22", "23", "24", "25", "26", "27", "28", "29", "30",
-    "31", "32", "33", "34", "35", "36", "37", "38", "39", "40",
+    "1", "2", "3", "4", "5", "6", "7", "8", "9",
+    "10", "11", "12", "13", "14", "15", "16", "17", "18", "19",
+    "20", "21", "22", "23", "24", "25", "26", "27", "28", "29",
+    "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40",
     "41", "42", "43", "44", "45"];
   public judgeAliases: string[] = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
   public competition: any;
