@@ -38,14 +38,17 @@ $colors: (
   secondary:  #4CAF50,
   danger:     #f53d3d,
   light:      #f4f4f4,
+  warning: orange,
   dark:       #222,
   transparent: transparent
 );
 
 $popover-ios-min-width: 375px;
+$popover-ios-width: 375px;
 $popover-ios-min-height: 300px;
 
-$popover-md-min-width: 300px;
+$popover-md-min-width: 400px;
+$popover-md-width: 500px;
 $popover-md-min-height: 240px;
 
 $popover-wp-min-width: 375px;

@@ -34,6 +34,7 @@ export class JudgeSheetPage {
   currentCompetition = this.navParams.get("currentCompetition");
   scoresForm: any = this.navParams.get('scoresForm');
   scoresLocked: boolean = false;
+  callBack: number = 0;
 
   constructor(public navCtrl: NavController,
     public db: DbService,
@@ -64,13 +65,19 @@ export class JudgeSheetPage {
   }
 
   get checkboxColor() {
-    const checkedNumber = this.dossardsSkating.filter(value => value).length;
+    this.callBack = this.dossardsSkating.filter(value => value).length;
 
-    if (checkedNumber == this.currentCompetition.nombreSelection) {
+    if (this.callBack == this.currentCompetition.nombreSelection) {
       return "true";
-    } else {
+    } else if (this.callBack > this.currentCompetition.nombreSelection){
       return "danger";
+    } else {
+      return "warning"
     }
+  }
+
+  get remainingCallBack() {
+    return Math.abs(this.callBack - this.currentCompetition.nombreSelection);
   }
 
   ionViewDidLoad() {
