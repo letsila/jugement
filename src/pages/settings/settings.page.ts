@@ -55,6 +55,7 @@ export class SettingsPage {
       this.db.get("competitions")
         .then((res) => {
           this.competition = _.find(res.list, { id: this.competId });
+          this.nombreSelection = this.competition.nombreSelection;
 
           loading.dismiss();
           // Dossards
@@ -95,6 +96,7 @@ export class SettingsPage {
       res.list[currCompetIndex].nombreSelection = this.nombreSelection;
 
       this.db.put(res).then(() => {
+        console.log(res);
       });
     }).catch(e => console.log(e));
   }

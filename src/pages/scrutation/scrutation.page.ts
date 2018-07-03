@@ -4,6 +4,9 @@ import { DbService } from "../../services/db.service";
 import * as _ from "lodash";
 import { SYSTEM21 } from "../../constants/judging-systems";
 
+const TO_MUCH = 2;
+const NOT_ENOUGH = -1;
+
 @IonicPage()
 @Component({
   selector: "page-scrutation",
@@ -80,10 +83,13 @@ export class ScrutationPage {
       return accumulator;
     }, 0);
 
-    if (this.competition && checkmarkCount == this.competition.nombreSelection) {
-      return true;
+    if (this.competition && checkmarkCount > this.competition.nombreSelection) {
+      return TO_MUCH;
+    } else if (this.competition && checkmarkCount < this.competition.nombreSelection) {
+      return NOT_ENOUGH;
+    } else {
+      return 1;
     }
-    return false;
   }
 
   initCompet(result) {

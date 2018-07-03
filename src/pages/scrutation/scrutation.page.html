@@ -148,10 +148,12 @@
             <ion-col col-11>
               <h6 style="padding-top: 8px;">Juge
                 <span class="capitalize">{{ judgesheet.judgeId }}</span>
-                <span style="margin-left: 8; color: red; font-weight: bold;" *ngIf="!isJudgeSheetSKValid(judgesheet)">
-                  (Nombre de sélection insuffisant)
+                <span class="callback-error" *ngIf="isJudgeSheetSKValid(judgesheet) == 2">
+                  (Au delà du callback autorisé)
                 </span>
-
+                <span class="callback-error" *ngIf="isJudgeSheetSKValid(judgesheet) == -1">
+                  (Callback insuffisant)
+                </span>
               </h6>
             </ion-col>
             <ion-col col-1>
@@ -160,8 +162,8 @@
               </button> -->
             </ion-col>
           </ion-row>
-          <ion-row nowrap>
-            <ion-col col-1></ion-col>
+          <ion-row nowrap class="back-grey">
+            <ion-col col-1 class="rank">DOS</ion-col>
             <ion-col col-1 class="dossard" *ngFor="let dossardAlias of dossardsAliases">
               <span class="number">{{ dossardAlias }}</span>
             </ion-col>
@@ -169,7 +171,8 @@
           <ion-row nowrap>
             <ion-col col-1 class="rank uppercase"></ion-col>
             <ion-col col-1 class="rate" *ngFor="let dossard of judgesheet.dossards; let i=index">
-              <ion-icon name="checkmark" color="primary" style="font-size: 24px;" *ngIf="dossard"></ion-icon>
+              <ion-icon name="checkmark" color="primary" style="font-size: 24px;" *ngIf="dossard && isJudgeSheetSKValid(judgesheet) === 1"></ion-icon>
+              <ion-icon name="checkmark" color="danger" style="font-size: 24px;" *ngIf="dossard && isJudgeSheetSKValid(judgesheet) != 1"></ion-icon>
             </ion-col>
             <!-- <ion-col col-1 class="rank">
             </ion-col> -->
@@ -189,7 +192,7 @@
         </ion-row>
         <h5>Overall</h5>
         <ion-row nowrap>
-          <ion-col col-1></ion-col>
+          <ion-col col-1 class="rank">DOS</ion-col>
           <ion-col col-1 class="dossard" *ngFor="let dossardAlias of dossardsAliases">
             <span class="number">{{ dossardAlias }}</span>
           </ion-col>
@@ -205,6 +208,13 @@
           <!-- <ion-col col-1 class="rank"> -->
           <!--{{ rankPerDanse(i, danseFilter) }}-->
           <!-- </ion-col> -->
+        </ion-row>
+        <ion-row nowrap>
+          <ion-col col-1 class="rank">RANK</ion-col>
+          <ion-col col-1 class="rate" *ngFor="let dossard of dossards; let i=index">
+            <ion-input type="text" [ngClass]="{'selected': rankOverallSK(i) > competition.nombreSelection}" placeholder="note" value="{{ rankOverallSK(i) }}"
+              disabled></ion-input>
+          </ion-col>
         </ion-row>
         <ion-row nowrap>
           <ion-col col-1 class="rank">Status</ion-col>
