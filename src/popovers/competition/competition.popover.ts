@@ -23,6 +23,10 @@ export class CompetitionPopover {
     {
       id: 2,
       name: "Skating system"
+    },
+    {
+      id: 3,
+      name: "Skating system final"
     }
   ];
 

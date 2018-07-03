@@ -2,7 +2,7 @@ import { Component, NgZone } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { AlertController, NavController, NavParams, IonicPage, ViewController } from 'ionic-angular';
 import { DbService } from "../../services/db.service";
-import { SYSTEM21, SKATING } from "../../constants/judging-systems";
+import { SYSTEM21, SKATING, SKATING_FINAL } from "../../constants/judging-systems";
 
 @IonicPage()
 @Component({
@@ -22,6 +22,7 @@ export class JudgeSheetPage {
   sheetId: string;
   judgeIdFilter: string;
   danse: string = localStorage.getItem("danse");
+  finalSkatingRanks = ["0", "0", "0", "0", "0", "0"];
   dossardsSkating = [
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -64,12 +65,20 @@ export class JudgeSheetPage {
     }
   }
 
+  get dossardsAliasesSKFinal() {
+    if (this.currentCompetition && this.currentCompetition.judgingSystem && this.currentCompetition.judgingSystem == SKATING_FINAL) {
+      return this.dossardsAliases.slice().splice(0, 6);
+    } else {
+      return [];
+    }
+  }
+
   get checkboxColor() {
     this.callBack = this.dossardsSkating.filter(value => value).length;
 
     if (this.callBack == this.currentCompetition.nombreSelection) {
       return "true";
-    } else if (this.callBack > this.currentCompetition.nombreSelection){
+    } else if (this.callBack > this.currentCompetition.nombreSelection) {
       return "danger";
     } else {
       return "warning"
@@ -97,6 +106,10 @@ export class JudgeSheetPage {
           this.dossardsSkating = res.dossards;
         }
 
+        if (this.currentCompetition.judgingSystem && this.currentCompetition.judgingSystem == SKATING_FINAL) {
+          this.finalSkatingRanks = res.finalSkatingRanks;
+        }
+
         this.db.get("dossards-" + this.currentCompetition.id).then(res => {
           this.dossardsAliases = res.aliases;
         }).catch(e => {
@@ -121,7 +134,8 @@ export class JudgeSheetPage {
             judgeId: this.judgeId,
             danse: this.danse,
             competitionId: this.competitionId,
-            dossards
+            dossards,
+            finalSkatingRanks: [0, 0, 0, 0, 0, 0]
           }).catch(e => {
             console.log(e);
           })
@@ -176,6 +190,13 @@ export class JudgeSheetPage {
       .catch(e => {
         console.log(e);
       });
+  }
+
+  rankChanged() {
+    this.db.get(this.sheetId).then(sheet => {
+      sheet.finalSkatingRanks = this.finalSkatingRanks;
+      this.db.put(sheet);
+    })
   }
 
   inputChanged() {

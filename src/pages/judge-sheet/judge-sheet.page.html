@@ -64,12 +64,25 @@
     <ion-row>
       <h4 *ngIf="checkboxColor == 'warning'" style="color: orange">Il vous manque {{ remainingCallBack }} callback</h4>
       <h4 *ngIf="checkboxColor == 'danger'" style="color: #f53d3d">Vous devez retirer {{ remainingCallBack }} callback</h4>
-      <h4 *ngIf="checkboxColor == 'true'" style="color: #2196F3">Callback OK</h4>
+      <h4 *ngIf="checkboxColor == 'true'" style="color: #2196F3">OK</h4>
     </ion-row>
     <ion-row>
       <ion-col col-1 *ngFor="let dossardAlias of dossardsAliases; let i=index;" class="dossard-checkbox">
         <ion-label style="font-size: 16px; font-weight: bold;">{{ dossardAlias }}</ion-label>
         <ion-checkbox [disabled]="scoresLocked" [(ngModel)]="dossardsSkating[i]" (ionChange)="checkBoxChanged()" color="{{ checkboxColor }}"></ion-checkbox>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-grid *ngIf="currentCompetition && currentCompetition.judgingSystem && currentCompetition.judgingSystem == 3">
+    <ion-row nowrap>
+      <ion-col col-1 class="rank">DOS</ion-col>
+      <ion-col col-2 class="rank" style="font-size: 16px; font-weight: bold;" *ngFor="let dossard of dossardsAliasesSKFinal">{{ dossard }}</ion-col>
+    </ion-row>
+    <ion-row nowrap>
+      <ion-col col-1 class="rank">RANK</ion-col>
+      <ion-col col-2 class="rank" *ngFor="let rank of finalSkatingRanks; let i=index;">
+        <ion-input [(ngModel)]="finalSkatingRanks[i]" type="number" (ionChange)="rankChanged()"></ion-input>
       </ion-col>
     </ion-row>
   </ion-grid>

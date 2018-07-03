@@ -229,6 +229,26 @@
       </ion-grid>
     </div>
   </ion-scroll>
+
+  <ion-grid *ngIf="competition && (competition.judgingSystem  && competition.judgingSystem == 3)">
+    <ion-row nowrap>
+      <ion-col col-1 class="back-grey">DOS</ion-col>
+      <ion-col col-2 *ngFor="let dossardAlias of dossardsAliases.slice(0, 6); let i=index">{{ dossardAlias }}</ion-col>
+    </ion-row>
+    <div *ngFor="let judgeSheet of judgeSheets">
+      <div nowrap *ngIf="judgeSheet.danse == danseFilter">
+        <h6 style="padding-top: 8px;">Juge
+          <span class="capitalize">{{ judgeSheet.judgeId }}</span>
+        </h6>
+        <ion-row nowrap>
+          <ion-col col-1 class="rank">RANK</ion-col>
+          <ion-col col-2 class="rank" *ngFor="let rank of judgeSheet.finalSkatingRanks; let i=index;">
+            {{rank}}
+          </ion-col>
+        </ion-row>
+      </div>
+    </div>
+  </ion-grid>
 </ion-content>
 
 <ion-footer>
