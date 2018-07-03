@@ -4,6 +4,16 @@ page-login {
     border-bottom: none;
   }
 
+  .judge-btn {
+    height: 50px;
+    width: 232px;
+    margin-top: 32px;
+  }
+
+  .badge {
+    font-size: 32px;
+  }
+
   .competition-infos {
     padding-left: 0;
     border-bottom: none;
@@ -28,9 +38,6 @@ page-login {
     margin: 8px auto;
   }
 
-  .judge-btn {
-    margin-top: 64px;
-  }
 
   .login-card {
     width: 400px;

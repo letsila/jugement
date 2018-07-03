@@ -1,5 +1,13 @@
 page-sheet {
 
+  .dossard-checkbox {
+    border-bottom: 0.2px rgb(165, 165, 165) solid;
+  }
+
+  ion-row > ion-col:nth-child(2n +1) {
+    background: #F5F5F5;
+  }
+
   .danse-name {
     color: #4CAF50;
     font-size: 20px;

@@ -46,7 +46,7 @@ $popover-ios-min-width: 375px;
 $popover-ios-min-height: 300px;
 
 $popover-md-min-width: 300px;
-$popover-md-min-height: 300px;
+$popover-md-min-height: 240px;
 
 $popover-wp-min-width: 375px;
 $popover-wp-min-height: 300px;
@@ -62,8 +62,9 @@ $popover-wp-min-height: 300px;
 // App Material Design Variables
 // --------------------------------------------------
 // Material Design only Sass variables can go here
-
-
+$checkbox-md-icon-size: 48px;
+$checkbox-md-icon-checkmark-width: 2px;
+$badge-md-background-color: #343434;
 
 
 // App Windows Variables

@@ -1,9 +1,9 @@
 <ion-header>
-  <ion-toolbar hideBackButton>
+  <ion-navbar>
     <ion-buttons start>
-      <button ion-button icon-only (click)="logout()">
+      <!-- <button ion-button icon-only (click)="logout()">
         <ion-icon name="arrow-back"></ion-icon>
-      </button>
+      </button> -->
     </ion-buttons>
     <ion-title text-center *ngIf="!judgeId || judgeId == 'null'" class="config-error-msg">
       <ion-icon name="alert" color="danger"></ion-icon>Votre feuille n'a pas été configurée correctement, veuillez vous réferer au scrutateur.
@@ -14,11 +14,12 @@
       <span class="uppercase danse-name">{{ danse }}</span>
     </ion-title>
     <ion-buttons end>
-      <button ion-button icon-only>
-        <!--<ion-icon name="lock"></ion-icon>-->
+      <button ion-button icon-only (click)="lockScores()">
+        <ion-icon name="unlock" *ngIf="scoresLocked"></ion-icon>
+        <ion-icon name="lock" *ngIf="!scoresLocked"></ion-icon>
       </button>
     </ion-buttons>
-  </ion-toolbar>
+  </ion-navbar>
 </ion-header>
 
 <ion-content padding>
@@ -60,9 +61,9 @@
   </form>
 
   <ion-row *ngIf="currentCompetition && currentCompetition.judgingSystem && currentCompetition.judgingSystem == 2">
-    <ion-col col-1 *ngFor="let dossardAlias of dossardsAliases; let i=index;" style="border: 1px #bada55 solid">
-      <ion-label>{{ dossardAlias }}</ion-label>
-      <ion-checkbox [(ngModel)]="dossardsSkating[i]" (ionChange)="checkBoxChanged()" color="{{ checkboxColor }}"></ion-checkbox>
+    <ion-col col-1 *ngFor="let dossardAlias of dossardsAliases; let i=index;" class="dossard-checkbox">
+      <ion-label style="font-size: 16px; font-weight: bold;">{{ dossardAlias }}</ion-label>
+      <ion-checkbox [disabled]="scoresLocked" [(ngModel)]="dossardsSkating[i]" (ionChange)="checkBoxChanged()" color="{{ checkboxColor }}"></ion-checkbox>
     </ion-col>
   </ion-row>
 </ion-content>

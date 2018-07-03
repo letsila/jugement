@@ -33,7 +33,7 @@ export class JudgeSheetPage {
   competitionId = localStorage.getItem("currentCompetitionId");
   currentCompetition = this.navParams.get("currentCompetition");
   scoresForm: any = this.navParams.get('scoresForm');
-
+  scoresLocked: boolean = false;
 
   constructor(public navCtrl: NavController,
     public db: DbService,
@@ -126,6 +126,36 @@ export class JudgeSheetPage {
   logout() {
     this.navCtrl.push('LoginPage', {}, { animate: true, direction: "back" });
     localStorage.setItem("role", "");
+  }
+
+  lockScores() {
+
+    let subTitle = 'Voulez-vous verouiller votre feuille ?';
+    let title = 'Vérouillage';
+    if (this.scoresLocked) {
+      subTitle = 'Voulez-vous déverouiller votre feuille ?';
+      title = 'Déverouillage';
+    }
+    let alert = this.alertCtrl.create({
+      title,
+      subTitle,
+      buttons: [
+        {
+          text: 'Non',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Oui',
+          handler: () => {
+            this.scoresLocked = !this.scoresLocked;
+          }
+        }
+      ]
+    });
+    alert.present();
   }
 
   checkBoxChanged() {

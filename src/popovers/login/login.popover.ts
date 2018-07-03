@@ -9,7 +9,7 @@ import * as _ from "lodash";
 })
 export class LoginPopover {
   public login: string = "letsila";
-  public password: string = "petitgarcon";
+  public password: string = "";
 
   public dataTunnelFunc: any = this.navParams.get("dataTunnelFunc");
   constructor(
