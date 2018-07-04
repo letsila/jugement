@@ -10,6 +10,7 @@ import {
 // import { SYSTEM21, SKATING } from "../../constants/judging-systems";
 import { DbService } from "../../services/db.service";
 import * as _ from "lodash";
+import { SKATING_FINAL } from "../../constants/judging-systems";
 
 @IonicPage()
 @Component({
@@ -55,12 +56,18 @@ export class SettingsPage {
       this.db.get("competitions")
         .then((res) => {
           this.competition = _.find(res.list, { id: this.competId });
-          this.nombreSelection = this.competition.nombreSelection;
+          if (this.competition.nombreSelection) {
+            this.nombreSelection = this.competition.nombreSelection;
+          }
 
           loading.dismiss();
           // Dossards
           this.db.get("dossards-" + this.competId).then(res => {
+            if (this.competition && this.competition.judgingSystem == SKATING_FINAL) {
+              this.dossards = [1, 2, 3, 4, 5, 6];
+            }
             this.dossardAliases = res.aliases;
+            console.log(this.dossards);
           })
             .catch(e => {
               if (e.name == "not_found") {

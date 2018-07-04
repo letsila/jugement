@@ -82,7 +82,7 @@
       </ion-row>
       <ion-row nowrap>
         <ion-col col-1 class="rank">DOSS</ion-col>
-        <ion-col col-2 class="rank" *ngFor="let i of [1, 2, 3, 4, 5, 6];">
+        <ion-col col-2 class="rank" *ngFor="let i of [0, 1, 2, 3, 4, 5];">
           <ion-input [(ngModel)]="finalSkatingDossardsOrder[i]" name="{{i}}" type="number" placeholder="Doss" (ionChange)="rankChanged()"></ion-input>
         </ion-col>
       </ion-row>

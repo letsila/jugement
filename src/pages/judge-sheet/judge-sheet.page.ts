@@ -120,6 +120,7 @@ export class JudgeSheetPage {
           }
         })
       }).catch(e => {
+        console.log(e);
         if (e.name == "not_found" && this.judgeId) {
           let dossards = [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}];
           if (this.currentCompetition.judgingSystem && this.currentCompetition.judgingSystem == SYSTEM21) {
@@ -192,7 +193,9 @@ export class JudgeSheetPage {
         sheet.dossards[index] = dossard;
       });
 
-      this.db.put(sheet);
+      this.db.put(sheet).catch(e => {
+        console.log(e);
+      });
     })
       .catch(e => {
         console.log(e);
@@ -203,8 +206,11 @@ export class JudgeSheetPage {
     this.db.get(this.sheetId).then(sheet => {
       sheet.finalSkatingDossardsOrder = this.finalSkatingDossardsOrder;
 
-      this.db.put(sheet).then(() => {
+      this.db.put(sheet).catch(e => {
+        console.log(e);
       });
+    }).catch(e => {
+      console.log(e);
     })
   }
 
@@ -235,7 +241,9 @@ export class JudgeSheetPage {
         })
       })
 
-      this.db.put(sheet)
+      this.db.put(sheet).catch(e => {
+        console.log(e)
+      });
 
     }).catch(e => {
       console.log(e);

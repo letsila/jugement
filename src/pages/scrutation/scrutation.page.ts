@@ -2,7 +2,7 @@ import { Component } from "@angular/core";
 import { AlertController, IonicPage, MenuController, NavController, ViewController, LoadingController } from "ionic-angular";
 import { DbService } from "../../services/db.service";
 import * as _ from "lodash";
-import { SYSTEM21, SKATING } from "../../constants/judging-systems";
+import { SYSTEM21, SKATING, SKATING_FINAL } from "../../constants/judging-systems";
 
 const TO_MUCH = 2;
 const NOT_ENOUGH = -1;
@@ -13,7 +13,12 @@ const NOT_ENOUGH = -1;
   templateUrl: "scrutation.page.html"
 })
 export class ScrutationPage {
-  dossards: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  dossards: number[] = [
+    1, 2, 3, 4, 5, 6, 7, 8, 9,
+    10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
+    20, 21, 22, 23, 24, 25, 26, 27, 28, 29,
+    30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
+    41, 42, 43, 44, 45];
   judgeSheets: any[] = [];
   judgeId: string;
   danseFilter: string = "chacha";
@@ -43,7 +48,6 @@ export class ScrutationPage {
           this.judgeSheets = res.rows.map(value => {
             return value.doc;
           });
-
           console.log(this.judgeSheets);
 
           this.db.get("dossards-" + this.competId)
@@ -93,10 +97,15 @@ export class ScrutationPage {
         // Show only ten aliases if 2.1
         if (this.competition && this.competition.judgingSystem == SYSTEM21) {
           this.dossardsAliases = result.aliases.splice(0, 10);
+          this.dossards = this.dossards.splice(0, 10);
         }
 
         if (this.competition && this.competition.judgingSystem == SKATING) {
           this.dossardsAliases = result.aliases;
+        }
+
+        if (this.competition && this.competition.judgingSystem == SKATING_FINAL) {
+          this.dossardsAliases = result.aliases.splice(0, 6);
         }
 
         if (this.competition && this.competition.type.criteria && this.competition.type.criteria.length) {
