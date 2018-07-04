@@ -74,18 +74,20 @@
     </ion-row>
   </ion-grid>
 
-  <ion-grid *ngIf="currentCompetition && currentCompetition.judgingSystem && currentCompetition.judgingSystem == 3">
-    <ion-row nowrap>
-      <ion-col col-1 class="rank">DOS</ion-col>
-      <ion-col col-2 class="rank" style="font-size: 16px; font-weight: bold;" *ngFor="let dossard of dossardsAliasesSKFinal">{{ dossard }}</ion-col>
-    </ion-row>
-    <ion-row nowrap>
-      <ion-col col-1 class="rank">RANK</ion-col>
-      <ion-col col-2 class="rank" *ngFor="let rank of finalSkatingRanks; let i=index;">
-        <ion-input [(ngModel)]="finalSkatingRanks[i]" type="number" (ionChange)="rankChanged()"></ion-input>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+  <!-- <form> -->
+    <ion-grid *ngIf="currentCompetition && currentCompetition.judgingSystem && currentCompetition.judgingSystem == 3">
+      <ion-row nowrap>
+        <ion-col col-1 class="rank">RANK</ion-col>
+        <ion-col col-2 class="rank" style="font-size: 16px; font-weight: bold;" *ngFor="let rank of [1, 2, 3, 4, 5, 6]">{{ rank }}</ion-col>
+      </ion-row>
+      <ion-row nowrap>
+        <ion-col col-1 class="rank">DOSS</ion-col>
+        <ion-col col-2 class="rank" *ngFor="let i of [1, 2, 3, 4, 5, 6];">
+          <ion-input [(ngModel)]="finalSkatingDossardsOrder[i]" name="{{i}}" type="number" placeholder="Doss" (ionChange)="rankChanged()"></ion-input>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  <!-- </form> -->
 </ion-content>
 
 <ion-footer *ngIf="currentCompetition && currentCompetition.judgingSystem && currentCompetition.judgingSystem == 1">

@@ -22,7 +22,7 @@ export class JudgeSheetPage {
   sheetId: string;
   judgeIdFilter: string;
   danse: string = localStorage.getItem("danse");
-  finalSkatingRanks = ["0", "0", "0", "0", "0", "0"];
+  finalSkatingDossardsOrder = [0, 0, 0, 0, 0, 0];
   dossardsSkating = [
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -107,7 +107,7 @@ export class JudgeSheetPage {
         }
 
         if (this.currentCompetition.judgingSystem && this.currentCompetition.judgingSystem == SKATING_FINAL) {
-          this.finalSkatingRanks = res.finalSkatingRanks;
+          this.finalSkatingDossardsOrder = res.finalSkatingDossardsOrder;
         }
 
         this.db.get("dossards-" + this.currentCompetition.id).then(res => {
@@ -122,6 +122,13 @@ export class JudgeSheetPage {
       }).catch(e => {
         if (e.name == "not_found" && this.judgeId) {
           let dossards = [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}];
+          if (this.currentCompetition.judgingSystem && this.currentCompetition.judgingSystem == SYSTEM21) {
+            this.criteria.forEach(criteria => {
+              dossards.forEach((dossard, index) => {
+                dossards[index][criteria] = 0;
+              });
+            });
+          }
           if (this.currentCompetition.judgingSystem && this.currentCompetition.judgingSystem == SKATING) {
             dossards = [];
             for (let i = 1; i < 46; i++) {
@@ -135,7 +142,7 @@ export class JudgeSheetPage {
             danse: this.danse,
             competitionId: this.competitionId,
             dossards,
-            finalSkatingRanks: [0, 0, 0, 0, 0, 0]
+            finalSkatingDossardsOrder: [0, 0, 0, 0, 0, 0]
           }).catch(e => {
             console.log(e);
           })
@@ -194,8 +201,10 @@ export class JudgeSheetPage {
 
   rankChanged() {
     this.db.get(this.sheetId).then(sheet => {
-      sheet.finalSkatingRanks = this.finalSkatingRanks;
-      this.db.put(sheet);
+      sheet.finalSkatingDossardsOrder = this.finalSkatingDossardsOrder;
+
+      this.db.put(sheet).then(() => {
+      });
     })
   }
 

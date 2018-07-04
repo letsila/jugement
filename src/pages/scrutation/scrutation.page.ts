@@ -2,7 +2,7 @@ import { Component } from "@angular/core";
 import { AlertController, IonicPage, MenuController, NavController, ViewController, LoadingController } from "ionic-angular";
 import { DbService } from "../../services/db.service";
 import * as _ from "lodash";
-import { SYSTEM21 } from "../../constants/judging-systems";
+import { SYSTEM21, SKATING } from "../../constants/judging-systems";
 
 const TO_MUCH = 2;
 const NOT_ENOUGH = -1;
@@ -13,23 +13,13 @@ const NOT_ENOUGH = -1;
   templateUrl: "scrutation.page.html"
 })
 export class ScrutationPage {
-  dossards: number[] = [
-    1, 2, 3, 4, 5, 6, 7, 8, 9,
-    10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
-    20, 21, 22, 23, 24, 25, 26, 27, 28, 29,
-    30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
-    41, 42, 43, 44, 45];
+  dossards: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   judgeSheets: any[] = [];
   judgeId: string;
-  danseFilter: string;
+  danseFilter: string = "chacha";
   danses: any[] = [];
   criteria = ["tq", "mm", "ps", "cp"];
-  dossardsAliases: string[] = [
-    "1", "2", "3", "4", "5", "6", "7", "8", "9",
-    "10", "11", "12", "13", "14", "15", "16", "17", "18", "19",
-    "20", "21", "22", "23", "24", "25", "26", "27", "28", "29",
-    "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40",
-    "41", "42", "43", "44", "45"];
+  dossardsAliases: string[] = [];
   competition: any;
   competId: any;
 
@@ -93,21 +83,20 @@ export class ScrutationPage {
   }
 
   initCompet(result) {
-
     let loading = this.loading.create({ content: "Chargement..." });
     loading.present();
 
     this.db.get("competitions").then(res => {
       this.db.get('criteria-list').then(criteria => {
         this.competition = _.find(res.list, { id: this.competId });
-        this.dossardsAliases = result.aliases;
-
-        console.log(this.competition);
 
         // Show only ten aliases if 2.1
-        if (this.competition && this.competition.type && this.competition.judgingSystemId == SYSTEM21) {
+        if (this.competition && this.competition.judgingSystem == SYSTEM21) {
           this.dossardsAliases = result.aliases.splice(0, 10);
-          this.dossards = result.aliases.splice(0, 10);
+        }
+
+        if (this.competition && this.competition.judgingSystem == SKATING) {
+          this.dossardsAliases = result.aliases;
         }
 
         if (this.competition && this.competition.type.criteria && this.competition.type.criteria.length) {
@@ -127,7 +116,8 @@ export class ScrutationPage {
               }
             });
 
-            this.danseFilter = this.danses.length ? this.danses[0].identifier : null;
+            // this.danseFilter = this.danses.length ? this.danses[0].identifier : null;
+            this.danseFilter = "chacha";
           })
           .catch(e => console.log(e));
         loading.dismiss();
@@ -340,25 +330,39 @@ export class ScrutationPage {
     try {
 
       let mean: number = 0;
-
+      // console.log(this.judgeSheets[0].dossards[0]);
       if (this.judgeSheets.length) {
         // Les feuilles de juges pour la danse en cours.
         let sheetsOfTheDanse: any = this.judgeSheets.filter(sheet => {
           return sheet.danse == danseFilter;
         });
+        // console.log(danseFilter);
         // Récupération des scores du dossard pour la danse en cours.
         if (sheetsOfTheDanse.length) {
           let scoresOfTheCriteria = [];
+          // sheetsOfTheDanse.forEach(sheet => {
+          //   if (sheet.dossards[Number(dossardIndex)] && sheet.dossards[Number(dossardIndex)][criteria]) {
+          //     scoresOfTheCriteria.push(
+          //       Number(sheet.dossards[Number(dossardIndex)][criteria])
+          //     );
+          //     // console.log(Number(sheet.dossards[Number(dossardIndex)][criteria]));
+          //   } else {
+          //     scoresOfTheCriteria.push(
+          //       0
+          //     );
+          //   }
+          //   scoresOfTheCriteria = scoresOfTheCriteria.map(el => Number(el));
+          // })
           sheetsOfTheDanse.forEach(sheet => {
             scoresOfTheCriteria.push(
-              sheet.dossards[Number(dossardIndex)][criteria] || 0
+              Number(sheet.dossards[Number(dossardIndex)][criteria]) || 0
             );
-            scoresOfTheCriteria = scoresOfTheCriteria.map(el => Number(el));
           })
           mean = this.mean(scoresOfTheCriteria);
         }
       }
-
+      // return 1;
+      // return this.judgeSheets[0].dossards[0].tq;
       return _.round(mean, 3);
     } catch (e) {
       console.log(e);
