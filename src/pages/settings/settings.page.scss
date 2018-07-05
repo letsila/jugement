@@ -14,6 +14,13 @@ page-settings {
     background-color:#f8f8f8 !important;
   }
 
+  .dos-cell:nth-child(-n+13) {
+    border-top: 1px #009688 solid;
+  }
 
+  .dos-cell {
+    border-bottom: 1px #009688 solid;
+    border-right: 1px #009688 solid;
+  }
 
 }

@@ -42,7 +42,7 @@
     <ion-list-header>
       <ion-icon name="bookmark" class="title-icon"></ion-icon>Assignation des dossards
     </ion-list-header>
-    <ion-col col-1 *ngFor="let dossardNumber of dossards; let i=index" style="border: 1px #bada55 solid">
+    <ion-col col-1 class="dos-cell" *ngFor="let dossardNumber of dossards; let i=index">
       <!-- <ion-label fixed>Dos.</ion-label> -->
       <ion-input [(ngModel)]="dossardAliases[i]" type="text"></ion-input>
     </ion-col>

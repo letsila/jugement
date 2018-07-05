@@ -20,6 +20,12 @@
 </ion-header>
 
 <ion-content padding>
+  <ion-row style="margin-top: 64px;">
+    <ion-col col-12 text-center *ngIf="!competition">
+      <ion-icon name="information-circle" color="primary"></ion-icon> Vous n'avez pas de compétition active
+    </ion-col>
+  </ion-row>
+
   <ion-grid *ngIf="competition && (!competition.judgingSystem ||  competition.judgingSystem  && competition.judgingSystem == 1)">
     <ion-refresher (ionRefresh)="doRefresh($event)">
       <ion-refresher-content></ion-refresher-content>
@@ -254,7 +260,7 @@
 <ion-footer>
   <ion-row>
     <ion-col col-12 class="legend" *ngIf="competition" text-center>
-      {{ competition.titre }} - {{ competition.type.name }} - {{ competition.date | formatDate }}
+      <b>{{ competition.titre }}</b> - {{ competition.type.name }} - {{ competition.judgingSystem | judgingSystem }} - {{ competition.date | formatDate }}
     </ion-col>
   </ion-row>
 </ion-footer>

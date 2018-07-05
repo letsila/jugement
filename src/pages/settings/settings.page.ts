@@ -56,7 +56,7 @@ export class SettingsPage {
       this.db.get("competitions")
         .then((res) => {
           this.competition = _.find(res.list, { id: this.competId });
-          if (this.competition.nombreSelection) {
+          if (this.competition && this.competition.nombreSelection) {
             this.nombreSelection = this.competition.nombreSelection;
           }
 
@@ -100,11 +100,13 @@ export class SettingsPage {
 
     this.db.get("competitions").then(res => {
       const currCompetIndex = _.findIndex(res.list, { id: this.competId });
-      res.list[currCompetIndex].nombreSelection = this.nombreSelection;
+      if (currCompetIndex != -1) {
+        res.list[currCompetIndex].nombreSelection = this.nombreSelection;
 
-      this.db.put(res).then(() => {
-        console.log(res);
-      });
+        this.db.put(res).then(() => {
+          console.log(res);
+        });
+      }
     }).catch(e => console.log(e));
   }
 

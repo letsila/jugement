@@ -27,14 +27,14 @@
         <ion-label>
           <ion-row>
             <ion-col col-1>{{ i+1 }}</ion-col>
-            <ion-col col-5>
+            <ion-col col-4>
               <span class="capitalize">{{ competition.titre }}</span>
             </ion-col>
             <ion-col col-2>
               <span class="uppercase">{{ competition.type.name }} </span>
             </ion-col>
 
-            <ion-col col-1>
+            <ion-col col-2>
               <span class="uppercase">{{ competition.judgingSystem | judgingSystem }}</span>
             </ion-col>
             <ion-col col-3>{{ competition.date | formatDate }}</ion-col>
@@ -64,13 +64,13 @@
       <ion-label>
         <ion-row>
           <ion-col col-1>{{ i+1 }}</ion-col>
-          <ion-col col-5>
+          <ion-col col-4>
             <span class="capitalize">{{ competition.titre }}</span>
           </ion-col>
           <ion-col col-2>
             <span class="uppercase">{{ competition.type.name }}</span>
           </ion-col>
-          <ion-col col-1>
+          <ion-col col-2>
             <span class="uppercase">{{ competition.judgingSystem }}</span>
           </ion-col>
           <ion-col col-3>{{ competition.date | formatDate }}</ion-col>
