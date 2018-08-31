@@ -71,7 +71,7 @@
             <span class="uppercase">{{ competition.type.name }}</span>
           </ion-col>
           <ion-col col-2>
-            <span class="uppercase">{{ competition.judgingSystem }}</span>
+            <span class="uppercase">{{ competition.judgingSystem | judgingSystem }}</span>
           </ion-col>
           <ion-col col-3>{{ competition.date | formatDate }}</ion-col>
         </ion-row>

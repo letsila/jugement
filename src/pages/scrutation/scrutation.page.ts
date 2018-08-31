@@ -48,7 +48,6 @@ export class ScrutationPage {
           this.judgeSheets = res.rows.map(value => {
             return value.doc;
           });
-          console.log(this.judgeSheets);
 
           this.db.get("dossards-" + this.competId)
             .then(res => {
@@ -206,7 +205,6 @@ export class ScrutationPage {
     });
 
     let dossardsRanked_ordered = _.orderBy(dossardsRanked, "score", "desc");
-    // console.log(dossardsRanked_ordered);
 
     return _.findIndex(dossardsRanked_ordered, { id: dossardIndex }) + 1;
   }
@@ -226,7 +224,6 @@ export class ScrutationPage {
     });
 
     let dossardsRanked_ordered = _.orderBy(dossardsRanked, "score", "desc");
-    // console.log(dossardsRanked_ordered);
 
     return _.findIndex(dossardsRanked_ordered, { id: dossardIndex }) + 1;
   }
@@ -266,7 +263,6 @@ export class ScrutationPage {
    */
   appliqueDeleteSheet(judgeSheet) {
     this.db.get(judgeSheet._id).then(sheet => {
-      // sheet._deleted = true;
       this.db.remove(sheet)
         .then(() => {
           const index = _.findIndex(this.judgeSheets, { id: judgeSheet.id });
@@ -339,29 +335,14 @@ export class ScrutationPage {
     try {
 
       let mean: number = 0;
-      // console.log(this.judgeSheets[0].dossards[0]);
       if (this.judgeSheets.length) {
         // Les feuilles de juges pour la danse en cours.
         let sheetsOfTheDanse: any = this.judgeSheets.filter(sheet => {
           return sheet.danse == danseFilter;
         });
-        // console.log(danseFilter);
         // Récupération des scores du dossard pour la danse en cours.
         if (sheetsOfTheDanse.length) {
           let scoresOfTheCriteria = [];
-          // sheetsOfTheDanse.forEach(sheet => {
-          //   if (sheet.dossards[Number(dossardIndex)] && sheet.dossards[Number(dossardIndex)][criteria]) {
-          //     scoresOfTheCriteria.push(
-          //       Number(sheet.dossards[Number(dossardIndex)][criteria])
-          //     );
-          //     // console.log(Number(sheet.dossards[Number(dossardIndex)][criteria]));
-          //   } else {
-          //     scoresOfTheCriteria.push(
-          //       0
-          //     );
-          //   }
-          //   scoresOfTheCriteria = scoresOfTheCriteria.map(el => Number(el));
-          // })
           sheetsOfTheDanse.forEach(sheet => {
             scoresOfTheCriteria.push(
               Number(sheet.dossards[Number(dossardIndex)][criteria]) || 0
@@ -370,8 +351,6 @@ export class ScrutationPage {
           mean = this.mean(scoresOfTheCriteria);
         }
       }
-      // return 1;
-      // return this.judgeSheets[0].dossards[0].tq;
       return _.round(mean, 3);
     } catch (e) {
       console.log(e);
