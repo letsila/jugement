@@ -12,19 +12,31 @@
 </ion-header>
 
 <ion-content style="background-color: #f5f5f5">
-  <ion-grid>
-
-    <ion-item *ngIf="currentCompetition" text-center class="competition-infos">
-      <ion-icon name="trophy"></ion-icon>
-      <div class="uppercase" style="font-size: 24px; padding: 16px">{{ currentCompetition.titre }}</div>
-      <div style="padding: 8px">{{ currentCompetition.type.name }}</div>
-      <div style="font-size: 12px; color: grey;">{{ currentCompetition.date | formatDate }}</div>
-    </ion-item>
-
+  <ion-grid *ngIf="currentCompetition">
+    <ion-row style="background-color: #fff; padding: 2px 32px; border-bottom: 1px #e0e0e0 solid;">
+      <ion-col col-4 style="font-weight: bold;">Titre</ion-col>
+      <ion-col col-4 style="font-weight: bold;">Discipline</ion-col>
+      <ion-col col-4 style="font-weight: bold;">Date</ion-col>
+    </ion-row>
+    <ion-row style="background-color: #fff; padding: 2px 32px; color: #333">
+      <ion-col col-4>
+        {{ currentCompetition.titre }}
+      </ion-col>
+      <ion-col col-4>
+        {{ currentCompetition.type.name }}
+      </ion-col>
+      <ion-col col-4>
+        {{ currentCompetition.date | formatDate }}
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-grid text-center class="competition-infos" style="height: 85%; justify-content: center;">
     <div text-center style="margin: 32px 0;" *ngIf="(!judgeId || judgeId == 'null') && (currentCompetition && !currentCompetition.closed)"
       class="config-error-msg">
-      <ion-icon name="alert" color="danger"></ion-icon> Votre feuille n'a pas été configurée, veuillez vous réferer au scrutateur.
+      <ion-icon name="alert" color="danger"></ion-icon>
+      Votre feuille n'a pas été configurée, veuillez vous réferer au scrutateur.
     </div>
+
     <div text-center style="margin: 32px 0;" *ngIf="!currentCompetition" class="config-error-msg">
       <ion-icon name="information-circle" color="primary"></ion-icon> Aucune competition active
     </div>
@@ -33,22 +45,29 @@
       <ion-icon name="information-circle" color="primary"></ion-icon> Cette compétition est clôturée
     </div>
 
-    <ion-item style="width: 270px; margin:32px auto;" *ngIf="currentCompetition && !currentCompetition.closed">
-      <ion-label>Danse</ion-label>
-      <ion-select [(ngModel)]="danseSelected">
-        <ion-option value="{{ danse.identifier }}" *ngFor="let danse of danses">{{ danse.name }}</ion-option>
-      </ion-select>
-    </ion-item>
+    <ion-row style="align-items: center;">
+      <ion-col col-6>
+        <div class="jugdeName" style="display: flex; justify-content: center; align-items: center; ">
+          <div class="capitalize" style="display: flex; font-size: 16px; color: #333">JUGE</div>
+          <div class="capitalize" style="display: flex; font-size: 120px; color: #333">{{ judgeId }}</div>
+        </div>
+      </ion-col>
+      <ion-col col-6 style="border-left: 1px #c7c7c7 solid;">
+        <ion-item style="width: 270px; margin:32px auto;" *ngIf="currentCompetition && !currentCompetition.closed">
+          <ion-label>Danse</ion-label>
+          <ion-select [(ngModel)]="danseSelected">
+            <ion-option value="{{ danse.identifier }}" *ngFor="let danse of danses">{{ danse.name }}</ion-option>
+          </ion-select>
+        </ion-item>
 
-    <div *ngIf="judgeId && judgeId != 'null' && currentCompetition && !currentCompetition.closed">
-      <button ion-button (click)="connectJuge()" icon-end color="secondary" class="connexion judge-btn">
-        JUGE
-        <ion-badge>
-          <span class="capitalize">{{ judgeId }}</span>
-        </ion-badge>
-        <ion-icon name="arrow-forward"></ion-icon>
-      </button>
-    </div>
+        <div *ngIf="judgeId && judgeId != 'null' && currentCompetition && !currentCompetition.closed">
+          <button ion-button (click)="connectJuge()" icon-end color="secondary" class="connexion judge-btn">
+            Feuille
+            <ion-icon name="arrow-forward" style="font-size: 32px"></ion-icon>
+          </button>
+        </div>
+      </ion-col>
+    </ion-row>
   </ion-grid>
 </ion-content>
 
@@ -56,6 +75,7 @@
   <ion-toolbar text-center>
     <button ion-button (click)="presentPopover()">
       <ion-icon name="stats"></ion-icon>
-      SCRUTATION</button>
+      SCRUTATION
+    </button>
   </ion-toolbar>
 </ion-footer>
