@@ -45,7 +45,7 @@
       <ion-icon name="information-circle" color="primary"></ion-icon> Cette compétition est clôturée
     </div>
 
-    <ion-row style="align-items: center;">
+    <ion-row style="align-items: center;" *ngIf="currentCompetition">
       <ion-col col-6>
         <div class="jugdeName" style="display: flex; justify-content: center; align-items: center; ">
           <div class="capitalize" style="display: flex; font-size: 16px; color: #333">JUGE</div>

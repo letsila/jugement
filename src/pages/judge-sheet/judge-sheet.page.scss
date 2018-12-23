@@ -1,5 +1,10 @@
 page-sheet {
 
+  .sk-invalid {
+    color: red;
+    font-weight: bold;
+  }
+
   .dossard-checkbox {
     border-bottom: 0.2px rgb(165, 165, 165) solid;
   }

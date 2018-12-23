@@ -89,8 +89,8 @@
     <allow-navigation href="http://192.168.1.102:8100" />
     <plugin name="cordova-plugin-network-information" spec="2.0.1" />
     <allow-navigation href="http://192.168.1.102:8101" />
-    <engine name="android" spec="7.0.0" />
-    <engine name="ios" spec="4.5.4" />
     <allow-navigation href="http://10.160.91.62:8101" />
     <allow-navigation href="http://192.168.2.1:8101" />
+    <engine name="android" spec="7.0.0" />
+    <engine name="ios" spec="4.5.4" />
 </widget>

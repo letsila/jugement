@@ -6,7 +6,8 @@
       </button> -->
     </ion-buttons>
     <ion-title text-center *ngIf="!judgeId || judgeId == 'null'" class="config-error-msg">
-      <ion-icon name="alert" color="danger"></ion-icon>Votre feuille n'a pas été configurée correctement, veuillez vous réferer au scrutateur.
+      <ion-icon name="alert" color="danger"></ion-icon>Votre feuille n'a pas été configurée correctement, veuillez vous
+      réferer au scrutateur.
     </ion-title>
     <ion-title text-center *ngIf="judgeId">
       <ion-icon name="paper"></ion-icon>Feuille Juge
@@ -23,7 +24,7 @@
 </ion-header>
 
 <ion-content padding>
-  <form [formGroup]="scoresForm" *ngIf="currentCompetition && !currentCompetition.judgingSystem || currentCompetition.judgingSystem == 1">
+  <form [formGroup]="scoresForm" *ngIf="currentCompetition && !currentCompetition.judgingSystem || currentCompetition.judgingSystem == SYSTEM21">
     <ion-grid>
       <ion-row *ngIf="dossardsAliases1">
         <ion-col col-2></ion-col>
@@ -53,14 +54,15 @@
           <span class="uppercase">{{ critere }}</span>
         </ion-col>
         <ion-col col-2 class="rate" *ngFor="let indexDossard of [5, 6, 7, 8, 9];">
-          <ion-input type="number" *ngIf="criteria" formControlName="{{critere + indexDossard}}" placeholder="note" [(ngModel)]="dossards[indexDossard][critere]"
-            [ngClass]="{'invalid': scroresForm && !scroresForm.controls[critere + indexDossard].valid}" (ionChange)="inputChanged()"></ion-input>
+          <ion-input type="number" *ngIf="criteria" formControlName="{{critere + indexDossard}}" placeholder="note"
+            [(ngModel)]="dossards[indexDossard][critere]" [ngClass]="{'invalid': scroresForm && !scroresForm.controls[critere + indexDossard].valid}"
+            (ionChange)="inputChanged()"></ion-input>
         </ion-col>
       </ion-row>
     </ion-grid>
   </form>
 
-  <ion-grid *ngIf="currentCompetition && currentCompetition.judgingSystem && currentCompetition.judgingSystem == 2">
+  <ion-grid *ngIf="currentCompetition && currentCompetition.judgingSystem && currentCompetition.judgingSystem == SKATING">
     <ion-row>
       <h4 *ngIf="checkboxColor == 'warning'" style="color: orange">Il vous manque {{ remainingCallBack }} callback</h4>
       <h4 *ngIf="checkboxColor == 'danger'" style="color: #f53d3d">Vous devez retirer {{ remainingCallBack }} callback</h4>
@@ -75,22 +77,31 @@
   </ion-grid>
 
   <!-- <form> -->
-    <ion-grid *ngIf="currentCompetition && currentCompetition.judgingSystem && currentCompetition.judgingSystem == 3">
-      <ion-row nowrap>
-        <ion-col col-1 class="rank">RANK</ion-col>
-        <ion-col col-2 class="rank" style="font-size: 16px; font-weight: bold;" *ngFor="let rank of [1, 2, 3, 4, 5, 6]">{{ rank }}</ion-col>
-      </ion-row>
-      <ion-row nowrap>
-        <ion-col col-1 class="rank">DOSS</ion-col>
-        <ion-col col-2 class="rank" *ngFor="let i of [0, 1, 2, 3, 4, 5];">
-          <ion-input [(ngModel)]="finalSkatingDossardsOrder[i]" name="{{i}}" type="number" placeholder="Doss" (ionChange)="rankChanged()"></ion-input>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
+  <ion-grid *ngIf="currentCompetition && currentCompetition.judgingSystem && currentCompetition.judgingSystem == SKATING_FINAL">
+    <ion-row>
+      <h4 *ngIf="!skFinalIsValid" style="color: #f53d3d">Votre classement est incorrect</h4>
+    </ion-row>
+    <ion-row nowrap>
+      <ion-col col-1 class="rank">RANK</ion-col>
+      <ion-col col-2 class="rank" style="font-size: 16px; font-weight: bold;" *ngFor="let rank of [1, 2, 3, 4, 5, 6]">
+        {{ rank }}
+      </ion-col>
+    </ion-row>
+    <ion-row nowrap>
+      <ion-col col-1 class="rank">DOSS</ion-col>
+      <ion-col col-2 class="rank" *ngFor="let i of [0, 1, 2, 3, 4, 5];">
+        <ion-select [(ngModel)]="finalSkatingDossardsOrder[i]" interface="popover" [ngClass]="{'sk-invalid': finalSKCounters[i] && finalSKCounters[i] > 1}">
+          <ion-option *ngFor="let dossard of dossardsAliasesSKFinal; let i=index" [value]="i">
+            {{ dossard }}
+          </ion-option>
+        </ion-select>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
   <!-- </form> -->
 </ion-content>
 
-<ion-footer *ngIf="currentCompetition && currentCompetition.judgingSystem && currentCompetition.judgingSystem == 1">
+<ion-footer *ngIf="currentCompetition && currentCompetition.judgingSystem && currentCompetition.judgingSystem == SYSTEM21">
   <ion-row *ngIf="criteriaLongObj">
     <ion-col col-2 class="legend" *ngFor="let critere of criteriaLongObj">
       <strong>{{ critere.short }}:</strong> {{ critere.name }}

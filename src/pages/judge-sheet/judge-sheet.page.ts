@@ -36,6 +36,11 @@ export class JudgeSheetPage {
   scoresForm: any = this.navParams.get('scoresForm');
   scoresLocked: boolean = false;
   callBack: number = 0;
+  selectOptions: any;
+
+  SYSTEM21 = SYSTEM21;
+  SKATING = SKATING;
+  SKATING_FINAL = SKATING_FINAL;
 
   constructor(public navCtrl: NavController,
     public db: DbService,
@@ -70,6 +75,36 @@ export class JudgeSheetPage {
       return this.dossardsAliases.slice().splice(0, 6);
     } else {
       return [];
+    }
+  }
+
+  /**
+   * Counts the occurence of dossard index in
+   * SK final dossards order.
+   * @param finalSkatingDossardsOrder 
+   */
+  get finalSKCounters() {
+    const counters = [0, 0, 0, 0, 0, 0];
+    if (this.finalSkatingDossardsOrder && this.finalSkatingDossardsOrder.length) {
+      this.finalSkatingDossardsOrder.forEach(dossardIndex => {
+        counters[dossardIndex] += 1;
+      })
+    }
+    return counters;
+  }
+
+  get skFinalIsValid() {
+    if (this.currentCompetition && this.currentCompetition.judgingSystem && this.currentCompetition.judgingSystem == SKATING_FINAL) {
+      if (this.finalSKCounters && this.finalSKCounters.length) {
+        const isValid = this.finalSKCounters
+          .some(counter => {
+            return counter > 1;
+          });
+
+        return !isValid;
+      }
+
+      return true;
     }
   }
 
