@@ -90,7 +90,8 @@
     <ion-row nowrap>
       <ion-col col-1 class="rank">DOSS</ion-col>
       <ion-col col-2 class="rank" *ngFor="let i of [0, 1, 2, 3, 4, 5];">
-        <ion-select [(ngModel)]="finalSkatingDossardsOrder[i]" interface="popover" [ngClass]="{'sk-invalid': finalSKCounters[i] && finalSKCounters[i] > 1}">
+        <ion-select [(ngModel)]="finalSkatingDossardsOrder[i]" (ionChange)="rankChanged()" interface="popover"
+          [ngClass]="{'sk-invalid': finalSKCounters[i] && finalSKCounters[i] > 1}">
           <ion-option *ngFor="let dossard of dossardsAliasesSKFinal; let i=index" [value]="i">
             {{ dossard }}
           </ion-option>
