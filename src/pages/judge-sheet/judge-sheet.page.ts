@@ -1,6 +1,6 @@
-import { Component, NgZone } from '@angular/core';
+import { Component, ViewChild, NgZone } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { AlertController, NavController, NavParams, IonicPage, ViewController } from 'ionic-angular';
+import { AlertController, Navbar, NavController, NavParams, IonicPage, ViewController } from 'ionic-angular';
 import { DbService } from "../../services/db.service";
 import { SYSTEM21, SKATING, SKATING_FINAL } from "../../constants/judging-systems";
 
@@ -10,6 +10,8 @@ import { SYSTEM21, SKATING, SKATING_FINAL } from "../../constants/judging-system
   templateUrl: 'judge-sheet.page.html'
 })
 export class JudgeSheetPage {
+  @ViewChild('navbar') navBar: Navbar;
+
   criteria?: string[] = this.navParams.get('criteria');
   criteriaLongObj: any = this.navParams.get('criteriaLongObj');
   dossardsAliases: string[] = [
@@ -108,6 +110,13 @@ export class JudgeSheetPage {
     }
   }
 
+  isJudgeSheetSystem21NotValid() {
+    return this.dossards.some((dossard: Dossard) => {
+      return dossard.cp == '0' || dossard.mm == '0' || dossard.ps == '0' || dossard.tq == '0'
+        || !dossard.cp || !dossard.mm || !dossard.ps || !dossard.tq;
+    })
+  }
+
   get checkboxColor() {
     this.callBack = this.dossardsSkating.filter(value => value).length;
 
@@ -125,6 +134,33 @@ export class JudgeSheetPage {
   }
 
   ionViewDidLoad() {
+    this.navBar.backButtonClick = () => {
+      if (this.isJudgeSheetSystem21NotValid()) {
+        let alert = this.alertCtrl.create({
+          title: 'Feuille invalide !!!',
+          subTitle: 'Veuillez vérifier vos scores, certaines valeurs sont invalides',
+          buttons: [
+            {
+              text: 'OK',
+              role: 'cancel',
+              handler: () => {
+                console.log('Cancel clicked');
+              }
+            },
+            {
+              text: 'Ignorer',
+              handler: () => {
+                this.navCtrl.pop();
+              }
+            }
+          ]
+        });
+        alert.present();
+      } else {
+        this.navCtrl.pop();
+      }
+    };
+
     this.viewCtrl.didEnter.subscribe(() => {
       // Création de la feuille au niveau de la base
       // si celle ci n'existe pas encore.
@@ -187,13 +223,7 @@ export class JudgeSheetPage {
     })
   }
 
-  logout() {
-    this.navCtrl.push('LoginPage', {}, { animate: true, direction: "back" });
-    localStorage.setItem("role", "");
-  }
-
   lockScores() {
-
     let subTitle = 'Voulez-vous verouiller votre feuille ?';
     let title = 'Vérouillage';
     if (this.scoresLocked) {
@@ -271,7 +301,7 @@ export class JudgeSheetPage {
 
             sheet.dossards[index][critere] = 0;
           } else {
-            sheet.dossards[index][critere] = dossard[critere];
+            sheet.dossards[index][critere] = parseFloat(dossard[critere]);
           }
         })
       })

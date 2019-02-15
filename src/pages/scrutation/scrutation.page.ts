@@ -4,23 +4,6 @@ import { DbService } from "../../services/db.service";
 import * as _ from "lodash";
 import { SYSTEM21, SKATING, SKATING_FINAL } from "../../constants/judging-systems";
 
-interface Dossard {
-  tq: string;
-  mm: string;
-  ps: string;
-  cp: string;
-}
-
-interface JudgeSheet {
-  competitionId: string;
-  danse: string;
-  dossards: Dossard[];
-  finalSkatingDossardsOrder: number[];
-  judgeId: string;
-  _id: string;
-  _rev: string;
-}
-
 @IonicPage()
 @Component({
   selector: "page-scrutation",

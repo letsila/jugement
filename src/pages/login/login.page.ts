@@ -19,23 +19,6 @@ import * as _ from "lodash";
 declare let navigator: any;
 declare let Connection: any;
 
-interface CompetitionType {
-  criteria: number[];
-  length: number;
-  id: number;
-  name: string;
-}
-
-interface Competition {
-  closed: boolean;
-  date: number;
-  id: string;
-  judgingSystem: number;
-  nombreSelection: number;
-  titre: string;
-  type: CompetitionType;
-}
-
 @IonicPage()
 @Component({
   selector: "page-login",
