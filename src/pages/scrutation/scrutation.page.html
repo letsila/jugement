@@ -26,7 +26,8 @@
     </ion-col>
   </ion-row>
 
-  <ion-grid *ngIf="competition && (!competition.judgingSystem ||  competition.judgingSystem  && competition.judgingSystem == 1)">
+  <ion-grid
+    *ngIf="competition && (!competition.judgingSystem ||  competition.judgingSystem  && competition.judgingSystem == SYSTEM21)">
     <ion-refresher (ionRefresh)="doRefresh($event)">
       <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
@@ -41,8 +42,9 @@
         <ion-grid>
           <ion-row class="judge-title">
             <ion-col col-11>
-              <h6 style="padding-top: 8px;">Juge
-                <span class="capitalize">{{ judgesheet.judgeId }}</span>
+              <h6 style="padding-top: 8px;" [ngClass]="{'score-error': isJudgeSheetSystem21Valid(judgesheet)}">Juge
+                <span class="capitalize">
+                  {{ judgesheet.judgeId }}</span>
               </h6>
             </ion-col>
             <ion-col col-1>
@@ -63,7 +65,8 @@
           <ion-row *ngFor="let critere of criteria">
             <ion-col col-1 class="rank uppercase">{{ critere }}</ion-col>
             <ion-col col-1 class="rate" *ngFor="let dossard of judgesheet.dossards">
-              <ion-input type="text" placeholder="note" value="{{ dossard[critere] }}" disabled></ion-input>
+              <ion-input [ngClass]="{'score-error': dossard[critere] === 0 || dossard[critere] === '0'}" type="text" placeholder="note"
+                value="{{ dossard[critere] }}" disabled></ion-input>
             </ion-col>
           </ion-row>
         </ion-grid>
@@ -90,7 +93,8 @@
         <ion-row *ngFor="let critere of criteria">
           <ion-col col-1 class="rank uppercase">{{ critere }}</ion-col>
           <ion-col col-1 class="rate" *ngFor="let dossard of dossards; let i=index">
-            <ion-input type="text" placeholder="note" value="{{ meanCriteriaScoreOfDossardId(i, critere) }}" disabled></ion-input>
+            <ion-input type="text" placeholder="note" value="{{ meanCriteriaScoreOfDossardId(i, critere) }}" disabled>
+            </ion-input>
           </ion-col>
           <ion-col col-1 class="rank">
           </ion-col>
@@ -137,7 +141,8 @@
     </div>
   </ion-grid>
 
-  <ion-scroll scrollX="true" style="width:100vw; height:100vw" *ngIf="competition && (competition.judgingSystem  && competition.judgingSystem == 2)">
+  <ion-scroll scrollX="true" style="width:100vw; height:100vw"
+    *ngIf="competition && (competition.judgingSystem  && competition.judgingSystem == SKATING)">
     <ion-refresher (ionRefresh)="doRefresh($event)">
       <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
@@ -154,10 +159,10 @@
             <ion-col col-11>
               <h6 style="padding-top: 8px;">Juge
                 <span class="capitalize">{{ judgesheet.judgeId }}</span>
-                <span class="callback-error" *ngIf="isJudgeSheetSKValid(judgesheet) == 2">
+                <span class="callback-error" *ngIf="isJudgeSheetSKValid(judgesheet) == TO_MUCH">
                   (Au delà du callback autorisé)
                 </span>
-                <span class="callback-error" *ngIf="isJudgeSheetSKValid(judgesheet) == -1">
+                <span class="callback-error" *ngIf="isJudgeSheetSKValid(judgesheet) == NOT_ENOUGH">
                   (Callback insuffisant)
                 </span>
               </h6>
@@ -177,8 +182,10 @@
           <ion-row nowrap>
             <ion-col col-1 class="rank uppercase"></ion-col>
             <ion-col col-1 class="rate" *ngFor="let dossard of judgesheet.dossards; let i=index">
-              <ion-icon name="checkmark" color="primary" style="font-size: 24px;" *ngIf="dossard && isJudgeSheetSKValid(judgesheet) === 1"></ion-icon>
-              <ion-icon name="checkmark" color="danger" style="font-size: 24px;" *ngIf="dossard && isJudgeSheetSKValid(judgesheet) != 1"></ion-icon>
+              <ion-icon name="checkmark" color="primary" style="font-size: 24px;"
+                *ngIf="dossard && isJudgeSheetSKValid(judgesheet) === 1"></ion-icon>
+              <ion-icon name="checkmark" color="danger" style="font-size: 24px;"
+                *ngIf="dossard && isJudgeSheetSKValid(judgesheet) != 1"></ion-icon>
             </ion-col>
             <!-- <ion-col col-1 class="rank">
             </ion-col> -->
@@ -218,15 +225,17 @@
         <ion-row nowrap>
           <ion-col col-1 class="rank">RANK</ion-col>
           <ion-col col-1 class="rate" *ngFor="let dossard of dossards; let i=index">
-            <ion-input type="text" [ngClass]="{'selected': rankOverallSK(i) > competition.nombreSelection}" placeholder="note" value="{{ rankOverallSK(i) }}"
-              disabled></ion-input>
+            <ion-input type="text" [ngClass]="{'selected': rankOverallSK(i) > competition.nombreSelection}"
+              placeholder="note" value="{{ rankOverallSK(i) }}" disabled></ion-input>
           </ion-col>
         </ion-row>
         <ion-row nowrap>
           <ion-col col-1 class="rank">Status</ion-col>
           <ion-col col-1 class="rate" *ngFor="let dossard of dossards; let i=index">
-            <ion-icon color="secondary" name="checkmark" style="font-size: 24px;" *ngIf="rankOverallSK(i) <= competition.nombreSelection"></ion-icon>
-            <ion-icon color="danger" name="close" style="font-size: 24px;" *ngIf="rankOverallSK(i) > competition.nombreSelection"></ion-icon>
+            <ion-icon color="secondary" name="checkmark" style="font-size: 24px;"
+              *ngIf="rankOverallSK(i) <= competition.nombreSelection"></ion-icon>
+            <ion-icon color="danger" name="close" style="font-size: 24px;"
+              *ngIf="rankOverallSK(i) > competition.nombreSelection"></ion-icon>
           </ion-col>
           <ion-col col-1 class="rank">
             <!--{{ rankPerDanse(i, danseFilter) }}-->
@@ -236,7 +245,7 @@
     </div>
   </ion-scroll>
 
-  <ion-grid *ngIf="competition && (competition.judgingSystem  && competition.judgingSystem == 3)">
+  <ion-grid *ngIf="competition && (competition.judgingSystem  && competition.judgingSystem == SKATING_FINAL)">
     <ion-row nowrap>
       <ion-col col-1 class="back-grey">RANK</ion-col>
       <ion-col col-2 *ngFor="let rank of [1, 2, 3, 4, 5, 6]; let i=index">{{ rank }}</ion-col>
@@ -260,7 +269,8 @@
 <ion-footer>
   <ion-row>
     <ion-col col-12 class="legend" *ngIf="competition" text-center>
-      <b>{{ competition.titre }}</b> - {{ competition.type.name }} - {{ competition.judgingSystem | judgingSystem }} - {{ competition.date | formatDate }}
+      <b>{{ competition.titre }}</b> - {{ competition.type.name }} - {{ competition.judgingSystem | judgingSystem }} -
+      {{ competition.date | formatDate }}
     </ion-col>
   </ion-row>
 </ion-footer>

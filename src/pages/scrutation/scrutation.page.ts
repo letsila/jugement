@@ -4,8 +4,22 @@ import { DbService } from "../../services/db.service";
 import * as _ from "lodash";
 import { SYSTEM21, SKATING, SKATING_FINAL } from "../../constants/judging-systems";
 
-const TO_MUCH = 2;
-const NOT_ENOUGH = -1;
+interface Dossard {
+  tq: string;
+  mm: string;
+  ps: string;
+  cp: string;
+}
+
+interface JudgeSheet {
+  competitionId: string;
+  danse: string;
+  dossards: Dossard[];
+  finalSkatingDossardsOrder: number[];
+  judgeId: string;
+  _id: string;
+  _rev: string;
+}
 
 @IonicPage()
 @Component({
@@ -19,7 +33,7 @@ export class ScrutationPage {
     20, 21, 22, 23, 24, 25, 26, 27, 28, 29,
     30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
     41, 42, 43, 44, 45];
-  judgeSheets: any[] = [];
+  judgeSheets: JudgeSheet[] = [];
   judgeId: string;
   danseFilter: string = "chacha";
   danses: any[] = [];
@@ -27,6 +41,13 @@ export class ScrutationPage {
   dossardsAliases: string[] = [];
   competition: any;
   competId: any;
+
+  TO_MUCH = 2;
+  NOT_ENOUGH = -1;
+
+  SYSTEM21 = SYSTEM21;
+  SKATING = SKATING;
+  SKATING_FINAL = SKATING_FINAL;
 
   constructor(
     public alertCtrl: AlertController,
@@ -49,6 +70,8 @@ export class ScrutationPage {
             return value.doc;
           });
 
+          console.log(this.judgeSheets);
+
           this.db.get("dossards-" + this.competId)
             .then(res => {
               this.initCompet(res);
@@ -68,6 +91,13 @@ export class ScrutationPage {
 
   }
 
+  isJudgeSheetSystem21Valid(judgeSheet) {
+    return judgeSheet.dossards.some((dossard: Dossard) => {
+      return dossard.cp == '0' || dossard.mm == '0' || dossard.ps == '0' || dossard.tq == '0'
+      || !dossard.cp || !dossard.mm || !dossard.ps || !dossard.tq;
+    })
+  }
+
   isJudgeSheetSKValid(judgeSheet) {
     let checkmarkCount = judgeSheet.dossards.reduce((accumulator, score) => {
       if (score) {
@@ -77,9 +107,9 @@ export class ScrutationPage {
     }, 0);
 
     if (this.competition && checkmarkCount > this.competition.nombreSelection) {
-      return TO_MUCH;
+      return this.TO_MUCH;
     } else if (this.competition && checkmarkCount < this.competition.nombreSelection) {
-      return NOT_ENOUGH;
+      return this.NOT_ENOUGH;
     } else {
       return 1;
     }
