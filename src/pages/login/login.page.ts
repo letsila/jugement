@@ -41,41 +41,43 @@ export class LoginPage {
   }
 
   ngOnInit() {
-    this.judgeId = localStorage.getItem("judgeId");
+    this.viewCtrl.didEnter.subscribe(() => {
+      this.judgeId = localStorage.getItem("judgeId");
 
-    this.db.get("competitions")
-      .then(res => {
-        if (localStorage.getItem("currentCompetitionId") == "") {
-          let openCompetitions = res.list.filter(res => {
-            return !res.closed;
-          })
+      this.db.get("competitions")
+        .then(res => {
+          if (localStorage.getItem("currentCompetitionId") == "") {
+            let openCompetitions = res.list.filter(res => {
+              return !res.closed;
+            })
 
-          if (openCompetitions.length) {
-            localStorage.setItem("currentCompetitionId", openCompetitions[0].id)
+            if (openCompetitions.length) {
+              localStorage.setItem("currentCompetitionId", openCompetitions[0].id)
+            }
           }
-        }
 
-        let competitionId = this.competitionId = localStorage.getItem("currentCompetitionId");
+          const competitionId = this.competitionId = localStorage.getItem("currentCompetitionId");
 
-        // Récupération des informations sur la compétition en cours
-        this.currentCompetition = _.find(res.list, { id: competitionId });
+          // Récupération des informations sur la compétition en cours
+          this.currentCompetition = _.find(res.list, { id: competitionId });
 
-        this.db.get("danses")
-          .then(res => {
-            this.danses = res.list.filter(danse => {
-              if (this.currentCompetition) {
-                return danse.competitions.indexOf(this.currentCompetition.type.id) != -1;
-              }
-            });
-          })
-          .catch(e => console.log(e));
-      })
-      .catch(e => {
-        console.log(e);
-      })
+          this.db.get("danses")
+            .then(res => {
+              this.danses = res.list.filter(danse => {
+                if (this.currentCompetition) {
+                  return danse.competitions.indexOf(this.currentCompetition.type.id) != -1;
+                }
+              });
+            })
+            .catch(e => console.log(e));
+        })
+        .catch(e => {
+          console.log(e);
+        })
 
-    // Insertion des aliases de dossards.
-    this.bootstrapData();
+      // Insertion des aliases de dossards.
+      this.bootstrapData();
+    })
 
   }
 
