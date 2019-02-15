@@ -50,33 +50,35 @@
     </ion-col>
   </ion-row>
 
-  <ion-list>
-    <ion-list-header>
-      <ion-icon name="list" class="title-icon"></ion-icon>Nombre de passages (max 4)
-    </ion-list-header>
-    <ion-item>
-      <ion-label fixed>Nb.</ion-label>
-      <ion-input [(ngModel)]="nombrePassages" type="text"></ion-input>
-    </ion-item>
-  </ion-list>
+  <ion-grid *ngIf="competition && competition.judgingSystem && competition.judgingSystem == SKATING">
+    <ion-list>
+      <ion-list-header>
+        <ion-icon name="list" class="title-icon"></ion-icon>Nombre de passages (max 4)
+      </ion-list-header>
+      <ion-item>
+        <ion-label fixed>Nb.</ion-label>
+        <ion-input [(ngModel)]="nombrePassages" type="text"></ion-input>
+      </ion-item>
+    </ion-list>
 
-  <ion-list>
-    <ion-list-header>
-      <ion-icon name="barcode"></ion-icon>Délimitation des passages [...[
-    </ion-list-header>
-    <ion-item *ngFor="let passage of rangeNombrePassages; let i = index;">
-      <ion-label fixed>Passage {{ passage + 1 }}</ion-label>
-      <ion-input [(ngModel)]="passages[i]" type="text"></ion-input>
-    </ion-item>
-  </ion-list>
+    <ion-list>
+      <ion-list-header>
+        <ion-icon name="barcode"></ion-icon>Délimitation des passages [...[
+      </ion-list-header>
+      <ion-item *ngFor="let passage of rangeNombrePassages; let i = index;">
+        <ion-label fixed>Passage {{ passage + 1 }}</ion-label>
+        <ion-input [(ngModel)]="passages[i]" type="text"></ion-input>
+      </ion-item>
+    </ion-list>
 
-  <ion-list *ngIf="competition && competition.judgingSystem && competition.judgingSystem == 2">
-    <ion-list-header>
-      <ion-icon name="contacts" class="title-icon"></ion-icon>Callback (skating system)
-    </ion-list-header>
-    <ion-item>
-      <ion-label fixed>Nb.</ion-label>
-      <ion-input [(ngModel)]="nombreSelection" type="text"></ion-input>
-    </ion-item>
-  </ion-list>
+    <ion-list>
+      <ion-list-header>
+        <ion-icon name="contacts" class="title-icon"></ion-icon>Callback (skating system)
+      </ion-list-header>
+      <ion-item>
+        <ion-label fixed>Nb.</ion-label>
+        <ion-input [(ngModel)]="nombreSelection" type="text"></ion-input>
+      </ion-item>
+    </ion-list>
+  </ion-grid>
 </ion-content>

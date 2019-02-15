@@ -7,10 +7,9 @@ import {
   ViewController,
   LoadingController
 } from 'ionic-angular';
-// import { SYSTEM21, SKATING } from "../../constants/judging-systems";
 import { DbService } from "../../services/db.service";
 import * as _ from "lodash";
-import { SKATING_FINAL } from "../../constants/judging-systems";
+import { SKATING_FINAL, SYSTEM21, SKATING } from "../../constants/judging-systems";
 
 @IonicPage()
 @Component({
@@ -38,6 +37,10 @@ export class SettingsPage {
   public nombrePassages: number = 1;
   public passages = ['0-10', '10-20', '20-30', '30-40', '40-45'];
   public competId = localStorage.getItem("currentCompetitionId");
+
+  SKATING_FINAL = SKATING_FINAL;
+  SYSTEM21 = SYSTEM21;
+  SKATING = SKATING;
 
   constructor(
     public navCtrl: NavController,
