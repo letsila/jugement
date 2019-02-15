@@ -1,15 +1,40 @@
 import { Component } from "@angular/core";
-import { AlertController, Platform, IonicPage, MenuController, NavController, PopoverController, ViewController } from "ionic-angular";
+import {
+  AlertController,
+  Platform,
+  IonicPage,
+  MenuController,
+  NavController,
+  PopoverController,
+  ViewController
+} from "ionic-angular";
 import { DbService } from "../../services/db.service";
 import { LoginPopover } from "../../popovers/login/login.popover";
 import { ScoreValidator } from '../../validators/score.validator';
 import { FormBuilder, Validators } from '@angular/forms';
 import { HelperService } from '../../services/helper.service';
+import { SKATING, SKATING_FINAL, SYSTEM21 } from '../../constants/judging-systems';
 import * as _ from "lodash";
-
 
 declare let navigator: any;
 declare let Connection: any;
+
+interface CompetitionType {
+  criteria: number[];
+  length: number;
+  id: number;
+  name: string;
+}
+
+interface Competition {
+  closed: boolean;
+  date: number;
+  id: string;
+  judgingSystem: number;
+  nombreSelection: number;
+  titre: string;
+  type: CompetitionType;
+}
 
 @IonicPage()
 @Component({
@@ -21,9 +46,10 @@ export class LoginPage {
   danseSelected: string;
   danses: any[];
   judgeId: string;
+  jugement: string = '';
   loginCheck: string;
   mdpCheck: string;
-  currentCompetition: any;
+  currentCompetition: Competition;
   competitionId: string;
 
   constructor(
@@ -60,6 +86,21 @@ export class LoginPage {
 
           // Récupération des informations sur la compétition en cours
           this.currentCompetition = _.find(res.list, { id: competitionId });
+
+          // Assignation valeur jugement.
+          if (this.currentCompetition) {
+            switch (this.currentCompetition.judgingSystem) {
+              case SYSTEM21:
+                this.jugement = 'System 2.1';
+                break;
+              case SKATING:
+                this.jugement = 'Skating';
+                break;
+              case SKATING_FINAL:
+                this.jugement = 'Skating final';
+                break;
+            }
+          }
 
           this.db.get("danses")
             .then(res => {

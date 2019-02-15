@@ -14,24 +14,29 @@
 <ion-content style="background-color: #f5f5f5">
   <ion-grid *ngIf="currentCompetition">
     <ion-row style="background-color: #fff; padding: 2px 32px; border-bottom: 1px #e0e0e0 solid;">
-      <ion-col col-4 style="font-weight: bold;">Titre</ion-col>
-      <ion-col col-4 style="font-weight: bold;">Discipline</ion-col>
-      <ion-col col-4 style="font-weight: bold;">Date</ion-col>
+      <ion-col col-3 style="font-weight: bold;">Titre</ion-col>
+      <ion-col col-3 style="font-weight: bold;">Discipline</ion-col>
+      <ion-col col-3 style="font-weight: bold;">Date</ion-col>
+      <ion-col col-3 style="font-weight: bold;">Jugement</ion-col>
     </ion-row>
     <ion-row style="background-color: #fff; padding: 2px 32px; color: #333">
-      <ion-col col-4>
+      <ion-col col-3>
         {{ currentCompetition.titre }}
       </ion-col>
-      <ion-col col-4>
+      <ion-col col-3>
         {{ currentCompetition.type.name }}
       </ion-col>
-      <ion-col col-4>
+      <ion-col col-3>
         {{ currentCompetition.date | formatDate }}
+      </ion-col>
+      <ion-col>
+        {{ jugement }}
       </ion-col>
     </ion-row>
   </ion-grid>
   <ion-grid text-center class="competition-infos" style="height: 85%; justify-content: center;">
-    <div text-center style="margin: 32px 0;" *ngIf="(!judgeId || judgeId == 'null') && (currentCompetition && !currentCompetition.closed)"
+    <div text-center style="margin: 32px 0;"
+      *ngIf="(!judgeId || judgeId == 'null') && (currentCompetition && !currentCompetition.closed)"
       class="config-error-msg">
       <ion-icon name="alert" color="danger"></ion-icon>
       Votre feuille n'a pas été configurée, veuillez vous réferer au scrutateur.
@@ -41,7 +46,8 @@
       <ion-icon name="information-circle" color="primary"></ion-icon> Aucune competition active
     </div>
 
-    <div text-center style="margin: 32px 0;" *ngIf="currentCompetition && currentCompetition.closed" class="config-error-msg">
+    <div text-center style="margin: 32px 0;" *ngIf="currentCompetition && currentCompetition.closed"
+      class="config-error-msg">
       <ion-icon name="information-circle" color="primary"></ion-icon> Cette compétition est clôturée
     </div>
 
