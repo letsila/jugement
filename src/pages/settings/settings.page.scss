@@ -8,6 +8,12 @@ page-settings {
     background-color:#f8f8f8 !important;
   }
 
+  ion-label.dossard-label {
+    font-size: 10px;
+    color: rgba(128, 128, 128, 0.384);
+    margin: 0;
+  }
+
   ion-list-header {
     text-transform: uppercase !important;
     font-size: 1.4rem !important;
@@ -21,6 +27,10 @@ page-settings {
   .dos-cell {
     border-bottom: 1px #009688 solid;
     border-right: 1px #009688 solid;
+  }
+
+  .dos-cell .text-input-md {
+    margin: 4px 8px;
   }
 
 }

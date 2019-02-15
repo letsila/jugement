@@ -74,11 +74,15 @@
       </h4>
       <h4 *ngIf="checkboxColor == 'true'" style="color: #2196F3">OK</h4>
     </ion-row>
-    <ion-row>
-      <ion-col col-1 *ngFor="let dossardAlias of dossardsAliases; let i=index;" class="dossard-checkbox">
-        <ion-label style="font-size: 16px; font-weight: bold;">{{ dossardAlias }}</ion-label>
-        <ion-checkbox [disabled]="scoresLocked" [(ngModel)]="dossardsSkating[i]" (ionChange)="checkBoxChanged()"
-          color="{{ checkboxColor }}"></ion-checkbox>
+    <ion-row *ngFor="let numeroPassage of nombrePassages; let j=index">
+      <!-- <ion-col col-1 *ngFor="let dossardAlias of dossardsAliases; let i=index;" class="dossard-checkbox"> -->
+      <ion-list-header class="passage-header">
+        Passage {{ numeroPassage + 1 }}
+      </ion-list-header>
+      <ion-col col-1 *ngFor="let dossardIndexInPassage of passages[j]" class="dossard-checkbox">
+        <ion-label style="font-size: 16px; font-weight: bold;">{{ dossardsAliases[dossardIndexInPassage] }}</ion-label>
+        <ion-checkbox [disabled]="scoresLocked" [(ngModel)]="dossardsSkating[dossardIndexInPassage]"
+          (ionChange)="checkBoxChanged()" color="{{ checkboxColor }}"></ion-checkbox>
       </ion-col>
     </ion-row>
   </ion-grid>

@@ -35,6 +35,8 @@ export class SettingsPage {
   public judgeAliases: string[] = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
   public competition: any;
   public nombreSelection: number = 8;
+  public nombrePassages: number = 1;
+  public passages = ['0-10', '10-20', '20-30', '30-40', '40-45'];
   public competId = localStorage.getItem("currentCompetitionId");
 
   constructor(
@@ -45,6 +47,14 @@ export class SettingsPage {
     public menu: MenuController,
     public loading: LoadingController) {
     menu.swipeEnable(true, 'menu');
+  }
+
+  get rangeNombrePassages() {
+    if (this.nombrePassages > 0) {
+      return _.range(0, this.nombrePassages);
+    }
+
+    return [];
   }
 
   ionViewDidLoad() {
@@ -60,6 +70,14 @@ export class SettingsPage {
             this.nombreSelection = this.competition.nombreSelection;
           }
 
+          if (this.competition && this.competition.nombrePassages) {
+            this.nombrePassages = this.competition.nombrePassages;
+          }
+
+          if (this.competition && this.competition.passages) {
+            this.passages = this.competition.passages;
+          }
+
           loading.dismiss();
           // Dossards
           this.db.get("dossards-" + this.competId).then(res => {
@@ -67,7 +85,6 @@ export class SettingsPage {
               this.dossards = [1, 2, 3, 4, 5, 6];
             }
             this.dossardAliases = res.aliases;
-            console.log(this.dossards);
           })
             .catch(e => {
               if (e.name == "not_found") {
@@ -102,6 +119,8 @@ export class SettingsPage {
       const currCompetIndex = _.findIndex(res.list, { id: this.competId });
       if (currCompetIndex != -1) {
         res.list[currCompetIndex].nombreSelection = this.nombreSelection;
+        res.list[currCompetIndex].nombrePassages = this.nombrePassages;
+        res.list[currCompetIndex].passages = this.passages;
 
         this.db.put(res).then(() => {
           console.log(res);

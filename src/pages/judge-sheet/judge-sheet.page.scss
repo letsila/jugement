@@ -6,7 +6,18 @@ page-sheet {
   }
 
   .dossard-checkbox {
-    border-bottom: 0.2px rgb(165, 165, 165) solid;
+    ion-label {
+      margin-bottom: 2px;
+    }
+  }
+
+  .passage-header {
+    margin-bottom: 0;
+    padding: 0;
+
+    ion-label {
+      margin-bottom: 0;
+    }
   }
 
   ion-row > ion-col:nth-child(2n +1) {

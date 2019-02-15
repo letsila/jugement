@@ -3,6 +3,7 @@ import { FormBuilder } from '@angular/forms';
 import { AlertController, Navbar, NavController, NavParams, IonicPage, ViewController } from 'ionic-angular';
 import { DbService } from "../../services/db.service";
 import { SYSTEM21, SKATING, SKATING_FINAL } from "../../constants/judging-systems";
+import * as _ from "lodash";
 
 @IonicPage()
 @Component({
@@ -39,6 +40,8 @@ export class JudgeSheetPage {
   scoresLocked: boolean = false;
   callBack: number = 0;
   selectOptions: any;
+  passages = [];
+  nombrePassages = [];
 
   SYSTEM21 = SYSTEM21;
   SKATING = SKATING;
@@ -135,13 +138,13 @@ export class JudgeSheetPage {
 
   ionViewDidLoad() {
     this.navBar.backButtonClick = () => {
-      if (this.isJudgeSheetSystem21NotValid()) {
+      if (this.currentCompetition && this.currentCompetition.judgingSystem == SYSTEM21 && this.isJudgeSheetSystem21NotValid()) {
         let alert = this.alertCtrl.create({
           title: 'Feuille invalide !!!',
           subTitle: 'Veuillez vérifier vos scores, certaines valeurs sont invalides',
           buttons: [
             {
-              text: 'OK',
+              text: 'Corriger',
               role: 'cancel',
               handler: () => {
                 console.log('Cancel clicked');
@@ -175,6 +178,18 @@ export class JudgeSheetPage {
 
         if (this.currentCompetition.judgingSystem && this.currentCompetition.judgingSystem == SKATING) {
           this.dossardsSkating = res.dossards;
+
+          // generate passage ranges
+          this.nombrePassages = _.range(0, this.currentCompetition.nombrePassages, 1);
+
+          // 10-20 => [10, 11, ... 20[
+          this.passages = this.currentCompetition.passages.map(passage => {
+            const indexes = passage.split('-');
+            const start = indexes[0];
+            const end = indexes[1];
+
+            return _.range(start, end, 1);
+          })
         }
 
         if (this.currentCompetition.judgingSystem && this.currentCompetition.judgingSystem == SKATING_FINAL) {
