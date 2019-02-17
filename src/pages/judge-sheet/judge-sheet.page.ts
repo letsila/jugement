@@ -15,12 +15,7 @@ export class JudgeSheetPage {
 
   criteria?: string[] = this.navParams.get('criteria');
   criteriaLongObj: any = this.navParams.get('criteriaLongObj');
-  dossardsAliases: string[] = [
-    "1", "2", "3", "4", "5", "6", "7", "8", "9",
-    "10", "11", "12", "13", "14", "15", "16", "17", "18", "19",
-    "20", "21", "22", "23", "24", "25", "26", "27", "28", "29",
-    "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40",
-    "41", "42", "43", "44", "45"];
+  dossardsAliases: string[] = _.range(0, 45, 1).map(String); // ["1", "2", ..., "45"];
   judgeId = localStorage.getItem("judgeId");
   sheetId: string;
   judgeIdFilter: string;
@@ -165,6 +160,17 @@ export class JudgeSheetPage {
     };
 
     this.viewCtrl.didEnter.subscribe(() => {
+      // Affichage des dossards en configuration.
+      this.db.get("dossards-" + this.currentCompetition.id).then(res => {
+        this.dossardsAliases = res.aliases;
+      }).catch(e => {
+        if (e.name == "not_found" && this.judgeId) {
+          this.db.get("dossards").then(res => {
+            this.dossardsAliases = res.aliases;
+          });
+        }
+      })
+
       // Création de la feuille au niveau de la base
       // si celle ci n'existe pas encore.
       this.db.get(this.sheetId).then(res => {
@@ -196,17 +202,7 @@ export class JudgeSheetPage {
           this.finalSkatingDossardsOrder = res.finalSkatingDossardsOrder;
         }
 
-        this.db.get("dossards-" + this.currentCompetition.id).then(res => {
-          this.dossardsAliases = res.aliases;
-        }).catch(e => {
-          if (e.name == "not_found" && this.judgeId) {
-            this.db.get("dossards").then(res => {
-              this.dossardsAliases = res.aliases;
-            });
-          }
-        })
       }).catch(e => {
-        console.log(e);
         if (e.name == "not_found" && this.judgeId) {
           let dossards = [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}];
           if (this.currentCompetition.judgingSystem && this.currentCompetition.judgingSystem == SYSTEM21) {

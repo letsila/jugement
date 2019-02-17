@@ -19,18 +19,8 @@ import { SKATING_FINAL, SYSTEM21, SKATING } from "../../constants/judging-system
 export class SettingsPage {
 
   public judgeId: string = localStorage.getItem("judgeId");
-  public dossards: number[] = [
-    1, 2, 3, 4, 5, 6, 7, 8, 9,
-    10, 13, 14, 15, 16, 17, 18, 19,
-    20, 21, 22, 23, 24, 25, 26, 27, 28, 29,
-    30, 31, 32, 33, 34, 35, 36, 37, 38, 39,
-    40, 41, 42, 43, 44, 45];
-  public dossardAliases: string[] = [
-    "1", "2", "3", "4", "5", "6", "7", "8", "9",
-    "10", "11", "12", "13", "14", "15", "16", "17", "18", "19",
-    "20", "21", "22", "23", "24", "25", "26", "27", "28", "29",
-    "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40",
-    "41", "42", "43", "44", "45"];
+  public dossards: number[] = _.range(0, 45, 1); // [1, 2, ..., 45]
+  public dossardAliases: string[] = _.range(0, 45, 1).map(String); // ["1", "2", ..., "45"]
   public judgeAliases: string[] = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
   public competition: any;
   public nombreSelection: number = 8;
@@ -58,6 +48,30 @@ export class SettingsPage {
     }
 
     return [];
+  }
+
+  get passagesRanges() {
+    return this.passages.map(passage => {
+      const indexes = passage.split('-');
+      if (indexes.length == 2) {
+        const start = indexes[0];
+        const end = indexes[1];
+
+        return _.range(start, end, 1);
+      } else {
+        return [];
+      }
+    });
+  }
+
+  inPassagesRanges(index) {
+    this.passagesRanges.forEach((range, rangeIndex) => {
+      if (range.indexOf(index) !== -1) {
+        return rangeIndex;
+      }
+    })
+
+    return false;
   }
 
   ionViewDidLoad() {

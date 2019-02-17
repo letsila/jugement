@@ -46,7 +46,9 @@
     </ion-list-header>
     <ion-col col-1 class="dos-cell" *ngFor="let dossardNumber of dossards; let i=index">
       <ion-label class="dossard-label">{{ i }}</ion-label>
-      <ion-input [(ngModel)]="dossardAliases[i]" type="text"></ion-input>
+      
+      <!-- TODO inPassagesRanges est toujours FALSE ? -->
+      <ion-input class="border-{{ inPassagesRanges(i) }}" [(ngModel)]="dossardAliases[i]" type="text"></ion-input>
     </ion-col>
   </ion-row>
 
