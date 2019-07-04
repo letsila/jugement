@@ -17,6 +17,9 @@ export class ScrutationPage {
     30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
     41, 42, 43, 44, 45];
   avgsCriteriaScoreOfDos = [];
+  scoresPerDanseArr = [];
+  overAllScoresArr = [];
+  rankOverallArr = [];
   judgeSheets: JudgeSheet[] = [];
   judgeId: string;
   danseFilter: string = "chacha";
@@ -44,41 +47,42 @@ export class ScrutationPage {
     menu.swipeEnable(true, 'menu');
   }
 
+  loadAll() {
+    return this.db.getJudgeSheetOfCompetition(this.competId)
+      .then(res => {
+        this.judgeSheets = res.rows.map(value => {
+          return value.doc;
+        });
+
+        return this.db.get("dossards-" + this.competId)
+          .then(res => {
+            return this.initCompet(res);
+          })
+          .catch(e => {
+            if (e.name == 'not_found') {
+              this.db.get("dossards").then(res => {
+                this.initCompet(res);
+              })
+            }
+          })
+      })
+      .catch(e => {
+        console.log(e);
+      })
+  }
+
   ionViewDidLoad() {
     this.viewCtrl.didEnter.subscribe(() => {
       this.competId = localStorage.getItem("currentCompetitionId");
 
-      this.db.getJudgeSheetOfCompetition(this.competId)
-        .then(res => {
-          this.judgeSheets = res.rows.map(value => {
-            return value.doc;
-          });
-
-          console.log(this.judgeSheets);
-
-          this.db.get("dossards-" + this.competId)
-            .then(res => {
-              this.initCompet(res);
-            })
-            .catch(e => {
-              if (e.name == 'not_found') {
-                this.db.get("dossards").then(res => {
-                  this.initCompet(res);
-                })
-              }
-            })
-        })
-        .catch(e => {
-          console.log(e);
-        })
+      this.loadAll();
     })
-
   }
 
   isJudgeSheetSystem21Valid(judgeSheet) {
     return judgeSheet.dossards.some((dossard: Dossard) => {
       return dossard.cp == '0' || dossard.mm == '0' || dossard.ps == '0' || dossard.tq == '0'
-      || !dossard.cp || !dossard.mm || !dossard.ps || !dossard.tq;
+        || !dossard.cp || !dossard.mm || !dossard.ps || !dossard.tq;
     })
   }
 
@@ -103,57 +107,81 @@ export class ScrutationPage {
     let loading = this.loading.create({ content: "Chargement..." });
     loading.present();
 
-    this.db.get("competitions").then(res => {
-      this.db.get('criteria-list').then(criteria => {
-        this.competition = _.find(res.list, { id: this.competId });
+    return this.db.get("competitions").then(competitions => {
+      return this.db.get('criteria-list').then(criteria => {
+        return this.db.get("danses").then(danses => {
+          this.competition = _.find(competitions.list, { id: this.competId });
 
-        // Show only ten aliases if 2.1
-        if (this.competition && this.competition.judgingSystem == SYSTEM21) {
-          this.dossardsAliases = result.aliases.splice(0, 10);
-          this.dossards = this.dossards.splice(0, 10);
-
-          // Create the avgCriteriaScoreOfDos array based on dossards number
-          this.avgsCriteriaScoreOfDos = this.dossards.map(() => {
-            return {};
+          this.danses = danses.list.filter(danse => {
+            if (this.competition) {
+              return danse.competitions
+                .indexOf(this.competition.type.id) != -1;
+            }
           });
 
-          this.dossards.forEach((dossard, idx) => {
-            criteria.list.forEach(c => {
-              this.avgsCriteriaScoreOfDos[idx][c.short] = this.avgCriteriaScoreOfDos(idx, c.short);
-            });
-          });
-        }
+          // this.danseFilter = this.danses.length ? this.danses[0].identifier : null;
+          this.danseFilter = "chacha";
 
-        if (this.competition && this.competition.judgingSystem == SKATING) {
-          this.dossardsAliases = result.aliases;
-        }
+          // Show only ten aliases if 2.1
+          if (this.competition && this.competition.judgingSystem == SYSTEM21) {
+            this.dossardsAliases = result.aliases.splice(0, 10);
+            this.dossards = this.dossards.splice(0, 10);
 
-        if (this.competition && this.competition.judgingSystem == SKATING_FINAL) {
-          this.dossardsAliases = result.aliases.splice(0, 6);
-        }
+            // Create the avgCriteriaScoreOfDos array based on dossards number
+            this.avgsCriteriaScoreOfDos = this.dossards.map((val, idx) => {
+              const dossardData = {};
 
-        if (this.competition && this.competition.type.criteria && this.competition.type.criteria.length) {
-          this.criteria = criteria.list.filter(critere => {
-            return this.competition.type.criteria.indexOf(critere.id) != -1;
-          }).map(critere => {
-            return critere.short;
-          })
-        }
-
-        this.db.get("danses")
-          .then(res => {
-            this.danses = res.list.filter(danse => {
-              if (this.competition) {
-                return danse.competitions
-                  .indexOf(this.competition.type.id) != -1;
-              }
+              this.danses.forEach(danse => {
+                dossardData[danse.identifier] = {};
+                criteria.list.forEach(crit => {
+                  dossardData[danse.identifier][crit.short] = this.avgCriteriaScoreOfDos(idx, crit.short, danse.identifier);
+                })
+              });
+              return dossardData
             });
 
-            // this.danseFilter = this.danses.length ? this.danses[0].identifier : null;
-            this.danseFilter = "chacha";
-          })
+            // Create the scoresPerDanseArr array based on dossards number
+            this.scoresPerDanseArr = this.dossards.map((val, idx) => {
+              const dossardData = {};
+
+              this.danses.forEach(danse => {
+                dossardData[danse.identifier] = this.scoresPerDanse(idx, danse.identifier);
+              })
+              return dossardData;
+            });
+
+            // Create the overAllScoresArr array based on dossards number
+            this.overAllScoresArr = this.dossards.map((val, idx) => {
+              return this.overallScore(idx);
+            });
+
+            // Create the rankOverallArr array based on dossards number
+            this.rankOverallArr = this.dossards.map((val, idx) => {
+              return this.rankOverall(idx);
+            });
+          }
+
+          if (this.competition && this.competition.judgingSystem == SKATING) {
+            this.dossardsAliases = result.aliases;
+          }
+
+          if (this.competition && this.competition.judgingSystem == SKATING_FINAL) {
+            this.dossardsAliases = result.aliases.splice(0, 6);
+          }
+
+          if (this.competition && this.competition.type.criteria && this.competition.type.criteria.length) {
+            this.criteria = criteria.list.filter(critere => {
+              return this.competition.type.criteria.indexOf(critere.id) != -1;
+            }).map(critere => {
+              return critere.short;
+            })
+          }
+
+          loading.dismiss();
+
+          return Promise.resolve(1);
+        })
           .catch(e => console.log(e));
-        loading.dismiss();
       })
         .catch(e => console.log(e))
     })
@@ -161,17 +189,12 @@ export class ScrutationPage {
   }
 
   doRefresh(refresher) {
-    this.db.getJudgeSheetOfCompetition(this.competId)
-      .then(res => {
-        this.judgeSheets = res.rows.map(value => {
-          return value.doc;
-        });
-
-        refresher.cancel();
-      })
-      .catch(e => {
-        console.log(e);
-      })
+    this.db.update().then(() => {
+      this.loadAll().then(() => {
+        console.log('loaded');
+        refresher.cancel()
+      });
+    })
   }
 
   /**

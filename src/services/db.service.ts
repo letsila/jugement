@@ -86,6 +86,19 @@ export class DbService {
     return ddoc;
   }
 
+  update() {
+    return this.db.replicate.from(this.remote, {
+      live: false,
+      retry: true
+    })
+      .on('change', function (change) {
+        console.log('changing ...');
+      })
+      .on('error', function (err) {
+        console.log(err);
+      });
+  }
+
   /**
    * Sync
    */
