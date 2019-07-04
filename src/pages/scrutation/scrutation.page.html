@@ -93,7 +93,7 @@
         <ion-row *ngFor="let critere of criteria">
           <ion-col col-1 class="rank uppercase">{{ critere }}</ion-col>
           <ion-col col-1 class="rate" *ngFor="let dossard of dossards; let i=index">
-            <ion-input type="text" placeholder="note" value="{{ meanCriteriaScoreOfDossardId(i, critere) }}" disabled>
+            <ion-input type="text" placeholder="note" *ngIf="avgsCriteriaScoreOfDos.length" value="{{ avgsCriteriaScoreOfDos[i][critere] }}" disabled>
             </ion-input>
           </ion-col>
           <ion-col col-1 class="rank">

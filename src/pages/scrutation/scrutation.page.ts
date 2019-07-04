@@ -16,6 +16,7 @@ export class ScrutationPage {
     20, 21, 22, 23, 24, 25, 26, 27, 28, 29,
     30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
     41, 42, 43, 44, 45];
+  avgsCriteriaScoreOfDos = [];
   judgeSheets: JudgeSheet[] = [];
   judgeId: string;
   danseFilter: string = "chacha";
@@ -110,6 +111,17 @@ export class ScrutationPage {
         if (this.competition && this.competition.judgingSystem == SYSTEM21) {
           this.dossardsAliases = result.aliases.splice(0, 10);
           this.dossards = this.dossards.splice(0, 10);
+
+          // Create the avgCriteriaScoreOfDos array based on dossards number
+          this.avgsCriteriaScoreOfDos = this.dossards.map(() => {
+            return {};
+          });
+
+          this.dossards.forEach((dossard, idx) => {
+            criteria.list.forEach(c => {
+              this.avgsCriteriaScoreOfDos[idx][c.short] = this.avgCriteriaScoreOfDos(idx, c.short);
+            });
+          });
         }
 
         if (this.competition && this.competition.judgingSystem == SKATING) {
@@ -313,7 +325,7 @@ export class ScrutationPage {
     let scoresPerDanse: number = 0;
     this.criteria.forEach(criteria => {
       scoresPerDanse += Number(
-        this.meanCriteriaScoreOfDossardId(dossardIndex, criteria, danseFilter)
+        this.avgCriteriaScoreOfDos(dossardIndex, criteria, danseFilter)
       );
     });
 
@@ -344,10 +356,10 @@ export class ScrutationPage {
   /**
    * Moyenne d'une critere pour un dossard pour une danse.
    */
-  meanCriteriaScoreOfDossardId(dossardIndex: number, criteria: string, danseFilter = this.danseFilter) {
+  avgCriteriaScoreOfDos(dossardIndex: number, criteria: string, danseFilter = this.danseFilter) {
     try {
 
-      let mean: number = 0;
+      let average: number = 0;
       if (this.judgeSheets.length) {
         // Les feuilles de juges pour la danse en cours.
         let sheetsOfTheDanse: any = this.judgeSheets.filter(sheet => {
@@ -361,10 +373,10 @@ export class ScrutationPage {
               Number(sheet.dossards[Number(dossardIndex)][criteria]) || 0
             );
           })
-          mean = this.mean(scoresOfTheCriteria);
+          average = this.average(scoresOfTheCriteria);
         }
       }
-      return _.round(mean, 3);
+      return _.round(average, 3);
     } catch (e) {
       console.log(e);
     }
@@ -373,8 +385,8 @@ export class ScrutationPage {
   /**
    * Moyenne
    */
-  mean(scoresPerJudge: number[]) {
-    let mean: number = 0;
+  average(scoresPerJudge: number[]) {
+    let average: number = 0;
     let sortedScores = scoresPerJudge.sort();
 
     // System 2.1 si le nombre de juge est impair et supérieur à 2
@@ -393,7 +405,7 @@ export class ScrutationPage {
 
       const denominator = _.sum(weights);
 
-      mean = numerator / (denominator);
+      average = numerator / (denominator);
     }
 
     // System 2.1 si le nombre de juge est pair et supérieur à 1
@@ -406,11 +418,11 @@ export class ScrutationPage {
       })
 
       let divider = sortedScores.length > 1 ? sortedScores.length - 1 : 1;
-      mean = _.sum(sortedScores) / divider;
+      average = _.sum(sortedScores) / divider;
     }
 
     // return sortedScores.length;
-    return _.round(mean, 3);
+    return _.round(average, 3);
   }
 
   /**
