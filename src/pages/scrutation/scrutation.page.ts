@@ -20,6 +20,9 @@ export class ScrutationPage {
   scoresPerDanseArr = [];
   overAllScoresArr = [];
   rankOverallArr = [];
+  scoresPerDanseSKArr = [];
+  overAllSKArr = [];
+  rankOverallSKArr = [];
   judgeSheets: JudgeSheet[] = [];
   judgeId: string;
   danseFilter: string = "chacha";
@@ -106,7 +109,6 @@ export class ScrutationPage {
   initCompet(result) {
     let loading = this.loading.create({ content: "Chargement..." });
     loading.present();
-
     return this.db.get("competitions").then(competitions => {
       return this.db.get('criteria-list').then(criteria => {
         return this.db.get("danses").then(danses => {
@@ -130,7 +132,6 @@ export class ScrutationPage {
             // Create the avgCriteriaScoreOfDos array based on dossards number
             this.avgsCriteriaScoreOfDos = this.dossards.map((val, idx) => {
               const dossardData = {};
-
               this.danses.forEach(danse => {
                 dossardData[danse.identifier] = {};
                 criteria.list.forEach(crit => {
@@ -143,7 +144,6 @@ export class ScrutationPage {
             // Create the scoresPerDanseArr array based on dossards number
             this.scoresPerDanseArr = this.dossards.map((val, idx) => {
               const dossardData = {};
-
               this.danses.forEach(danse => {
                 dossardData[danse.identifier] = this.scoresPerDanse(idx, danse.identifier);
               })
@@ -163,6 +163,25 @@ export class ScrutationPage {
 
           if (this.competition && this.competition.judgingSystem == SKATING) {
             this.dossardsAliases = result.aliases;
+
+            // Create the scoresPerDanseSKArr array based on dossards number
+            this.scoresPerDanseSKArr = this.dossards.map((val, idx) => {
+              const dossardData = {};
+              this.danses.forEach(danse => {
+                dossardData[danse.identifier] = this.scoresPerDanseSK(idx, danse.identifier);
+              })
+              return dossardData;
+            });
+
+            // Create the overAllSKArr array based on dossards number
+            this.overAllSKArr = this.dossards.map((val, idx) => {
+              return this.overallScoreSK(idx);
+            });
+
+            // Create the rankOverallSKArr array based on dossards number
+            this.rankOverallSKArr = this.dossards.map((val, idx) => {
+              return this.rankOverallSK(idx);
+            });
           }
 
           if (this.competition && this.competition.judgingSystem == SKATING_FINAL) {

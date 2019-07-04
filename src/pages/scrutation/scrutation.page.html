@@ -133,7 +133,8 @@
         <ion-row>
           <ion-col col-1 class="rank">RANK</ion-col>
           <ion-col col-1 class="rate" *ngFor="let dossard of dossards; let i=index">
-            <ion-input type="text" placeholder="note" *ngIf="rankOverallArr.length" value="{{ rankOverallArr[i] }}" disabled></ion-input>
+            <ion-input type="text" placeholder="note" *ngIf="rankOverallArr.length" value="{{ rankOverallArr[i] }}"
+              disabled></ion-input>
           </ion-col>
           <ion-col col-1 class="rank">
             <!--{{ rankPerDanse(i, danseFilter) }}-->
@@ -201,7 +202,8 @@
         <ion-row nowrap>
           <ion-col col-1 class="rank">TOTAL</ion-col>
           <ion-col col-1 class="rate" *ngFor="let dossard of dossards; let i=index">
-            <ion-input type="text" placeholder="note" value="{{ scoresPerDanseSK(i) }}" disabled></ion-input>
+            <ion-input type="text" placeholder="note" *ngIf="scoresPerDanseSKArr.length"
+              value="{{ scoresPerDanseSKArr[i][danseFilter] }}" disabled></ion-input>
           </ion-col>
           <ion-col col-1 class="rank">
           </ion-col>
@@ -219,7 +221,7 @@
         <ion-row nowrap>
           <ion-col col-1 class="rank">SCORE</ion-col>
           <ion-col col-1 class="rate" *ngFor="let dossard of dossards; let i=index">
-            <ion-input type="text" placeholder="note" value="{{ overallScoreSK(i) }}" disabled></ion-input>
+            <ion-input type="text" placeholder="note" value="{{ overAllSKArr[i] }}" disabled></ion-input>
           </ion-col>
           <!-- <ion-col col-1 class="rank"> -->
           <!--{{ rankPerDanse(i, danseFilter) }}-->
@@ -229,7 +231,7 @@
           <ion-col col-1 class="rank">RANK</ion-col>
           <ion-col col-1 class="rate" *ngFor="let dossard of dossards; let i=index">
             <ion-input type="text" [ngClass]="{'selected': rankOverallSK(i) > competition.nombreSelection}"
-              placeholder="note" value="{{ rankOverallSK(i) }}" disabled></ion-input>
+              placeholder="note" value="{{ rankOverallSKArr[i] }}" disabled></ion-input>
           </ion-col>
         </ion-row>
         <ion-row nowrap>
