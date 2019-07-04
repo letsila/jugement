@@ -1,12 +1,21 @@
 page-login {
-
-.item-ios.item-block .item-inner {
+  .item-ios.item-block .item-inner {
     border-bottom: none;
   }
 
+  .competition-info {
+    padding-top: 0;
+    // font-weight: bold;
+  }
+
+  .competition-info-label {
+    font-size: 10px;
+    color: #757575;
+  }
+
   .judge-btn {
-    height: 50px;
-    width: 232px;
+    // height: 50px;
+    // width: 232px;
     margin-top: 32px;
   }
 
@@ -40,7 +49,6 @@ page-login {
     display: block;
     margin: 8px auto;
   }
-
 
   .login-card {
     width: 400px;
