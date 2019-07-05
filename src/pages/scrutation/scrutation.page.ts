@@ -17,20 +17,21 @@ export class ScrutationPage {
     30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
     41, 42, 43, 44, 45];
   avgsCriteriaScoreOfDos = [];
-  scoresPerDanseArr = [];
-  overAllScoresArr = [];
-  rankOverallArr = [];
-  scoresPerDanseSKArr = [];
-  overAllSKArr = [];
-  rankOverallSKArr = [];
-  judgeSheets: JudgeSheet[] = [];
-  judgeId: string;
+  competId: any;
+  competition: any;
+  criteria = ["tq", "mm", "ps", "cp"];
   danseFilter: string = "chacha";
   danses: any[] = [];
-  criteria = ["tq", "mm", "ps", "cp"];
   dossardsAliases: string[] = [];
-  competition: any;
-  competId: any;
+  judgeId: string;
+  jugement: string;
+  judgeSheets: JudgeSheet[] = [];
+  overAllSKArr = [];
+  overAllScoresArr = [];
+  rankOverallArr = [];
+  rankOverallSKArr = [];
+  scoresPerDanseArr = [];
+  scoresPerDanseSKArr = [];
 
   TO_MUCH = 2;
   NOT_ENOUGH = -1;
@@ -113,6 +114,21 @@ export class ScrutationPage {
       return this.db.get('criteria-list').then(criteria => {
         return this.db.get("danses").then(danses => {
           this.competition = _.find(competitions.list, { id: this.competId });
+
+          // Assignation valeur jugement.
+          if (this.competition) {
+            switch (this.competition.judgingSystem) {
+              case SYSTEM21:
+                this.jugement = 'System 2.1';
+                break;
+              case SKATING:
+                this.jugement = 'Skating';
+                break;
+              case SKATING_FINAL:
+                this.jugement = 'Skating final';
+                break;
+            }
+          }
 
           this.danses = danses.list.filter(danse => {
             if (this.competition) {

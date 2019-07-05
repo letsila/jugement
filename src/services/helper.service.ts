@@ -80,11 +80,22 @@ export class HelperService {
       mm = '0' + mm;
     }
 
+    return dd + separator + mm + separator + yyyy;
+  }
+
+  /**
+   * Return time
+   * 
+   * @param timestamp 
+   */
+  public static getTime(timestamp) {
+    let thatDay: any = new Date(timestamp);
+
     const hours = HelperService.zeroFill(thatDay.getHours(), 2, 0);
     const minutes = HelperService.zeroFill(thatDay.getMinutes(), 2, 0);
     const seconds = HelperService.zeroFill(thatDay.getSeconds(), 2, 0);
 
-    return dd + separator + mm + separator + yyyy + " " + hours + ":" + minutes + ":" + seconds;
+    return hours + ":" + minutes + ":" + seconds;
   }
 
   /**

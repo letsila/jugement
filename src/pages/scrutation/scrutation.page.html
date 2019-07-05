@@ -74,13 +74,9 @@
     </div>
     <div>
       <ion-grid>
-        <ion-row>
-          <ion-col col-12>
-            <h5 class="judge-title">Recap
-              <span class="capitalize">{{ danseFilter }}</span>
-            </h5>
-          </ion-col>
-        </ion-row>
+        <h6>Recap
+          <span class="capitalize">{{ danseFilter }}</span>
+        </h6>
         <ion-row>
           <ion-col col-1></ion-col>
           <ion-col col-1 class="dossard" *ngFor="let dossardAlias of dossardsAliases">
@@ -110,7 +106,7 @@
           </ion-col>
         </ion-row>
 
-        <h5>Overall</h5>
+        <h6>Overall</h6>
         <ion-row>
           <ion-col col-1></ion-col>
           <ion-col col-1 class="dossard" *ngFor="let dossardAlias of dossardsAliases">
@@ -208,7 +204,7 @@
           <ion-col col-1 class="rank">
           </ion-col>
         </ion-row>
-        <h5>Overall</h5>
+        <h6>Overall</h6>
         <ion-row nowrap>
           <ion-col col-1 class="rank">DOS</ion-col>
           <ion-col col-1 class="dossard" *ngFor="let dossardAlias of dossardsAliases">
@@ -272,10 +268,32 @@
 </ion-content>
 
 <ion-footer>
-  <ion-row>
-    <ion-col col-12 class="legend" *ngIf="competition" text-center>
-      <b>{{ competition.titre }}</b> - {{ competition.type.name }} - {{ competition.judgingSystem | judgingSystem }} -
-      {{ competition.date | formatDate }}
-    </ion-col>
-  </ion-row>
-</ion-footer>
+    <ion-grid style="background-color: #fff" *ngIf="competition">
+      <ion-row style="padding: 2px 32px;">
+        <ion-col col-3 class="competition-info-label">Titre</ion-col>
+        <ion-col col-2 class="competition-info-label">Discipline</ion-col>
+        <ion-col col-2 class="competition-info-label">Date</ion-col>
+        <ion-col col-2 class="competition-info-label">Heure</ion-col>
+        <ion-col col-2 class="competition-info-label">Jugement</ion-col>
+        <ion-col col-1 class="competition-info-label">Version</ion-col>
+      </ion-row>
+      <ion-row style="padding: 2px 32px; color: #333">
+        <ion-col col-3 class="competition-info">
+          {{ competition.titre }}
+        </ion-col>
+        <ion-col col-2 class="competition-info">
+          {{ competition.type.name }}
+        </ion-col>
+        <ion-col col-2 class="competition-info">
+          {{ competition.date | formatDate }}
+        </ion-col>
+        <ion-col col-2 class="competition-info">
+          {{ competition.date | formatTime }}
+        </ion-col>
+        <ion-col col-2 class="competition-info">
+          {{ jugement }}
+        </ion-col>
+        <ion-col col-1 class="competition-info">1.0.0</ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-footer>

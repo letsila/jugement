@@ -1,76 +1,136 @@
 page-scrutation {
-
-  .callback-error {
-    margin-left: 8; 
-    color: red; 
-    font-size: 12px; 
-    font-weight: normal;
+  ion-segment {
+    background-color: #ffffff;
   }
 
-  .score-error {
-    color: red;
-    font-weight: bold;
-  }
+  // CONTENT
+  ion-content {
+    h6 {
+      margin-bottom: 0;
+      font-size: 1.5rem;
+      padding-bottom: 2px;
+    }
 
-  ion-col.dossard {
-    padding-left: 12px;
-    padding-top: 14px;
-  }
+    ion-grid {
+      margin-top: 8px;
+    }
 
-  ion-icon[name=checkmark], ion-icon[name=close]  {
-    margin-left: 7px;
-  }
+    ion-grid:last-child {
+      margin-bottom: 16px;
+    }
 
-  ion-row.back-grey {
-    background-color: #F5F5F5 !important;
-  }
+    .row:nth-child(2) {
+      font-weight: bold;
+    }
 
-  ion-header {
-    min-height: 96px !important;
+    .col:first-child {
+      font-weight: bold;
+      color: #6b6b6b;
+    }
+
+    ion-row:nth-child(2n) {
+      ion-col {
+        background-color: #f5f5f5;
+      }
+    }
+
+    .toolbar-title {
+      font-size: 14px;
+      padding: 4px;
+    }
+
+    ion-buttons {
+      padding: 4px;
+    }
+
+    .callback-error {
+      margin-left: 8;
+      color: red;
+      font-size: 12px;
+      font-weight: normal;
+    }
+
+    .score-error {
+      color: red;
+      font-weight: bold;
+    }
+
+    ion-col.dossard {
+      padding: 8px;
+    }
+
+    ion-icon[name="checkmark"],
+    ion-icon[name="close"] {
+      margin-left: 7px;
+    }
+
+    ion-row.back-grey {
+      background-color: #f5f5f5 !important;
+    }
+
+    ion-header {
+      min-height: 96px !important;
+    }
+
+    .judge-title {
+      .button-ios {
+        height: 1.8em;
+      }
+
+      .button-ios {
+        vertical-align: middle !important;
+        padding: 8px 0;
+        // background-color: #E53935;
+      }
+    }
+
+    .no-sheets {
+      ion-icon {
+        font-size: 1.4 em;
+        vertical-align: middle;
+        display: inline-block;
+        margin: 0 8px;
+        color: #2196f3;
+      }
+    }
+
+    .rank {
+      padding: 14px 8px 8px 4px;
+    }
+
+    .capitalize {
+      text-transform: capitalize;
+    }
+
+    .text-input-md {
+      margin: 8px;
+    }
   }
 
   ion-footer {
     background-color: white !important;
-  }
 
-  .judge-title {
-    .button-ios {
-      height: 1.8em;
-    }
-
-    .button-ios {
-      vertical-align: middle !important;
-      padding: 8px 0;
-      // background-color: #E53935;
-    }
-  }
-
-  .no-sheets {
-    ion-icon {
-      font-size: 1.4  em;
-      vertical-align: middle;
-      display: inline-block;
-      margin: 0 8px;
-      color: #2196F3;
-    }
-  }
-
-  .rank {
-    padding: 16px 8px 11px 4px;
-  }
-
-  .capitalize {
-    text-transform: capitalize;
-  }
-
-  ion-row:nth-child(2n) {
-    ion-col {
-      background-color: #F5F5F5;
+    .grid {
+      padding: 4px 0;
     }
   }
 
   ion-footer ion-col {
-    color: #2196F3 !important;
     font-size: 0.8em !important;
   }
+
+  .competition-info-label {
+    font-size: 10px;
+    color: #757575;
+  }
+
+  .competition-info {
+    padding-top: 0;
+    font-size: 12px;
+    // font-weight: bold;
+  }
+}
+
+.md ion-footer .toolbar:last-child {
+  min-height: calc(24px + env(safe-area-inset-bottom));
 }

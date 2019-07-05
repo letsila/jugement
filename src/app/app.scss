@@ -15,6 +15,10 @@
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
 
+* {
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
+}
+
 .capitalize {
   text-transform: capitalize;
 }
@@ -24,10 +28,11 @@
 }
 
 .popover-title {
-  letter-spacing: 4px;
+  letter-spacing: 1px;
   color: #ffffff;
   margin: 16px auto;
   font-size: 2rem;
+  padding: 4px;
 }
 
 .popover-header {
@@ -42,4 +47,8 @@ ion-icon {
 
 .text-input[disabled] {
   opacity: .7;
+}
+
+.text-input-md {
+  margin: 8px;
 }
