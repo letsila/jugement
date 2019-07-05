@@ -118,13 +118,13 @@
   *ngIf="currentCompetition && currentCompetition.judgingSystem && currentCompetition.judgingSystem == SYSTEM21">
   <ion-grid *ngIf="criteriaLongObj">
     <ion-row>
-      <ion-col col-3 class="legend" *ngFor="let critere of criteriaLongObj">
+      <ion-col col-3 class="legend competition-info-label" *ngFor="let critere of criteriaLongObj">
         <strong>{{ critere.short }}</strong>
       </ion-col>
     </ion-row>
 
     <ion-row>
-      <ion-col col-3 *ngFor="let critere of criteriaLongObj">
+      <ion-col col-3 class="competition-info" *ngFor="let critere of criteriaLongObj">
         {{ critere.name }}
       </ion-col>
     </ion-row>

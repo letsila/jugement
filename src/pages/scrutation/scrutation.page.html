@@ -268,8 +268,8 @@
 </ion-content>
 
 <ion-footer>
-    <ion-grid style="background-color: #fff" *ngIf="competition">
-      <ion-row style="padding: 2px 32px;">
+    <ion-grid *ngIf="competition">
+      <ion-row>
         <ion-col col-3 class="competition-info-label">Titre</ion-col>
         <ion-col col-2 class="competition-info-label">Discipline</ion-col>
         <ion-col col-2 class="competition-info-label">Date</ion-col>
@@ -277,8 +277,8 @@
         <ion-col col-2 class="competition-info-label">Jugement</ion-col>
         <ion-col col-1 class="competition-info-label">Version</ion-col>
       </ion-row>
-      <ion-row style="padding: 2px 32px; color: #333">
-        <ion-col col-3 class="competition-info">
+      <ion-row>
+        <ion-col col-3 class="competition-info" style="text-transform: capitalize;">
           {{ competition.titre }}
         </ion-col>
         <ion-col col-2 class="competition-info">

@@ -113,6 +113,14 @@ page-scrutation {
     .grid {
       padding: 4px 0;
     }
+
+    ion-row {
+      padding: 2px 32px;
+    }
+
+    ion-row:nth-child(2) {
+      color: #333;
+    }
   }
 
   ion-footer ion-col {
