@@ -34,6 +34,7 @@ export class LoginPage {
   mdpCheck: string;
   currentCompetition: Competition;
   competitionId: string;
+  judgeAliases: string[] = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
 
   constructor(
     public db: DbService,
@@ -52,7 +53,7 @@ export class LoginPage {
   ngOnInit() {
     this.viewCtrl.didEnter.subscribe(() => {
       this.judgeId = localStorage.getItem("judgeId");
-
+      console.log("judgeId ---", this.judgeId);
       this.db.get("competitions")
         .then(res => {
           if (localStorage.getItem("currentCompetitionId") == "") {
@@ -105,17 +106,25 @@ export class LoginPage {
 
   }
 
+  saveJudgeId() {
+    try {
+      localStorage.setItem("judgeId", this.judgeId);
+    } catch (e) {
+      alert("can't set JudgeId")
+    }
+  }
+
   /**
    * Display popover
    * @param myEvent 
    */
   presentPopover(myEvent) {
-    let popover = this.popoverCtrl.create(LoginPopover, {
-      dataTunnelFunc: () => {
-        this.navCtrl.setRoot('ScrutationPage', {});
-      }
-    });
-    popover.present();
+    // let popover = this.popoverCtrl.create(LoginPopover, {
+    //   dataTunnelFunc: () => {
+    this.navCtrl.setRoot('ScrutationPage', {});
+    //   }
+    // });
+    // popover.present();
   }
 
   bootstrapData() {

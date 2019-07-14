@@ -11,8 +11,8 @@ declare let emit: any;
 export class DbService {
   db: any;
   remote: any;
-  couchdbUrl: string = "http://50.116.7.99:5984/judgement-db";
-  // couchdbUrl: string = "http://192.168.1.101:5984/judgement-db";
+  // couchdbUrl: string = "http://50.116.7.99:5984/judgement-db";
+  couchdbUrl: string = "http://localhost:5984/judgement-db";
 
   constructor() {
     this.db = new PouchDB("jugement", {
@@ -23,9 +23,9 @@ export class DbService {
 
     this.remote = new PouchDB(this.couchdbUrl, {
       ajax: {
-        headers: {
-          Authorization: 'Basic ' + window.btoa('admin:xKhjm1y9z3q46uOkURGO')
-        },
+        // headers: {
+        //   Authorization: 'Basic ' + window.btoa('admin:xKhjm1y9z3q46uOkURGO')
+        // },
         timeout: 60000
       },
       retry: true

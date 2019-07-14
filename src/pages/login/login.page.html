@@ -35,13 +35,31 @@
     </div>
 
     <ion-row style="align-items: center;" *ngIf="currentCompetition">
-      <ion-col col-6>
+      <ion-col col-5>
         <div class="jugdeName" style="display: flex; justify-content: center; align-items: center; ">
           <div class="capitalize" style="display: flex; font-size: 16px; color: #333">JUGE</div>
           <div class="capitalize" style="display: flex; font-size: 120px; color: #333">{{ judgeId }}</div>
         </div>
       </ion-col>
-      <ion-col col-6 style="border-left: 1px #c7c7c7 solid;">
+      <ion-col col-2 style="border-left: 1px #c7c7c7 solid;" *ngIf="currentCompetition && !currentCompetition.closed">
+        <ion-list radio-group [(ngModel)]="judgeId" (ionChange)="saveJudgeId()">
+          <ion-list-header>
+            <ion-icon name="people" class="title-icon"></ion-icon>
+            Attribuer cette tablette au
+          </ion-list-header>
+          <ion-item>
+            <ion-label>AUCUN JUGE</ion-label>
+            <ion-radio value="null"></ion-radio>
+          </ion-item>
+          <ion-item *ngFor="let judgeAlias of judgeAliases">
+            <ion-label>JUGE
+              <span class="uppercase">{{ judgeAlias }}</span>
+            </ion-label>
+            <ion-radio value="{{ judgeAlias }}"></ion-radio>
+          </ion-item>
+        </ion-list>
+      </ion-col>
+      <ion-col col-5>
         <ion-item style="width: 270px; margin:32px auto;" *ngIf="currentCompetition && !currentCompetition.closed">
           <ion-label>Danse</ion-label>
           <ion-select [(ngModel)]="danseSelected">

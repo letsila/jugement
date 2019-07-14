@@ -31,13 +31,11 @@
     <ion-refresher (ionRefresh)="doRefresh($event)">
       <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
-    <ion-card *ngIf="!countJudgeSheetsOfDanse(danseFilter)" class="no-sheets">
-      <ion-card-content text-center>
-        <ion-icon name="information-circle"></ion-icon>
-        Aucune feuille de juge n'a été enregistrée pour cette danse
-      </ion-card-content>
-    </ion-card>
-    <div *ngFor="let judgesheet of judgeSheets">
+    <div *ngIf="!countJudgeSheetsOfDanse(danseFilter)" class="no-sheets">
+      <ion-icon name="information-circle"></ion-icon>
+      Aucune feuille de juge n'a été enregistrée pour cette danse
+    </div>
+    <div *ngFor="let judgesheet of judgeSheets; let jSheetIdx=index;">
       <div *ngIf="!danseFilter || danseFilter == judgesheet.danse && judgesheet.judgeId">
         <ion-grid>
           <ion-row class="judge-title">
@@ -146,12 +144,10 @@
     <ion-refresher (ionRefresh)="doRefresh($event)">
       <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
-    <ion-card *ngIf="!countJudgeSheetsOfDanse(danseFilter)" class="no-sheets">
-      <ion-card-content text-center>
-        <ion-icon name="information-circle"></ion-icon>
-        Aucune feuille de juge n'a été enregistrée pour cette danse
-      </ion-card-content>
-    </ion-card>
+    <div *ngIf="!countJudgeSheetsOfDanse(danseFilter)" class="no-sheets">
+      <ion-icon name="information-circle"></ion-icon>
+      Aucune feuille de juge n'a été enregistrée pour cette danse
+    </div>
     <div *ngFor="let judgesheet of judgeSheets">
       <div *ngIf="!danseFilter || danseFilter == judgesheet.danse && judgesheet.judgeId">
         <ion-grid>
@@ -268,32 +264,32 @@
 </ion-content>
 
 <ion-footer>
-    <ion-grid *ngIf="competition">
-      <ion-row>
-        <ion-col col-3 class="competition-info-label">Titre</ion-col>
-        <ion-col col-2 class="competition-info-label">Discipline</ion-col>
-        <ion-col col-2 class="competition-info-label">Date</ion-col>
-        <ion-col col-2 class="competition-info-label">Heure</ion-col>
-        <ion-col col-2 class="competition-info-label">Jugement</ion-col>
-        <ion-col col-1 class="competition-info-label">Version</ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col col-3 class="competition-info" style="text-transform: capitalize;">
-          {{ competition.titre }}
-        </ion-col>
-        <ion-col col-2 class="competition-info">
-          {{ competition.type.name }}
-        </ion-col>
-        <ion-col col-2 class="competition-info">
-          {{ competition.date | formatDate }}
-        </ion-col>
-        <ion-col col-2 class="competition-info">
-          {{ competition.date | formatTime }}
-        </ion-col>
-        <ion-col col-2 class="competition-info">
-          {{ jugement }}
-        </ion-col>
-        <ion-col col-1 class="competition-info">1.0.0</ion-col>
-      </ion-row>
-    </ion-grid>
-  </ion-footer>
+  <ion-grid *ngIf="competition">
+    <ion-row>
+      <ion-col col-3 class="competition-info-label">Titre</ion-col>
+      <ion-col col-2 class="competition-info-label">Discipline</ion-col>
+      <ion-col col-2 class="competition-info-label">Date</ion-col>
+      <ion-col col-2 class="competition-info-label">Heure</ion-col>
+      <ion-col col-2 class="competition-info-label">Jugement</ion-col>
+      <ion-col col-1 class="competition-info-label">Version</ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col col-3 class="competition-info" style="text-transform: capitalize;">
+        {{ competition.titre }}
+      </ion-col>
+      <ion-col col-2 class="competition-info">
+        {{ competition.type.name }}
+      </ion-col>
+      <ion-col col-2 class="competition-info">
+        {{ competition.date | formatDate }}
+      </ion-col>
+      <ion-col col-2 class="competition-info">
+        {{ competition.date | formatTime }}
+      </ion-col>
+      <ion-col col-2 class="competition-info">
+        {{ jugement }}
+      </ion-col>
+      <ion-col col-1 class="competition-info">1.0.0</ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-footer>

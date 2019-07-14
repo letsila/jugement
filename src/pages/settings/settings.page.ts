@@ -151,7 +151,11 @@ export class SettingsPage {
   }
 
   public saveJudgeId() {
-    localStorage.setItem("judgeId", this.judgeId);
+    try {
+      localStorage.setItem("judgeId", this.judgeId);
+    } catch (e) {
+      alert("can't set JudgeId")
+    }
   }
 
 }
