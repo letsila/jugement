@@ -490,5 +490,16 @@ export class ScrutationPage {
     this.navCtrl.push('LoginPage', {}, { animate: true, direction: "back" })
   }
 
+  inputChanged($ev, judgesheet, dosIdx, critere) {
+    this.db.get(judgesheet._id).then(sheet => {
+      sheet.dossards[dosIdx][critere] = parseFloat($ev.value);
+      this.db.put(sheet).catch(e => {
+        console.log(e)
+      })
+        .catch(e => {
+          console.log(e);
+        })
+    })
+  }
 
 }

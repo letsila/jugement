@@ -42,7 +42,7 @@
         </div>
       </ion-col>
       <ion-col col-2 style="border-left: 1px #c7c7c7 solid;" *ngIf="currentCompetition && !currentCompetition.closed">
-        <ion-list radio-group [(ngModel)]="judgeId" (ionChange)="saveJudgeId()">
+        <ion-list radio-group [(ngModel)]="judgeId" (ionChange)="saveJudgeId($event)">
           <ion-list-header>
             <ion-icon name="people" class="title-icon"></ion-icon>
             Attribuer cette tablette au

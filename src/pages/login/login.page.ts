@@ -9,7 +9,6 @@ import {
   ViewController
 } from "ionic-angular";
 import { DbService } from "../../services/db.service";
-import { LoginPopover } from "../../popovers/login/login.popover";
 import { ScoreValidator } from '../../validators/score.validator';
 import { FormBuilder, Validators } from '@angular/forms';
 import { HelperService } from '../../services/helper.service';
@@ -53,7 +52,6 @@ export class LoginPage {
   ngOnInit() {
     this.viewCtrl.didEnter.subscribe(() => {
       this.judgeId = localStorage.getItem("judgeId");
-      console.log("judgeId ---", this.judgeId);
       this.db.get("competitions")
         .then(res => {
           if (localStorage.getItem("currentCompetitionId") == "") {

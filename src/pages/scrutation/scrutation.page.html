@@ -62,9 +62,11 @@
           </ion-row>
           <ion-row *ngFor="let critere of criteria">
             <ion-col col-1 class="rank uppercase">{{ critere }}</ion-col>
-            <ion-col col-1 class="rate" *ngFor="let dossard of judgesheet.dossards">
+            <ion-col col-1 class="rate" *ngFor="let dossard of judgesheet.dossards; let dosIdx=index;">
               <ion-input [ngClass]="{'score-error': dossard[critere] === 0 || dossard[critere] === '0'}" type="text"
-                placeholder="note" value="{{ dossard[critere] }}" disabled></ion-input>
+                placeholder="note" [(ngModel)]="judgeSheets[jSheetIdx].dossards[dosIdx][critere]"
+                (ionChange)="inputChanged($event, judgesheet, dosIdx, critere)" [disabled]="competition.closed">
+              </ion-input>
             </ion-col>
           </ion-row>
         </ion-grid>
