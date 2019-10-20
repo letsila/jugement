@@ -61,9 +61,10 @@
       </ion-col>
       <ion-col col-5>
         <ion-item style="width: 270px; margin:32px auto;" *ngIf="currentCompetition && !currentCompetition.closed">
-          <ion-label>Danse</ion-label>
-          <ion-select [(ngModel)]="danseSelected">
-            <ion-option value="{{ danse.identifier }}" *ngFor="let danse of danses">{{ danse.name }}</ion-option>
+          <ion-label>Component</ion-label>
+          <ion-select [(ngModel)]="componentSelected">
+            <ion-option value="{{ component.identifier }}" *ngFor="let component of components">{{ component.name }}
+            </ion-option>
           </ion-select>
         </ion-item>
 

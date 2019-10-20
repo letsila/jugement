@@ -12,9 +12,9 @@
       </button>
     </ion-buttons>
   </ion-toolbar>
-  <ion-segment *ngIf="danses.length" [(ngModel)]="danseFilter" color="secondary">
-    <ion-segment-button *ngFor="let danse of danses" value="{{ danse.identifier }}">
-      <span class="capitalize">{{ danse.identifier }}</span>
+  <ion-segment *ngIf="components.length" [(ngModel)]="componentFilter" color="secondary">
+    <ion-segment-button *ngFor="let component of components" value="{{ component.identifier }}">
+      <span class="capitalize">{{ component.identifier }}</span>
     </ion-segment-button>
   </ion-segment>
 </ion-header>
@@ -31,12 +31,12 @@
     <ion-refresher (ionRefresh)="doRefresh($event)">
       <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
-    <div *ngIf="!countJudgeSheetsOfDanse(danseFilter)" class="no-sheets">
+    <div *ngIf="!countJudgeSheetsOfComponent(componentFilter)" class="no-sheets">
       <ion-icon name="information-circle"></ion-icon>
-      Aucune feuille de juge n'a été enregistrée pour cette danse
+      Aucune feuille de juge n'a été enregistrée pour cette component
     </div>
     <div *ngFor="let judgesheet of judgeSheets; let jSheetIdx=index;">
-      <div *ngIf="!danseFilter || danseFilter == judgesheet.danse && judgesheet.judgeId">
+      <div *ngIf="!componentFilter || componentFilter == judgesheet.component && judgesheet.judgeId">
         <ion-grid>
           <ion-row class="judge-title">
             <ion-col col-11>
@@ -75,7 +75,7 @@
     <div>
       <ion-grid>
         <h6>Recap
-          <span class="capitalize">{{ danseFilter }}</span>
+          <span class="capitalize">{{ componentFilter }}</span>
         </h6>
         <ion-row>
           <ion-col col-1></ion-col>
@@ -90,7 +90,7 @@
           <ion-col col-1 class="rank uppercase">{{ critere }}</ion-col>
           <ion-col col-1 class="rate" *ngFor="let dossard of dossards; let i=index">
             <ion-input type="text" placeholder="note" *ngIf="avgsCriteriaScoreOfDos && avgsCriteriaScoreOfDos.length"
-              value="{{ avgsCriteriaScoreOfDos[i][danseFilter][critere] }}" disabled>
+              value="{{ avgsCriteriaScoreOfDos[i][componentFilter][critere] }}" disabled>
             </ion-input>
           </ion-col>
           <ion-col col-1 class="rank">
@@ -99,8 +99,8 @@
         <ion-row>
           <ion-col col-1 class="rank">TOTAL</ion-col>
           <ion-col col-1 class="rate" *ngFor="let dossard of dossards; let i=index">
-            <ion-input type="text" placeholder="note" *ngIf="scoresPerDanseArr && scoresPerDanseArr.length"
-              value="{{ scoresPerDanseArr[i][danseFilter] }}" disabled></ion-input>
+            <ion-input type="text" placeholder="note" *ngIf="scoresPerComponentArr && scoresPerComponentArr.length"
+              value="{{ scoresPerComponentArr[i][componentFilter] }}" disabled></ion-input>
           </ion-col>
           <ion-col col-1 class="rank">
           </ion-col>
@@ -123,7 +123,7 @@
               disabled></ion-input>
           </ion-col>
           <ion-col col-1 class="rank">
-            <!--{{ rankPerDanse(i, danseFilter) }}-->
+            <!--{{ rankPerComponent(i, componentFilter) }}-->
           </ion-col>
         </ion-row>
         <ion-row>
@@ -133,7 +133,7 @@
               disabled></ion-input>
           </ion-col>
           <ion-col col-1 class="rank">
-            <!--{{ rankPerDanse(i, danseFilter) }}-->
+            <!--{{ rankPerComponent(i, componentFilter) }}-->
           </ion-col>
         </ion-row>
 
@@ -146,12 +146,12 @@
     <ion-refresher (ionRefresh)="doRefresh($event)">
       <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
-    <div *ngIf="!countJudgeSheetsOfDanse(danseFilter)" class="no-sheets">
+    <div *ngIf="!countJudgeSheetsOfComponent(componentFilter)" class="no-sheets">
       <ion-icon name="information-circle"></ion-icon>
-      Aucune feuille de juge n'a été enregistrée pour cette danse
+      Aucune feuille de juge n'a été enregistrée pour ce component
     </div>
     <div *ngFor="let judgesheet of judgeSheets">
-      <div *ngIf="!danseFilter || danseFilter == judgesheet.danse && judgesheet.judgeId">
+      <div *ngIf="!componentFilter || componentFilter == judgesheet.component && judgesheet.judgeId">
         <ion-grid>
           <ion-row class="judge-title">
             <ion-col col-11>
@@ -196,8 +196,8 @@
         <ion-row nowrap>
           <ion-col col-1 class="rank">TOTAL</ion-col>
           <ion-col col-1 class="rate" *ngFor="let dossard of dossards; let i=index">
-            <ion-input type="text" placeholder="note" *ngIf="scoresPerDanseSKArr.length"
-              value="{{ scoresPerDanseSKArr[i][danseFilter] }}" disabled></ion-input>
+            <ion-input type="text" placeholder="note" *ngIf="scoresPerComponentSKArr.length"
+              value="{{ scoresPerComponentSKArr[i][componentFilter] }}" disabled></ion-input>
           </ion-col>
           <ion-col col-1 class="rank">
           </ion-col>
@@ -218,7 +218,7 @@
             <ion-input type="text" placeholder="note" value="{{ overAllSKArr[i] }}" disabled></ion-input>
           </ion-col>
           <!-- <ion-col col-1 class="rank"> -->
-          <!--{{ rankPerDanse(i, danseFilter) }}-->
+          <!--{{ rankPerComponent(i, componentFilter) }}-->
           <!-- </ion-col> -->
         </ion-row>
         <ion-row nowrap>
@@ -237,7 +237,7 @@
               *ngIf="rankOverallSK(i) > competition.nombreSelection"></ion-icon>
           </ion-col>
           <ion-col col-1 class="rank">
-            <!--{{ rankPerDanse(i, danseFilter) }}-->
+            <!--{{ rankPerComponent(i, componentFilter) }}-->
           </ion-col>
         </ion-row>
       </ion-grid>
@@ -250,7 +250,7 @@
       <ion-col col-2 *ngFor="let rank of [1, 2, 3, 4, 5, 6]; let i=index">{{ rank }}</ion-col>
     </ion-row>
     <div *ngFor="let judgeSheet of judgeSheets">
-      <div nowrap *ngIf="judgeSheet.danse == danseFilter">
+      <div nowrap *ngIf="judgeSheet.component == componentFilter">
         <h6 style="padding-top: 8px;">Juge
           <span class="capitalize">{{ judgeSheet.judgeId }}</span>
         </h6>

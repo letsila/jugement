@@ -19,9 +19,9 @@ export class ScrutationPage {
   avgsCriteriaScoreOfDos = [];
   competId: any;
   competition: any;
-  criteria = ["tq", "mm", "ps", "cp"];
-  danseFilter: string = "chacha";
-  danses: any[] = [];
+  criteria = ["team", "int", "fonc", "evo", "pres"];
+  componentFilter: string = "chacha";
+  components: any[] = [];
   dossardsAliases: string[] = [];
   judgeId: string;
   jugement: string;
@@ -30,8 +30,10 @@ export class ScrutationPage {
   overAllScoresArr = [];
   rankOverallArr = [];
   rankOverallSKArr = [];
-  scoresPerDanseArr = [];
-  scoresPerDanseSKArr = [];
+  scoresPerComponentArr = [];
+  scoresPerComponentSKArr = [];
+
+  DEFAULT_COMPONENT_ID = "round-1";
 
   TO_MUCH = 2;
   NOT_ENOUGH = -1;
@@ -78,15 +80,26 @@ export class ScrutationPage {
   ionViewDidLoad() {
     this.viewCtrl.didEnter.subscribe(() => {
       this.competId = localStorage.getItem("currentCompetitionId");
-
-      this.loadAll();
+      if (this.competId) {
+        this.loadAll();
+      }
     })
   }
 
   isJudgeSheetSystem21Valid(judgeSheet) {
     return judgeSheet.dossards.some((dossard: Dossard) => {
-      return dossard.cp == '0' || dossard.mm == '0' || dossard.ps == '0' || dossard.tq == '0'
-        || !dossard.cp || !dossard.mm || !dossard.ps || !dossard.tq;
+      return dossard.team == '0' ||
+        dossard.int == '0' ||
+        dossard.val == '0' ||
+        dossard.fonc == '0' ||
+        dossard.evo == '0' ||
+        dossard.pres == '0' ||
+        !dossard.team ||
+        !dossard.int ||
+        !dossard.val ||
+        !dossard.fonc ||
+        !dossard.evo ||
+        !dossard.pres;
     })
   }
 
@@ -108,11 +121,11 @@ export class ScrutationPage {
   }
 
   initCompet(result) {
-    let loading = this.loading.create({ content: "Chargement..." });
+    const loading = this.loading.create({ content: "Chargement..." });
     loading.present();
     return this.db.get("competitions").then(competitions => {
       return this.db.get('criteria-list').then(criteria => {
-        return this.db.get("danses").then(danses => {
+        return this.db.get("components").then(components => {
           this.competition = _.find(competitions.list, { id: this.competId });
 
           // Assignation valeur jugement.
@@ -130,15 +143,15 @@ export class ScrutationPage {
             }
           }
 
-          this.danses = danses.list.filter(danse => {
+          this.components = components.list.filter(component => {
             if (this.competition) {
-              return danse.competitions
+              return component.competitions
                 .indexOf(this.competition.type.id) != -1;
             }
           });
 
-          // this.danseFilter = this.danses.length ? this.danses[0].identifier : null;
-          this.danseFilter = "chacha";
+          // this.componentFilter = this.components.length ? this.components[0].identifier : null;
+          this.componentFilter = this.DEFAULT_COMPONENT_ID;
 
           // Show only ten aliases if 2.1
           if (this.competition && this.competition.judgingSystem == SYSTEM21) {
@@ -146,33 +159,33 @@ export class ScrutationPage {
             this.dossards = this.dossards.splice(0, 10);
 
             // Create the avgCriteriaScoreOfDos array based on dossards number
-            this.avgsCriteriaScoreOfDos = this.dossards.map((val, idx) => {
+            this.avgsCriteriaScoreOfDos = this.dossards.map((_, idx) => {
               const dossardData = {};
-              this.danses.forEach(danse => {
-                dossardData[danse.identifier] = {};
+              this.components.forEach(component => {
+                dossardData[component.identifier] = {};
                 criteria.list.forEach(crit => {
-                  dossardData[danse.identifier][crit.short] = this.avgCriteriaScoreOfDos(idx, crit.short, danse.identifier);
+                  dossardData[component.identifier][crit.short] = this.avgCriteriaScoreOfDos(idx, crit.short, component.identifier);
                 })
               });
               return dossardData
             });
 
-            // Create the scoresPerDanseArr array based on dossards number
-            this.scoresPerDanseArr = this.dossards.map((val, idx) => {
+            // Create the scoresPerComponentArr array based on dossards number
+            this.scoresPerComponentArr = this.dossards.map((_, idx) => {
               const dossardData = {};
-              this.danses.forEach(danse => {
-                dossardData[danse.identifier] = this.scoresPerDanse(idx, danse.identifier);
+              this.components.forEach(component => {
+                dossardData[component.identifier] = this.scoresPerComponent(idx, component.identifier);
               })
               return dossardData;
             });
 
             // Create the overAllScoresArr array based on dossards number
-            this.overAllScoresArr = this.dossards.map((val, idx) => {
+            this.overAllScoresArr = this.dossards.map((_, idx) => {
               return this.overallScore(idx);
             });
 
             // Create the rankOverallArr array based on dossards number
-            this.rankOverallArr = this.dossards.map((val, idx) => {
+            this.rankOverallArr = this.dossards.map((_, idx) => {
               return this.rankOverall(idx);
             });
           }
@@ -180,22 +193,22 @@ export class ScrutationPage {
           if (this.competition && this.competition.judgingSystem == SKATING) {
             this.dossardsAliases = result.aliases;
 
-            // Create the scoresPerDanseSKArr array based on dossards number
-            this.scoresPerDanseSKArr = this.dossards.map((val, idx) => {
+            // Create the scoresPerComponentSKArr array based on dossards number
+            this.scoresPerComponentSKArr = this.dossards.map((_, idx) => {
               const dossardData = {};
-              this.danses.forEach(danse => {
-                dossardData[danse.identifier] = this.scoresPerDanseSK(idx, danse.identifier);
+              this.components.forEach(component => {
+                dossardData[component.identifier] = this.scoresPerComponentSK(idx, component.identifier);
               })
               return dossardData;
             });
 
             // Create the overAllSKArr array based on dossards number
-            this.overAllSKArr = this.dossards.map((val, idx) => {
+            this.overAllSKArr = this.dossards.map((_, idx) => {
               return this.overallScoreSK(idx);
             });
 
             // Create the rankOverallSKArr array based on dossards number
-            this.rankOverallSKArr = this.dossards.map((val, idx) => {
+            this.rankOverallSKArr = this.dossards.map((_, idx) => {
               return this.rankOverallSK(idx);
             });
           }
@@ -233,14 +246,14 @@ export class ScrutationPage {
   }
 
   /**
-   * Nombre de feuille de danse pour la
-   * danse spécifiée.
+   * Nombre de feuille de component pour la
+   * component spécifiée.
    * 
-   * @param danse
+   * @param component
    */
-  countJudgeSheetsOfDanse(danse: string) {
+  countJudgeSheetsOfComponent(component: string) {
     return this.judgeSheets.filter(sheet => {
-      return sheet.danse == danse;
+      return sheet.component == component;
     }).length;
   }
 
@@ -252,8 +265,8 @@ export class ScrutationPage {
   overallScore(dossardIndex) {
     let score: number = 0;
 
-    this.danses.forEach(danse => {
-      score += Number(this.scoresPerDanse(dossardIndex, danse.identifier)) || 0;
+    this.components.forEach(component => {
+      score += Number(this.scoresPerComponent(dossardIndex, component.identifier)) || 0;
     });
 
     return _.round(score, 3);
@@ -267,8 +280,8 @@ export class ScrutationPage {
   overallScoreSK(dossardIndex) {
     let score: number = 0;
 
-    this.danses.forEach(danse => {
-      score += Number(this.scoresPerDanseSK(dossardIndex, danse.identifier)) || 0;
+    this.components.forEach(component => {
+      score += Number(this.scoresPerComponentSK(dossardIndex, component.identifier)) || 0;
     });
 
     return _.round(score, 3);
@@ -279,15 +292,14 @@ export class ScrutationPage {
    * @param dossardIndex
    */
   rankOverallSK(dossardIndex) {
-
-    let dossardsRanked = this.dossards.map((dossard, index) => {
-      let dossardObj: any = {};
+    const dossardsRanked = this.dossards.map((_, index) => {
+      const dossardObj: any = {};
       dossardObj.score = this.overallScoreSK(index);
       dossardObj.id = index;
       return dossardObj;
     });
 
-    let dossardsRanked_ordered = _.orderBy(dossardsRanked, "score", "desc");
+    const dossardsRanked_ordered = _.orderBy(dossardsRanked, "score", "desc");
 
     return _.findIndex(dossardsRanked_ordered, { id: dossardIndex }) + 1;
   }
@@ -298,9 +310,8 @@ export class ScrutationPage {
    * @param dossardIndex
    */
   rankOverall(dossardIndex) {
-
-    let dossardsRanked = this.dossards.map((dossard, index) => {
-      let dossardObj: any = {};
+    const dossardsRanked = this.dossards.map((_, index) => {
+      const dossardObj: any = {};
       dossardObj.score = this.overallScore(index);
       dossardObj.id = index;
       return dossardObj;
@@ -325,7 +336,7 @@ export class ScrutationPage {
           text: "Oui",
           role: "confirm",
           handler: () => {
-            this.appliqueDeleteSheet(judgeSheet);
+            this.applyDeleteSheet(judgeSheet);
           }
         },
         {
@@ -344,7 +355,7 @@ export class ScrutationPage {
    * 
    * @param judgeSheet 
    */
-  appliqueDeleteSheet(judgeSheet) {
+  applyDeleteSheet(judgeSheet) {
     this.db.get(judgeSheet._id).then(sheet => {
       this.db.remove(sheet)
         .then(() => {
@@ -357,13 +368,13 @@ export class ScrutationPage {
   }
 
   /**
-   * Rank per danse of the dossard.
+   * Rank per component of the dossard.
    */
-  rankPerDanse(dossardIndex, danseFilter = this.danseFilter) {
-    let dossardsRanked = this.dossards.map((dossard, index) => {
+  rankPerComponent(dossardIndex, componentFilter = this.componentFilter) {
+    let dossardsRanked = this.dossards.map((_, index) => {
       let dossardObj: any = {};
-      dossardObj.score = this.scoresPerDanse(index, danseFilter);
-      dossardObj.danse = danseFilter;
+      dossardObj.score = this.scoresPerComponent(index, componentFilter);
+      dossardObj.component = componentFilter;
       dossardObj.id = index;
       return dossardObj;
     });
@@ -374,32 +385,32 @@ export class ScrutationPage {
   }
 
   /**
-   * Score total par danse pour un dossard
+   * Score total par component pour un dossard
    * 
    * @param dossardIndex 
-   * @param danse 
+   * @param component 
    */
-  scoresPerDanse(dossardIndex, danseFilter) {
-    let scoresPerDanse: number = 0;
+  scoresPerComponent(dossardIndex, componentFilter) {
+    let scoresPerComponent: number = 0;
     this.criteria.forEach(criteria => {
-      scoresPerDanse += Number(
-        this.avgCriteriaScoreOfDos(dossardIndex, criteria, danseFilter)
+      scoresPerComponent += Number(
+        this.avgCriteriaScoreOfDos(dossardIndex, criteria, componentFilter)
       );
     });
 
-    return _.round(scoresPerDanse, 3);
+    return _.round(scoresPerComponent, 3);
   }
 
-  scoresPerDanseSK(dossardIndex, danseFilter = this.danseFilter) {
+  scoresPerComponentSK(dossardIndex, componentFilter = this.componentFilter) {
     let total: number = 0;
 
     if (this.judgeSheets.length) {
-      let sheetsOfTheDanse: any = this.judgeSheets.filter(sheet => {
-        return sheet.danse == danseFilter;
+      let sheetsOfTheComponent: any = this.judgeSheets.filter(sheet => {
+        return sheet.component == componentFilter;
       });
-      if (sheetsOfTheDanse.length) {
+      if (sheetsOfTheComponent.length) {
         let scores = [];
-        sheetsOfTheDanse.forEach(sheet => {
+        sheetsOfTheComponent.forEach(sheet => {
           scores.push(
             sheet.dossards[Number(dossardIndex)] || 0
           );
@@ -412,21 +423,21 @@ export class ScrutationPage {
   }
 
   /**
-   * Moyenne d'une critere pour un dossard pour une danse.
+   * Moyenne d'une critere pour un dossard pour une component.
    */
-  avgCriteriaScoreOfDos(dossardIndex: number, criteria: string, danseFilter = this.danseFilter) {
+  avgCriteriaScoreOfDos(dossardIndex: number, criteria: string, componentFilter = this.componentFilter) {
     try {
 
       let average: number = 0;
       if (this.judgeSheets.length) {
-        // Les feuilles de juges pour la danse en cours.
-        let sheetsOfTheDanse: any = this.judgeSheets.filter(sheet => {
-          return sheet.danse == danseFilter;
+        // Les feuilles de juges pour la component en cours.
+        let sheetsOfTheComponent: any = this.judgeSheets.filter(sheet => {
+          return sheet.component == componentFilter;
         });
-        // Récupération des scores du dossard pour la danse en cours.
-        if (sheetsOfTheDanse.length) {
+        // Récupération des scores du dossard pour la component en cours.
+        if (sheetsOfTheComponent.length) {
           let scoresOfTheCriteria = [];
-          sheetsOfTheDanse.forEach(sheet => {
+          sheetsOfTheComponent.forEach(sheet => {
             scoresOfTheCriteria.push(
               Number(sheet.dossards[Number(dossardIndex)][criteria]) || 0
             );

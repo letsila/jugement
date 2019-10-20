@@ -1,13 +1,15 @@
 interface Dossard {
-  tq: string;
-  mm: string;
-  ps: string;
-  cp: string;
+  team: string;
+  int: string;
+  val: string;
+  fonc: string;
+  evo: string;
+  pres: string;
 }
 
 interface JudgeSheet {
   competitionId: string;
-  danse: string;
+  component: string;
   dossards: Dossard[];
   finalSkatingDossardsOrder: number[];
   judgeId: string;

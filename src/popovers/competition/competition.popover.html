@@ -7,14 +7,15 @@
 <ion-row style="margin-top: 16px">
   <form style="width: 100%;" #competitionForm="ngForm" name="" (ngSubmit)="addCompetition(competitionForm)">
     <ion-item>
-      <ion-input name="titre" #titre="ngModel" type="text" placeholder="Titre" [(ngModel)]="competitionTitre" required></ion-input>
+      <ion-input name="titre" #titre="ngModel" type="text" placeholder="Titre" [(ngModel)]="competitionTitre" required>
+      </ion-input>
     </ion-item>
     <div *ngIf="titre.errors && (titre.dirty || titre.touched || submitAttempted)" class="alert alert-danger">
       <div [hidden]="!titre.errors.required" style="margin-top: 8px; text-align: center; color: red; font-size: 12px;">
         Le titre est requis
       </div>
     </div>
-    <ion-list radio-group class="danses-list" [(ngModel)]="competitionTypeId" name="danseType">
+    <ion-list radio-group class="components-list" [(ngModel)]="competitionTypeId" name="componentType">
       <ion-item *ngFor="let type of competitionsType">
         <ion-label>{{ type.name }}</ion-label>
         <ion-radio value="{{ type.id }}"></ion-radio>
@@ -22,11 +23,11 @@
     </ion-list>
 
     <ion-list radio-group class="judging-systems-list" [(ngModel)]="judgingSystemId" name="judgingSytem">
-        <ion-item *ngFor="let system of judgingSystems">
-          <ion-label>{{ system.name }}</ion-label>
-          <ion-radio value="{{ system.id }}"></ion-radio>
-        </ion-item>
-      </ion-list>
+      <ion-item *ngFor="let system of judgingSystems">
+        <ion-label>{{ system.name }}</ion-label>
+        <ion-radio value="{{ system.id }}"></ion-radio>
+      </ion-item>
+    </ion-list>
   </form>
 </ion-row>
 <ion-row>

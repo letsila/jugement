@@ -19,7 +19,7 @@ export class JudgeSheetPage {
   judgeId = localStorage.getItem("judgeId");
   sheetId: string;
   judgeIdFilter: string;
-  danse: string = localStorage.getItem("danse");
+  component: string = localStorage.getItem("component");
   finalSkatingDossardsOrder = [0, 0, 0, 0, 0, 0];
   dossardsSkating = [
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -51,7 +51,7 @@ export class JudgeSheetPage {
     public alertCtrl: AlertController
   ) {
     this.sheetId = "judge-sheet-" + this.judgeId + "-" +
-      this.danse + "-" + this.competitionId;
+      this.component + "-" + this.competitionId;
   }
 
   get dossardsAliases1() {
@@ -110,8 +110,18 @@ export class JudgeSheetPage {
 
   isJudgeSheetSystem21NotValid() {
     return this.dossards.some((dossard: Dossard) => {
-      return dossard.cp == '0' || dossard.mm == '0' || dossard.ps == '0' || dossard.tq == '0'
-        || !dossard.cp || !dossard.mm || !dossard.ps || !dossard.tq;
+      return dossard.team == '0'
+        || dossard.int == '0'
+        || dossard.val == '0'
+        || dossard.pres == '0'
+        || dossard.pres == '0'
+        || dossard.evo == '0'
+        || !dossard.team
+        || !dossard.int
+        || !dossard.val
+        || !dossard.pres
+        || !dossard.evo
+        ;
     })
   }
 
@@ -207,7 +217,7 @@ export class JudgeSheetPage {
           let dossards = [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}];
           if (this.currentCompetition.judgingSystem && this.currentCompetition.judgingSystem == SYSTEM21) {
             this.criteria.forEach(criteria => {
-              dossards.forEach((dossard, index) => {
+              dossards.forEach((_, index) => {
                 dossards[index][criteria] = 0;
               });
             });
@@ -222,7 +232,7 @@ export class JudgeSheetPage {
           this.db.put({
             _id: this.sheetId,
             judgeId: this.judgeId,
-            danse: this.danse,
+            component: this.component,
             competitionId: this.competitionId,
             dossards,
             finalSkatingDossardsOrder: [0, 0, 0, 0, 0, 0]

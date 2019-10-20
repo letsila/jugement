@@ -24,9 +24,8 @@ declare let Connection: any;
   templateUrl: "login.page.html",
 })
 export class LoginPage {
-
-  danseSelected: string;
-  danses: any[];
+  componentSelected: string;
+  components: any[];
   judgeId: string;
   jugement: string = '';
   loginCheck: string;
@@ -52,48 +51,46 @@ export class LoginPage {
   ngOnInit() {
     this.viewCtrl.didEnter.subscribe(() => {
       this.judgeId = localStorage.getItem("judgeId");
-      this.db.get("competitions")
-        .then(res => {
-          if (localStorage.getItem("currentCompetitionId") == "") {
-            let openCompetitions = res.list.filter(res => {
-              return !res.closed;
-            })
+      this.db.get("competitions").then(res => {
+        if (localStorage.getItem("currentCompetitionId") == "") {
+          let openCompetitions = res.list.filter(res => {
+            return !res.closed;
+          })
 
-            if (openCompetitions.length) {
-              localStorage.setItem("currentCompetitionId", openCompetitions[0].id)
-            }
+          if (openCompetitions.length) {
+            localStorage.setItem("currentCompetitionId", openCompetitions[0].id)
           }
+        }
 
-          const competitionId = this.competitionId = localStorage.getItem("currentCompetitionId");
+        const competitionId = this.competitionId = localStorage.getItem("currentCompetitionId");
 
-          // Récupération des informations sur la compétition en cours
-          this.currentCompetition = _.find(res.list, { id: competitionId });
+        // Récupération des informations sur la compétition en cours
+        this.currentCompetition = _.find(res.list, { id: competitionId });
 
-          // Assignation valeur jugement.
-          if (this.currentCompetition) {
-            switch (this.currentCompetition.judgingSystem) {
-              case SYSTEM21:
-                this.jugement = 'System 2.1';
-                break;
-              case SKATING:
-                this.jugement = 'Skating';
-                break;
-              case SKATING_FINAL:
-                this.jugement = 'Skating final';
-                break;
-            }
+        // Assignation valeur jugement.
+        if (this.currentCompetition) {
+          switch (this.currentCompetition.judgingSystem) {
+            case SYSTEM21:
+              this.jugement = 'System 2.1';
+              break;
+            case SKATING:
+              this.jugement = 'Skating';
+              break;
+            case SKATING_FINAL:
+              this.jugement = 'Skating final';
+              break;
           }
+        }
 
-          this.db.get("danses")
-            .then(res => {
-              this.danses = res.list.filter(danse => {
-                if (this.currentCompetition) {
-                  return danse.competitions.indexOf(this.currentCompetition.type.id) != -1;
-                }
-              });
-            })
-            .catch(e => console.log(e));
+        this.db.get("components").then(res => {
+          this.components = res.list.filter(component => {
+            if (this.currentCompetition) {
+              return component.competitions.indexOf(this.currentCompetition.type.id) != -1;
+            }
+          });
         })
+          .catch(e => console.log(e));
+      })
         .catch(e => {
           console.log(e);
         })
@@ -142,12 +139,12 @@ export class LoginPage {
    */
   connectJuge() {
     localStorage.setItem("role", "juge");
-    localStorage.setItem("danse", this.danseSelected);
+    localStorage.setItem("component", this.componentSelected);
 
-    if (!this.danseSelected) {
+    if (!this.componentSelected) {
       this.alertCtrl.create({
         title: 'Erreur !',
-        subTitle: 'Vous n\'avez pas selectionné de danse à juger',
+        subTitle: 'Vous n\'avez pas selectionné de component à juger',
         buttons: ['Fermer']
       })
         .present();
@@ -175,11 +172,11 @@ export class LoginPage {
           })
         }
 
-        let groupInput = {};
+        const groupInput = {};
         theCriteria.forEach(critere => {
-          [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].forEach(alias => {
-            groupInput[critere + alias] = ['', Validators.compose([Validators.maxLength(3), ScoreValidator.isValid])];
-          })
+          for (let i = 0; i < 10; i++) {
+            groupInput[critere + i] = ['', Validators.compose([Validators.maxLength(3), ScoreValidator.isValid])];
+          }
         })
 
         let scoresForm = this.formBuilder.group(groupInput);
@@ -197,7 +194,7 @@ export class LoginPage {
   }
 
   /**
-   * Synchronise pouchdb : récupération de catalogue et envoie de sessions de ventes.
+   * Synchronise pouchdb
    */
   public async sync() {
     const loading = this.helper.getLoading();
