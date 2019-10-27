@@ -27,9 +27,9 @@ export class DbService {
 
     this.remote = new PouchDB(this.couchdbUrl, {
       ajax: {
-        headers: {
-          Authorization: 'Basic ' + window.btoa('admin:hCLr0u78ZvIt')
-        },
+        // headers: {
+        //   Authorization: 'Basic ' + window.btoa('admin:hCLr0u78ZvIt')
+        // },
         timeout: 60000
       },
       retry: true

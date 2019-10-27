@@ -24,7 +24,8 @@
 
   <ion-list>
     <ion-item>
-
+      <ion-label>Judge selection mode</ion-label>
+      <ion-toggle (ionChange)="saveJudgeSelectionMode()" [(ngModel)]="judgeSelectionMode"></ion-toggle>
     </ion-item>
   </ion-list>
 

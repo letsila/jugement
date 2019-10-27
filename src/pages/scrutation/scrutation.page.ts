@@ -2,7 +2,7 @@ import { Component } from "@angular/core";
 import { AlertController, IonicPage, MenuController, NavController, ViewController, LoadingController } from "ionic-angular";
 import { DbService } from "../../services/db.service";
 import * as _ from "lodash";
-import { SYSTEM21, SKATING, SKATING_FINAL } from "../../constants/judging-systems";
+import { SYSTEM21, SKATING, SKATING_FINAL, NUMBER_OF_DOSSARD_FOR_SYSTEM21 } from "../../constants/judging-systems";
 
 @IonicPage()
 @Component({
@@ -41,6 +41,7 @@ export class ScrutationPage {
   SYSTEM21 = SYSTEM21;
   SKATING = SKATING;
   SKATING_FINAL = SKATING_FINAL;
+  NUMBER_OF_DOSSARD_FOR_SYSTEM21 = NUMBER_OF_DOSSARD_FOR_SYSTEM21;
 
   constructor(
     public alertCtrl: AlertController,
@@ -88,18 +89,18 @@ export class ScrutationPage {
 
   isJudgeSheetSystem21Valid(judgeSheet) {
     return judgeSheet.dossards.some((dossard: Dossard) => {
-      return dossard.team == '0' ||
-        dossard.int == '0' ||
-        dossard.val == '0' ||
-        dossard.fonc == '0' ||
-        dossard.evo == '0' ||
-        dossard.pres == '0' ||
-        !dossard.team ||
-        !dossard.int ||
-        !dossard.val ||
-        !dossard.fonc ||
-        !dossard.evo ||
-        !dossard.pres;
+      return dossard.team == 0
+        || dossard.int == 0
+        || dossard.val == 0
+        || dossard.pres == 0
+        || dossard.pres == 0
+        || dossard.evo == 0
+        || !dossard.team
+        || !dossard.int
+        || !dossard.val
+        || !dossard.pres
+        || !dossard.evo
+        ;
     })
   }
 
@@ -145,8 +146,7 @@ export class ScrutationPage {
 
           this.components = components.list.filter(component => {
             if (this.competition) {
-              return component.competitions
-                .indexOf(this.competition.type.id) != -1;
+              return component.competitions.indexOf(this.competition.type.id) != -1;
             }
           });
 
@@ -155,8 +155,8 @@ export class ScrutationPage {
 
           // Show only ten aliases if 2.1
           if (this.competition && this.competition.judgingSystem == SYSTEM21) {
-            this.dossardsAliases = result.aliases.splice(0, 10);
-            this.dossards = this.dossards.splice(0, 10);
+            this.dossardsAliases = result.aliases.splice(0, NUMBER_OF_DOSSARD_FOR_SYSTEM21);
+            this.dossards = this.dossards.splice(0, NUMBER_OF_DOSSARD_FOR_SYSTEM21);
 
             // Create the avgCriteriaScoreOfDos array based on dossards number
             this.avgsCriteriaScoreOfDos = this.dossards.map((_, idx) => {
@@ -237,10 +237,13 @@ export class ScrutationPage {
   }
 
   doRefresh(refresher) {
+    const loading = this.loading.create({ content: "Refreshing..." });
+    loading.present();
     this.db.update().then(() => {
       this.loadAll().then(() => {
         console.log('loaded');
         refresher.cancel()
+        loading.dismiss()
       });
     })
   }
@@ -427,7 +430,6 @@ export class ScrutationPage {
    */
   avgCriteriaScoreOfDos(dossardIndex: number, criteria: string, componentFilter = this.componentFilter) {
     try {
-
       let average: number = 0;
       if (this.judgeSheets.length) {
         // Les feuilles de juges pour la component en cours.
@@ -461,7 +463,7 @@ export class ScrutationPage {
     // System 2.1 si le nombre de juge est impair et supérieur à 2
     if (sortedScores.length && sortedScores.length > 2 && sortedScores.length % 2 != 0) {
       const medianIndex = Math.ceil(sortedScores.length / 2) - 1;
-      let weights = [];
+      const weights = [];
 
       const numerator = sortedScores.reduce((accumulator, currentValue) => {
         const distance = Math.abs(currentValue - sortedScores[medianIndex]);
@@ -486,7 +488,7 @@ export class ScrutationPage {
         return val;
       })
 
-      let divider = sortedScores.length > 1 ? sortedScores.length - 1 : 1;
+      const divider = sortedScores.length > 1 ? sortedScores.length - 1 : 1;
       average = _.sum(sortedScores) / divider;
     }
 

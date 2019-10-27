@@ -1,10 +1,10 @@
 interface Dossard {
-  team: string;
-  int: string;
-  val: string;
-  fonc: string;
-  evo: string;
-  pres: string;
+  team: number;
+  int: number;
+  val: number;
+  fonc: number;
+  evo: number;
+  pres: number;
 }
 
 interface JudgeSheet {

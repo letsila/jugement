@@ -26,7 +26,7 @@
     </ion-col>
   </ion-row>
 
-  <ion-grid
+  <ion-scroll scrollY="true" scrollX="true" style="width:100vw; height:100vw"
     *ngIf="competition && (!competition.judgingSystem ||  competition.judgingSystem  && competition.judgingSystem == SYSTEM21)">
     <ion-refresher (ionRefresh)="doRefresh($event)">
       <ion-refresher-content></ion-refresher-content>
@@ -51,7 +51,7 @@
               </button> -->
             </ion-col>
           </ion-row>
-          <ion-row>
+          <ion-row nowrap>
             <ion-col col-1></ion-col>
             <ion-col col-1 class="dossard" *ngFor="let dossardAlias of dossardsAliases; let i=index">
               <span class="number">{{ dossardAlias }}</span>
@@ -60,7 +60,7 @@
               <span class="number">#</span>
             </ion-col>
           </ion-row>
-          <ion-row *ngFor="let critere of criteria">
+          <ion-row nowrap *ngFor="let critere of criteria">
             <ion-col col-1 class="rank uppercase">{{ critere }}</ion-col>
             <ion-col col-1 class="rate" *ngFor="let dossard of judgesheet.dossards; let dosIdx=index;">
               <ion-input [ngClass]="{'score-error': dossard[critere] === 0 || dossard[critere] === '0'}" type="text"
@@ -77,7 +77,7 @@
         <h6>Recap
           <span class="capitalize">{{ componentFilter }}</span>
         </h6>
-        <ion-row>
+        <ion-row nowrap>
           <ion-col col-1></ion-col>
           <ion-col col-1 class="dossard" *ngFor="let dossardAlias of dossardsAliases">
             <span class="number">{{ dossardAlias }}</span>
@@ -86,7 +86,7 @@
             <span class="number">#</span>
           </ion-col>
         </ion-row>
-        <ion-row *ngFor="let critere of criteria">
+        <ion-row nowrap *ngFor="let critere of criteria">
           <ion-col col-1 class="rank uppercase">{{ critere }}</ion-col>
           <ion-col col-1 class="rate" *ngFor="let dossard of dossards; let i=index">
             <ion-input type="text" placeholder="note" *ngIf="avgsCriteriaScoreOfDos && avgsCriteriaScoreOfDos.length"
@@ -96,7 +96,7 @@
           <ion-col col-1 class="rank">
           </ion-col>
         </ion-row>
-        <ion-row>
+        <ion-row nowrap>
           <ion-col col-1 class="rank">TOTAL</ion-col>
           <ion-col col-1 class="rate" *ngFor="let dossard of dossards; let i=index">
             <ion-input type="text" placeholder="note" *ngIf="scoresPerComponentArr && scoresPerComponentArr.length"
@@ -107,7 +107,7 @@
         </ion-row>
 
         <h6>Overall</h6>
-        <ion-row>
+        <ion-row nowrap>
           <ion-col col-1></ion-col>
           <ion-col col-1 class="dossard" *ngFor="let dossardAlias of dossardsAliases">
             <span class="number">{{ dossardAlias }}</span>
@@ -116,7 +116,7 @@
             <span class="number">#</span>
           </ion-col>
         </ion-row>
-        <ion-row>
+        <ion-row nowrap>
           <ion-col col-1 class="rank">SCORE</ion-col>
           <ion-col col-1 class="rate" *ngFor="let dossard of dossards; let i=index">
             <ion-input type="text" placeholder="note" *ngIf="overAllScoresArr.length" value="{{ overAllScoresArr[i] }}"
@@ -126,7 +126,7 @@
             <!--{{ rankPerComponent(i, componentFilter) }}-->
           </ion-col>
         </ion-row>
-        <ion-row>
+        <ion-row nowrap>
           <ion-col col-1 class="rank">RANK</ion-col>
           <ion-col col-1 class="rate" *ngFor="let dossard of dossards; let i=index">
             <ion-input type="text" placeholder="note" *ngIf="rankOverallArr.length" value="{{ rankOverallArr[i] }}"
@@ -139,7 +139,7 @@
 
       </ion-grid>
     </div>
-  </ion-grid>
+  </ion-scroll>
 
   <ion-scroll scrollX="true" style="width:100vw; height:100vw"
     *ngIf="competition && (competition.judgingSystem  && competition.judgingSystem == SKATING)">
@@ -265,7 +265,7 @@
   </ion-grid>
 </ion-content>
 
-<ion-footer>
+<!-- <ion-footer>
   <ion-grid *ngIf="competition">
     <ion-row>
       <ion-col col-3 class="competition-info-label">Titre</ion-col>
@@ -294,4 +294,4 @@
       <ion-col col-1 class="competition-info">1.0.0</ion-col>
     </ion-row>
   </ion-grid>
-</ion-footer>
+</ion-footer> -->

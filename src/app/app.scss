@@ -1,6 +1,5 @@
 // http://ionicframework.com/docs/v2/theming/
 
-
 // App Global Sass
 // --------------------------------------------------
 // Put style rules here that you want to apply globally. These
@@ -15,8 +14,20 @@
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
 
+@font-face {
+  font-family: "GoogleSans Regular";
+  src: url("../assets/fonts/GoogleSans-Regular-v1.27.ttf");
+  font-weight: regular;
+}
+
+@font-face {
+  font-family: "GoogleSans Bold";
+  src: url("../assets/fonts/GoogleSans-Bold-v1.27.ttf");
+  font-weight: bold;
+}
+
 * {
-  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
+  font-family: "GoogleSans Regular", Arial, sans-serif;
 }
 
 .capitalize {
@@ -36,7 +47,7 @@
 }
 
 .popover-header {
-  background-color: #607D8B !important;
+  background-color: #607d8b !important;
   color: white !important;
   font-weight: bold !important;
 }
@@ -46,7 +57,7 @@ ion-icon {
 }
 
 .text-input[disabled] {
-  opacity: .7;
+  opacity: 0.7;
 }
 
 .text-input-md {

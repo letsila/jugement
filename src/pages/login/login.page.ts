@@ -12,7 +12,7 @@ import { DbService } from "../../services/db.service";
 import { ScoreValidator } from '../../validators/score.validator';
 import { FormBuilder, Validators } from '@angular/forms';
 import { HelperService } from '../../services/helper.service';
-import { SKATING, SKATING_FINAL, SYSTEM21 } from '../../constants/judging-systems';
+import { SKATING, SKATING_FINAL, SYSTEM21, NUMBER_OF_DOSSARD_FOR_SYSTEM21 } from '../../constants/judging-systems';
 import * as _ from "lodash";
 
 declare let navigator: any;
@@ -33,6 +33,9 @@ export class LoginPage {
   currentCompetition: Competition;
   competitionId: string;
   judgeAliases: string[] = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+  judgeSelectionMode: string;
+
+  NUMBER_OF_DOSSARD_FOR_SYSTEM21 = NUMBER_OF_DOSSARD_FOR_SYSTEM21;
 
   constructor(
     public db: DbService,
@@ -50,7 +53,13 @@ export class LoginPage {
 
   ngOnInit() {
     this.viewCtrl.didEnter.subscribe(() => {
-      this.judgeId = localStorage.getItem("judgeId");
+      try {
+        this.judgeId = localStorage.getItem("judgeId");
+        this.judgeSelectionMode = localStorage.getItem("judgeSelectionMode");
+      } catch (e) {
+        console.log("can't load judging configuration")
+      }
+
       this.db.get("competitions").then(res => {
         if (localStorage.getItem("currentCompetitionId") == "") {
           let openCompetitions = res.list.filter(res => {
@@ -98,7 +107,6 @@ export class LoginPage {
       // Insertion des aliases de dossards.
       this.bootstrapData();
     })
-
   }
 
   saveJudgeId() {
@@ -139,6 +147,10 @@ export class LoginPage {
    */
   connectJuge() {
     localStorage.setItem("role", "juge");
+
+    if (this.components.length === 1) {
+      this.componentSelected = this.components[0].identifier;
+    }
     localStorage.setItem("component", this.componentSelected);
 
     if (!this.componentSelected) {
@@ -174,7 +186,7 @@ export class LoginPage {
 
         const groupInput = {};
         theCriteria.forEach(critere => {
-          for (let i = 0; i < 10; i++) {
+          for (let i = 0; i < this.NUMBER_OF_DOSSARD_FOR_SYSTEM21; i++) {
             groupInput[critere + i] = ['', Validators.compose([Validators.maxLength(3), ScoreValidator.isValid])];
           }
         })

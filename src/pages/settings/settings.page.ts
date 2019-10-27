@@ -27,6 +27,7 @@ export class SettingsPage {
   public nombrePassages: number = 1;
   public passages = ['0-10', '10-20', '20-30', '30-40', '40-45'];
   public competId = localStorage.getItem("currentCompetitionId");
+  public judgeSelectionMode: boolean;
 
   SKATING_FINAL = SKATING_FINAL;
   SYSTEM21 = SYSTEM21;
@@ -40,6 +41,21 @@ export class SettingsPage {
     public menu: MenuController,
     public loading: LoadingController) {
     menu.swipeEnable(true, 'menu');
+  }
+
+  ngOnInit() {
+    this.viewCtrl.didEnter.subscribe(() => {
+      try {
+        let res = localStorage.getItem("judgeSelectionMode")
+        if (!res || res == 'off') {
+          this.judgeSelectionMode = false;
+        } else {
+          this.judgeSelectionMode = true;
+        }
+      } catch (e) {
+        console.log("can't load judging config")
+      }
+    })
   }
 
   get rangeNombrePassages() {
@@ -119,7 +135,6 @@ export class SettingsPage {
   }
 
   ionViewWillLeave() {
-
     this.db.get("dossards-" + this.competId).then(res => {
       this.saveAll(res);
     }).catch(e => {
@@ -148,6 +163,18 @@ export class SettingsPage {
 
   public logout() {
     this.navCtrl.push('LoginPage', {}, { animate: true, direction: "back" })
+  }
+
+  public saveJudgeSelectionMode() {
+    try {
+      let judgeSelectionModeStr = 'off';
+      if (this.judgeSelectionMode) {
+        judgeSelectionModeStr = 'on';
+      }
+      localStorage.setItem("judgeSelectionMode", judgeSelectionModeStr)
+    } catch (e) {
+      alert("can't set judgeSelectionMode")
+    }
   }
 
   public saveJudgeId() {
