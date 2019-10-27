@@ -58,7 +58,7 @@ export class CompetitionsPage {
   }
 
   closeCompetition(competition, index) {
-    let confirmation = this.alertCtrl.create({
+    const confirmation = this.alertCtrl.create({
       title: "Clôture",
       message: "Une fois clôturer cette compétition ne pourra plus être modifiée",
       buttons: [
@@ -94,8 +94,7 @@ export class CompetitionsPage {
   }
 
   deleteCompetition(competition, index) {
-
-    let alert = this.alertCtrl.create({
+    const alert = this.alertCtrl.create({
       title: "Suppression !",
       message: "Etes-vous certain de vouloir supprimer cette compétition ?",
       buttons: [
@@ -119,13 +118,13 @@ export class CompetitionsPage {
   applyDelete(competition, index) {
     this.db.get("competitions")
       .then(res => {
-        let competIndex = _.findIndex(res.list, { id: competition.id });
+        const competIndex = _.findIndex(res.list, { id: competition.id });
         res.list.splice(competIndex, 1);
 
         // Suppression de toutes les feuilles rattachées à la competitions
         this.db.getJudgeSheetOfCompetition(competition.id)
           .then(sheets => {
-            let sheetsToDelete = sheets.rows.map(sheetDoc => {
+            const sheetsToDelete = sheets.rows.map(sheetDoc => {
               return sheetDoc.doc;
             }).map(sheet => {
               sheet._deleted = true;
@@ -162,8 +161,8 @@ export class CompetitionsPage {
   }
 
   saveNewCompetition(competitionTitre, competitionType, judgingSystemId) {
-    let competitionTypeObj = _.find(this.competitionsType, { id: Number(competitionType) });
-    let newCompet = {
+    const competitionTypeObj = _.find(this.competitionsType, { id: Number(competitionType) });
+    const newCompet = {
       id: "compet-" + Date.now(),
       type: competitionTypeObj,
       titre: competitionTitre,

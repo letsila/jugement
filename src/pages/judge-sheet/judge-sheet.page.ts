@@ -2,7 +2,7 @@ import { Component, ViewChild, NgZone } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { AlertController, Navbar, NavController, NavParams, IonicPage, ViewController } from 'ionic-angular';
 import { DbService } from "../../services/db.service";
-import { SYSTEM21, SKATING, SKATING_FINAL } from "../../constants/judging-systems";
+import { SYSTEM21, SKATING, SKATING_FINAL, NUMBER_OF_DOSSARD_FOR_SYSTEM21 } from "../../constants/judging-systems";
 import * as _ from "lodash";
 
 @IonicPage()
@@ -19,14 +19,14 @@ export class JudgeSheetPage {
   judgeId = localStorage.getItem("judgeId");
   sheetId: string;
   judgeIdFilter: string;
-  danse: string = localStorage.getItem("danse");
+  component: string = localStorage.getItem("component");
   finalSkatingDossardsOrder = [0, 0, 0, 0, 0, 0];
   dossardsSkating = [
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-  dossards: any[] = [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}];
+  dossards: any[] = [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}];
   dossards1: any[];
   dossards2: any[];
   competitionId = localStorage.getItem("currentCompetitionId");
@@ -41,6 +41,7 @@ export class JudgeSheetPage {
   SYSTEM21 = SYSTEM21;
   SKATING = SKATING;
   SKATING_FINAL = SKATING_FINAL;
+  NUMBER_OF_DOSSARD_FOR_SYSTEM21 = NUMBER_OF_DOSSARD_FOR_SYSTEM21;
 
   constructor(public navCtrl: NavController,
     public db: DbService,
@@ -51,7 +52,7 @@ export class JudgeSheetPage {
     public alertCtrl: AlertController
   ) {
     this.sheetId = "judge-sheet-" + this.judgeId + "-" +
-      this.danse + "-" + this.competitionId;
+      this.component + "-" + this.competitionId;
   }
 
   get dossardsAliases1() {
@@ -65,6 +66,22 @@ export class JudgeSheetPage {
   get dossardsAliases2() {
     if (this.currentCompetition && this.currentCompetition.judgingSystem && this.currentCompetition.judgingSystem == SYSTEM21) {
       return this.dossardsAliases.slice().splice(5, 5);
+    } else {
+      return [];
+    }
+  }
+
+  get dossardsAliases3() {
+    if (this.currentCompetition && this.currentCompetition.judgingSystem && this.currentCompetition.judgingSystem == SYSTEM21) {
+      return this.dossardsAliases.slice().splice(10, 5);
+    } else {
+      return [];
+    }
+  }
+
+  get dossardsAliases4() {
+    if (this.currentCompetition && this.currentCompetition.judgingSystem && this.currentCompetition.judgingSystem == SYSTEM21) {
+      return this.dossardsAliases.slice().splice(15, 2);
     } else {
       return [];
     }
@@ -110,8 +127,18 @@ export class JudgeSheetPage {
 
   isJudgeSheetSystem21NotValid() {
     return this.dossards.some((dossard: Dossard) => {
-      return dossard.cp == '0' || dossard.mm == '0' || dossard.ps == '0' || dossard.tq == '0'
-        || !dossard.cp || !dossard.mm || !dossard.ps || !dossard.tq;
+      return dossard.team == 0
+        || dossard.int == 0
+        || dossard.val == 0
+        || dossard.pres == 0
+        || dossard.pres == 0
+        || dossard.evo == 0
+        || !dossard.team
+        || !dossard.int
+        || !dossard.val
+        || !dossard.pres
+        || !dossard.evo
+        ;
     })
   }
 
@@ -135,7 +162,7 @@ export class JudgeSheetPage {
     this.navBar.backButtonClick = () => {
       if (this.currentCompetition && this.currentCompetition.judgingSystem == SYSTEM21 && this.isJudgeSheetSystem21NotValid()) {
         let alert = this.alertCtrl.create({
-          title: 'Feuille invalide !!!',
+          title: 'Feuille invalide !',
           subTitle: 'Veuillez vérifier vos scores, certaines valeurs sont invalides',
           buttons: [
             {
@@ -204,10 +231,13 @@ export class JudgeSheetPage {
 
       }).catch(e => {
         if (e.name == "not_found" && this.judgeId) {
-          let dossards = [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}];
+          let dossards = [];
+          for (let i = 0; i < NUMBER_OF_DOSSARD_FOR_SYSTEM21; i++) {
+            dossards.push({})
+          }
           if (this.currentCompetition.judgingSystem && this.currentCompetition.judgingSystem == SYSTEM21) {
             this.criteria.forEach(criteria => {
-              dossards.forEach((dossard, index) => {
+              dossards.forEach((_, index) => {
                 dossards[index][criteria] = 0;
               });
             });
@@ -222,7 +252,7 @@ export class JudgeSheetPage {
           this.db.put({
             _id: this.sheetId,
             judgeId: this.judgeId,
-            danse: this.danse,
+            component: this.component,
             competitionId: this.competitionId,
             dossards,
             finalSkatingDossardsOrder: [0, 0, 0, 0, 0, 0]
@@ -312,7 +342,7 @@ export class JudgeSheetPage {
 
             sheet.dossards[index][critere] = 0;
           } else {
-            sheet.dossards[index][critere] = parseFloat(dossard[critere]);
+            sheet.dossards[index][critere] = Number(dossard[critere]) || 0;
           }
         })
       })

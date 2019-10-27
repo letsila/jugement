@@ -12,7 +12,7 @@
     <ion-title text-center *ngIf="judgeId">
       <ion-icon name="paper"></ion-icon>Feuille Juge
       <span class="uppercase">{{ judgeId }}</span> -
-      <span class="uppercase danse-name">{{ danse }}</span>
+      <span class="uppercase component-name">{{ component }}</span>
     </ion-title>
     <ion-buttons end>
       <button ion-button icon-only (click)="lockScores()">
@@ -33,14 +33,14 @@
           <span class="number">{{ dossardAlias }}</span>
         </ion-col>
       </ion-row>
-      <ion-row *ngFor="let critere of criteria">
+      <ion-row *ngFor="let critere of criteriaLongObj">
         <ion-col col-2>
-          <span class="uppercase">{{ critere }}</span>
+          <span>{{ critere.name }}</span>
         </ion-col>
         <ion-col col-2 class="rate" *ngFor="let indexDossard of [0, 1, 2, 3, 4];">
-          <ion-input type="number" formControlName="{{critere + indexDossard}}" placeholder="note"
-            [(ngModel)]="dossards[indexDossard][critere]"
-            [ngClass]="{'invalid': scroresForm && !scroresForm.controls[critere + indexDossard].valid}"
+          <ion-input type="number" formControlName="{{critere.short + indexDossard}}" placeholder="note"
+            [(ngModel)]="dossards[indexDossard][critere.short]"
+            [ngClass]="{'invalid': scroresForm && !scroresForm.controls[critere.short + indexDossard].valid}"
             (ionChange)="inputChanged()"></ion-input>
         </ion-col>
       </ion-row>
@@ -52,14 +52,52 @@
           <span class="number">{{ dossardAlias }}</span>
         </ion-col>
       </ion-row>
-      <ion-row *ngFor="let critere of criteria">
+      <ion-row *ngFor="let critere of criteriaLongObj">
         <ion-col col-2>
-          <span class="uppercase">{{ critere }}</span>
+          <span>{{ critere.name }}</span>
         </ion-col>
         <ion-col col-2 class="rate" *ngFor="let indexDossard of [5, 6, 7, 8, 9];">
-          <ion-input type="number" *ngIf="criteria" formControlName="{{critere + indexDossard}}" placeholder="note"
-            [(ngModel)]="dossards[indexDossard][critere]"
-            [ngClass]="{'invalid': scroresForm && !scroresForm.controls[critere + indexDossard].valid}"
+          <ion-input type="number" *ngIf="criteria" formControlName="{{critere.short + indexDossard}}"
+            placeholder="note" [(ngModel)]="dossards[indexDossard][critere.short]"
+            [ngClass]="{'invalid': scroresForm && !scroresForm.controls[critere.short + indexDossard].valid}"
+            (ionChange)="inputChanged()"></ion-input>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <ion-grid>
+      <ion-row *ngIf="dossardsAliases3">
+        <ion-col col-2></ion-col>
+        <ion-col col-2 class="dossard" *ngFor="let dossardAlias of dossardsAliases3">
+          <span class="number">{{ dossardAlias }}</span>
+        </ion-col>
+      </ion-row>
+      <ion-row *ngFor="let critere of criteriaLongObj">
+        <ion-col col-2>
+          <span>{{ critere.name }}</span>
+        </ion-col>
+        <ion-col col-2 class="rate" *ngFor="let indexDossard of [10, 11, 12, 13, 14];">
+          <ion-input type="number" formControlName="{{critere.short + indexDossard}}" placeholder="note"
+            [(ngModel)]="dossards[indexDossard][critere.short]"
+            [ngClass]="{'invalid': scroresForm && !scroresForm.controls[critere.short + indexDossard].valid}"
+            (ionChange)="inputChanged()"></ion-input>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <ion-grid>
+      <ion-row *ngIf="dossardsAliases4">
+        <ion-col col-2></ion-col>
+        <ion-col col-2 class="dossard" *ngFor="let dossardAlias of dossardsAliases4">
+          <span class="number">{{ dossardAlias }}</span>
+        </ion-col>
+      </ion-row>
+      <ion-row *ngFor="let critere of criteriaLongObj">
+        <ion-col col-2>
+          <span>{{ critere.name }}</span>
+        </ion-col>
+        <ion-col col-2 class="rate" *ngFor="let indexDossard of [15, 16];">
+          <ion-input type="number" formControlName="{{critere.short + indexDossard}}" placeholder="note"
+            [(ngModel)]="dossards[indexDossard][critere.short]"
+            [ngClass]="{'invalid': scroresForm && !scroresForm.controls[critere.short + indexDossard].valid}"
             (ionChange)="inputChanged()"></ion-input>
         </ion-col>
       </ion-row>
@@ -114,7 +152,7 @@
   <!-- </form> -->
 </ion-content>
 
-<ion-footer
+<!-- <ion-footer
   *ngIf="currentCompetition && currentCompetition.judgingSystem && currentCompetition.judgingSystem == SYSTEM21">
   <ion-grid *ngIf="criteriaLongObj">
     <ion-row>
@@ -129,4 +167,4 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-</ion-footer>
+</ion-footer> -->

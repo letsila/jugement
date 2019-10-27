@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AlertController, LoadingController, PopoverController } from 'ionic-angular';
 
-declare let navigator: any;
-declare let Connection: any;
-
 @Injectable()
 export class HelperService {
 
@@ -17,7 +14,6 @@ export class HelperService {
 
   set connectionType(connectionType: string) {
     this._connectionType = connectionType;
-    // alert('form helperrrrrr2' + this.connectionType);
   }
 
   get connectionType() {

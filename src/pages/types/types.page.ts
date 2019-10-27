@@ -9,7 +9,6 @@ import * as _ from 'lodash';
   templateUrl: 'types.page.html'
 })
 export class TypesPage {
-
   types: any = [];
   newTypeName: string = '';
 
@@ -17,20 +16,17 @@ export class TypesPage {
     public db: DbService,
     public alertCtrl: AlertController
   ) {
-
   }
 
   ngOnInit() {
     this.db.get('competitions-type').then((types) => {
-      console.log(types);
       this.types = types.list;
     }).catch(e => console.log(e));
   }
 
   openCriteriaAlertOf(typeId) {
     this.db.get('competitions-type').then((types) => {
-      let type = _.find(types.list, { id: typeId });
-
+      const type = _.find(types.list, { id: typeId });
       this.db.get('criteria-list').then((criteria) => {
         const inputs = criteria.list.map(critere => {
           const checked = type.criteria.indexOf(critere.id) != -1;

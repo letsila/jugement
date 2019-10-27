@@ -24,7 +24,7 @@ page-sheet {
       // background: #F5F5F5;
     }
 
-    .danse-name {
+    .component-name {
       color: #4caf50;
       font-size: 20px;
     }
@@ -73,8 +73,8 @@ page-sheet {
     }
 
     .dossard .number {
-      font-size: 24px;
-      font-weight: bold;
+      font-size: 14px;
+      // font-weight: bold;
     }
 
     ion-input.ng-invalid {

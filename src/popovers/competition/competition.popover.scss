@@ -1,5 +1,5 @@
 popover-competition {
-  .danses-list {
+  .components-list {
     margin: 32px auto;
     ion-item.item-block:first-child {
       border-top: none;
@@ -10,12 +10,10 @@ popover-competition {
     }
   }
 
-
   .popover-title {
     display: inline-block;
     margin: 8px auto;
     font-size: 1.4rem;
     letter-spacing: 2px;
   }
-  
 }

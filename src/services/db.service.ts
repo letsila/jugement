@@ -3,8 +3,11 @@ import { Injectable } from "@angular/core";
 
 // Déclaration nécessaire pour rendre la librairie PouchDb
 // lisible par typeScript.
-declare var require: any;
-let PouchDB: any = require("pouchdb");
+// declare var require: any;
+// let PouchDB: any = require("pouchdb");
+
+import PouchDB from 'pouchdb';
+
 declare let emit: any;
 
 @Injectable()
@@ -17,16 +20,16 @@ export class DbService {
 
   constructor() {
     this.db = new PouchDB("jugement", {
-      adapter: "websql",
+      // adapter: "websql",
       iosDatabaseLocation: "default",
       auto_compaction: true
     });
 
     this.remote = new PouchDB(this.couchdbUrl, {
       ajax: {
-        headers: {
-          Authorization: 'Basic ' + window.btoa('admin:xKhjm1y9z3q46uOkURGO')
-        },
+        // headers: {
+        //   Authorization: 'Basic ' + window.btoa('admin:hCLr0u78ZvIt')
+        // },
         timeout: 60000
       },
       retry: true
@@ -49,7 +52,7 @@ export class DbService {
       })
     );
 
-    // // Insertion des ddocs.
+    // Insertion des ddocs.
     // ddocs.forEach(ddoc => {
     //   this.db
     //     .put(ddoc)
