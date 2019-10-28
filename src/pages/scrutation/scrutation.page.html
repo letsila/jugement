@@ -54,7 +54,7 @@
           <ion-row nowrap>
             <ion-col col-1></ion-col>
             <ion-col col-1 class="dossard" *ngFor="let dossardAlias of dossardsAliases; let i=index">
-              <span class="number">{{ dossardAlias }}</span>
+              <span class="number">{{i + 1}}/ {{ dossardAlias }}</span>
             </ion-col>
             <ion-col col-1 class="dossard">
               <span class="number">#</span>
@@ -79,8 +79,8 @@
         </h6>
         <ion-row nowrap>
           <ion-col col-1></ion-col>
-          <ion-col col-1 class="dossard" *ngFor="let dossardAlias of dossardsAliases">
-            <span class="number">{{ dossardAlias }}</span>
+          <ion-col col-1 class="dossard" *ngFor="let dossardAlias of dossardsAliases; let i=index;">
+            <span class="number">{{i + 1}}/ {{ dossardAlias }}</span>
           </ion-col>
           <ion-col col-1 class="dossard">
             <span class="number">#</span>

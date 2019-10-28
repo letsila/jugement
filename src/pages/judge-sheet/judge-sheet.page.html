@@ -11,8 +11,8 @@
     </ion-title>
     <ion-title text-center *ngIf="judgeId">
       <ion-icon name="paper"></ion-icon>Feuille Juge
-      <span class="uppercase">{{ judgeId }}</span> -
-      <span class="uppercase component-name">{{ component }}</span>
+      <span class="uppercase">{{ judgeId }}</span>
+      <!-- <span class="uppercase component-name">{{ component }}</span> -->
     </ion-title>
     <ion-buttons end>
       <button ion-button icon-only (click)="lockScores()">
@@ -29,7 +29,13 @@
     <ion-grid>
       <ion-row *ngIf="dossardsAliases1">
         <ion-col col-2></ion-col>
-        <ion-col col-2 class="dossard" *ngFor="let dossardAlias of dossardsAliases1">
+        <ion-col col-2 class="dossard" *ngFor="let dossardAlias of dossardsAliases1; let i=index">
+          <span class="team-number">{{i + 1}}</span>
+        </ion-col>
+      </ion-row>
+      <ion-row *ngIf="dossardsAliases1">
+        <ion-col col-2></ion-col>
+        <ion-col col-2 class="dossard" *ngFor="let dossardAlias of dossardsAliases1; let i=index">
           <span class="number">{{ dossardAlias }}</span>
         </ion-col>
       </ion-row>
@@ -48,7 +54,13 @@
     <ion-grid>
       <ion-row class="dossardsAliases2">
         <ion-col col-2></ion-col>
-        <ion-col col-2 class="dossard" *ngFor="let dossardAlias of dossardsAliases2">
+        <ion-col col-2 class="number" *ngFor="let dossardAlias of dossardsAliases2; let i=index">
+          <span class="team-number">{{i + 6}}</span>
+        </ion-col>
+      </ion-row>
+      <ion-row class="dossardsAliases2">
+        <ion-col col-2></ion-col>
+        <ion-col col-2 class="dossard" *ngFor="let dossardAlias of dossardsAliases2; let i=index">
           <span class="number">{{ dossardAlias }}</span>
         </ion-col>
       </ion-row>
@@ -64,7 +76,7 @@
         </ion-col>
       </ion-row>
     </ion-grid>
-    <ion-grid>
+    <!-- <ion-grid>
       <ion-row *ngIf="dossardsAliases3">
         <ion-col col-2></ion-col>
         <ion-col col-2 class="dossard" *ngFor="let dossardAlias of dossardsAliases3">
@@ -101,7 +113,7 @@
             (ionChange)="inputChanged()"></ion-input>
         </ion-col>
       </ion-row>
-    </ion-grid>
+    </ion-grid> -->
   </form>
 
   <ion-grid
