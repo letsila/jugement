@@ -15,8 +15,7 @@ export class DbService {
   db: any;
   remote: any;
   couchdbUrl: string = "http://50.116.7.99:5984/gdg-hackathon";
-  // couchdbUrl: string = "http://50.116.7.99:5984/judgement-db";
-  // couchdbUrl: string = "http://localhost:5984/judgement-db";
+  // couchdbUrl: string = "http://localhost:5984/gdg-hackathon";
 
   constructor() {
     this.db = new PouchDB("jugement", {

@@ -73,8 +73,11 @@ page-sheet {
     }
 
     .dossard .number {
-      font-size: 14px;
-      // font-weight: bold;
+      font-size: 12px;
+    }
+
+    .team-number {
+      font-size: 9px;
     }
 
     ion-input.ng-invalid {
